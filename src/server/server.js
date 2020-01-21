@@ -10,10 +10,14 @@ app.use(express.static(path.join(__dirname, '../display')));
 
 app.use(bodyParser.json());
 
-app.get('/bundle.js', (req, res) => {
+app.get('/build/bundle.js', (req, res) => {
   console.log('in server.js');
   res.sendFile(path.join(__dirname, '../../build/bundle.js'));
 });
+
+app.use('*', (req, res) => {
+  res.sendStatus(404);
+})
 
 // global error handler
 function errorHandler(err, req, res, next) {
