@@ -8,7 +8,6 @@ module.exports = {
     filename: 'bundle.js'
   },
   devServer: {
-    contentBase: path.join(__dirname, './src/display'),
     publicPath: '/build/',
     proxy: { '/': 'http://localhost:3333' }
   },
