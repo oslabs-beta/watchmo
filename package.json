@@ -19,7 +19,7 @@
     "url": "https://github.com/oslabs-beta/watchmo/issues"
   },
   "bin": {
-    "init": "src/commands/init.js"
+    "watchmo": "src/commands/watchmo.js"
   },
   "homepage": "https://github.com/oslabs-beta/watchmo#readme",
   "dependencies": {
@@ -29,7 +29,8 @@
     "express-graphql": "^0.9.0",
     "graphql": "^14.5.8",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "yargs": "^15.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
