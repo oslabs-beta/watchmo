@@ -3,25 +3,29 @@
 const fs = require('fs');
 const path = require('path');
 
+/*
+When run on the command line with the current working directory as the first argument, init should build the necessary file structure:
+  /watchmo
+  |
+  |-> /watchmo.config.js
+  |-> /snapshots
+*/
 
-//make dir if it exists
-// if (!fs.existsSync(path.join(process.argv[2], '/watchmo')) {
-//   fs.mkdirSync(path.join(process.argv[2], '/watchmo'));
-//   fs.appendFileSync(path.join(process.argv[2], '/watchmo/watchmo.config'), 'testing');
-// }
+// only run if init has not been run already
 
-// checking if init has already been run
-if (!fs.existsSync(path.join(process.argv[2], '/watchmo'))) {
-  fs.mkdirSync(path.join(process.argv[2], '/watchmo'));
+const workingFilePath = process.cwd();
+const watchmoFilePath = __dirname;
+if (!fs.existsSync(path.join(workingFilePath, '/watchmo'))) {
+
+  //building the file structure from template
+  fs.mkdirSync(path.join(workingFilePath, '/watchmo'));
+  fs.mkdirSync(path.join(workingFilePath, '/watchmo/snapshots'))
   fs.copyFile(
-    path.join(__dirname, './templates/watchmo.config.js'),
-    path.join(process.argv[2], '/watchmo/watchmo.config.js'),
+    path.join(watchmoFilePath, './templates/watchmo.config.js'),
+    path.join(workingFilePath, '/watchmo/watchmo.config.js'),
     (err) => {
       if (err) {
         console.log(err);
-        console.log(__dirname);
-      } else {
-        console.log('config file created in new directory "watchmo"');
       }
     }
   );
