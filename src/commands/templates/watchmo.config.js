@@ -3,7 +3,9 @@ const configuration = {
   endpoint: '',
 
   //all the queries for watchmo to watch
-  queries: [],
+  queries: {
+    default: []
+  },
 
   //how often the queries are sent to the server, units of 'frequency'/hr
   //i.e. frequency: 2 sends queries every 30 minutes
