@@ -1,0 +1,17 @@
+h1, h2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.configButton{
+    position: absolute;
+    right: 10px;
+    top: 15px;
+}
+
+.categoriesDrop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
