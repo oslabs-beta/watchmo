@@ -23,8 +23,8 @@ function init() {
     fs.mkdirSync(path.join(workingFilePath, '/watchmo'));
     fs.mkdirSync(path.join(workingFilePath, '/watchmo/snapshots'))
     fs.copyFile(
-      path.join(watchmoFilePath, './templates/watchmo.config.js'),
-      path.join(workingFilePath, '/watchmo/watchmo.config.js'),
+      path.join(watchmoFilePath, './templates/config.json'),
+      path.join(workingFilePath, '/watchmo/config.json'),
       (err) => {
         if (err) {
           console.log(err);

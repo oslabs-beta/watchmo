@@ -1,6 +1,10 @@
+const fs = require('fs');
 
-function watch() {
-  console.log("ALWAYS WATCHING");
+function watch(endpoint, queries) {
+
+  console.log('endpoint', endpoint);
+  console.log('categories', categories);
+
 }
 
 module.exports = { watch };
