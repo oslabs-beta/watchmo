@@ -17,7 +17,7 @@ app.get('/build/bundle.js', (req, res) => {
 
 app.use('*', (req, res) => {
   res.sendStatus(404);
-})
+});
 
 // global error handler
 function errorHandler(err, req, res, next) {
