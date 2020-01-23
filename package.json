@@ -33,6 +33,7 @@
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.5.8",
+    "graphql-request": "^1.8.2",
     "graphql-syntax-highlighter-react": "^0.4.0",
     "node-sass": "^4.13.1",
     "react": "^16.12.0",
