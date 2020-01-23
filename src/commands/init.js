@@ -11,24 +11,22 @@ When run on the command line with the current working directory as the first arg
   |-> /snapshots
 */
 
-
 function init() {
   const workingFilePath = process.cwd();
   const watchmoFilePath = __dirname;
 
   // only run if init has not been run already
   if (!fs.existsSync(path.join(workingFilePath, '/watchmo'))) {
-
     //building the file structure from template
     fs.mkdirSync(path.join(workingFilePath, '/watchmo'));
-    fs.mkdirSync(path.join(workingFilePath, '/watchmo/snapshots'))
+    fs.mkdirSync(path.join(workingFilePath, '/watchmo/snapshots'));
     fs.copyFile(
       path.join(watchmoFilePath, './templates/config.json'),
       path.join(workingFilePath, '/watchmo/config.json'),
-      (err) => {
+      err => {
         if (err) {
           console.log(err);
-          throw(err);
+          throw err;
         }
       }
     );
