@@ -22,6 +22,8 @@ const checkAndGetConfig = (configPath) => {
   else return {};
 }
 
+
+//Defining the CLI functionality
 argv
   .config(checkAndGetConfig(path.join(process.cwd(), '/watchmo/config.json')))
   .command('$0', 'opens up visualizer in browser', cliDefault)
