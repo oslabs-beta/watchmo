@@ -29,7 +29,7 @@ argv
     'watch',
     'begins sending queries to the endpoint at the configured frequency',
     ({ argv }) => {
-      watch(argv.endpoint, argv.categories);
+      watch(argv.endpoint, argv.categories, path.join(process.cwd(), '/watchmo/snapshots'));
     }
   )
   .command('mo', 'who knows?', mo)

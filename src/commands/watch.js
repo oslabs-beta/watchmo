@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const { request } = require('graphql-request');
 
 const buildQueryPromise = (endpoint, query) => new Promise((resolve, reject) => {
@@ -7,10 +8,22 @@ const buildQueryPromise = (endpoint, query) => new Promise((resolve, reject) => 
   .then((response) => {
     const timing = process.hrtime(start);
     resolve({ response, timing });
+  }).catch((err) => {
+    reject(err);
   })
 })
 
-async function watch(endpoint, categories) {
+function saveData(data, savePath) {
+  fs.writeFile(savePath, JSON.stringify(data), (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(`file saved in ${savePath}`);
+    }
+  });
+}
+
+async function watch(endpoint, categories, dirPath) {
   const timingInfo = {};
   let counter = 0;
   let responseObject;
@@ -18,11 +31,13 @@ async function watch(endpoint, categories) {
     for (query of categories[cat].queries) {
       counter = 0;
       responseObject = await buildQueryPromise(endpoint, query);
-      console.log('setting timingInfo');
       timingInfo[query] = responseObject;
     }
   }
-  console.log(timingInfo);
+  const timestamp = new Date();
+  const savePath = path.join(dirPath, `${timestamp.toString()}.json`);
+  console.log(savePath);
+  saveData(timingInfo, savePath);
 }
 
 
