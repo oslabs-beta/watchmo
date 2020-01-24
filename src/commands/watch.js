@@ -1,24 +1,33 @@
 const fs = require('fs');
 const { request } = require('graphql-request');
 
-// const timeTrackWrapper = (queryCallback) => () => {
-//   const start = process.hrtime();
-//   queryCallback()
-//   .then(response => {
-//   const timing = process.hrtime(start);
-//   return { response, timing };
-//   })
-// }
+const buildQueryPromise = (endpoint, query) => new Promise((resolve, reject) => {
+  const start = process.hrtime();
+  request(endpoint, query)
+  .then((response) => {
+    const timing = process.hrtime(start);
+    resolve({ response, timing});
+  })
+})
 
 // IN DEVELOPMENT, NOT FOR PRODUCTION
 function watch(endpoint, categories) {
+  const timingInfo = {};
+  const allRequests = [];
   for (let cat in categories) {
     for (query of categories[cat].queries) {
-      request(endpoint, query)
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err))
+      allRequests.push(buildQueryPromise(endpoint, query));
     }
   }
+
+  //wait until all the requests have been resolved, then ...
+  Promise.all(allRequests)
+  .then(responses => {
+    for (let response of responses) {
+      console.log(response.timing)
+    }
+  })
 }
+
 
 module.exports = { watch };
