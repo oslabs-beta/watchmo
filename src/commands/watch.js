@@ -6,27 +6,23 @@ const buildQueryPromise = (endpoint, query) => new Promise((resolve, reject) => 
   request(endpoint, query)
   .then((response) => {
     const timing = process.hrtime(start);
-    resolve({ response, timing});
+    resolve({ response, timing });
   })
 })
 
-// IN DEVELOPMENT, NOT FOR PRODUCTION
-function watch(endpoint, categories) {
+async function watch(endpoint, categories) {
   const timingInfo = {};
-  const allRequests = [];
+  let counter = 0;
+  let responseObject;
   for (let cat in categories) {
     for (query of categories[cat].queries) {
-      allRequests.push(buildQueryPromise(endpoint, query));
+      counter = 0;
+      responseObject = await buildQueryPromise(endpoint, query);
+      console.log('setting timingInfo');
+      timingInfo[query] = responseObject;
     }
   }
-
-  //wait until all the requests have been resolved, then ...
-  Promise.all(allRequests)
-  .then(responses => {
-    for (let response of responses) {
-      console.log(response.timing)
-    }
-  })
+  console.log(timingInfo);
 }
 
 
