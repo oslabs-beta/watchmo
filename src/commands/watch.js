@@ -27,7 +27,7 @@ async function sendQueriesAndSave(endpoint, category, dirPath) {
   const timingInfo = {};
   let responseObject;
   for (query of category.queries) {
-    responseObject = await buildQueryPromise(endpoint, query);
+    responseObject = await buildQueryPromise(endpoint, query).catch((err) => console.log(err));
     timingInfo[query] = responseObject;
   }
   const timestamp = new Date();
