@@ -35,6 +35,7 @@
     "graphql": "^14.5.8",
     "graphql-syntax-highlighter-react": "^0.4.0",
     "node-sass": "^4.13.1",
+    "opn": "^6.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "reactstrap": "^8.4.0",
