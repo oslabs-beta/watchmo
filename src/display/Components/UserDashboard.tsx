@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-
+import VertColViz from './VertColViz';
 
 //typescript: testing heading and caption
 const UserDashboard: React.FC = () => {
@@ -16,7 +16,11 @@ const UserDashboard: React.FC = () => {
     const toggleDate = (): void => {
         setDateOpen(!dropdownDateOpen);
     }
-
+    const arrayOfCategories: string [] = ["Cat 1", "Cat 2", "Cat 3"];
+    const categories: object[] = [];
+    for (let i = 0; i < arrayOfCategories.length; i++) {
+        categories.push(<DropdownItem > { arrayOfCategories[i]} </DropdownItem>)
+    }
     return (
         <div id='UserDashboard'>
             <h1> User Dashboard  </h1>
@@ -27,10 +31,7 @@ const UserDashboard: React.FC = () => {
                         Catagories:
   </DropdownToggle>
                     <DropdownMenu>
-                        <DropdownItem>Category 1</DropdownItem>
-                        <DropdownItem> Category 2 </DropdownItem>
-                        <DropdownItem>Category 3</DropdownItem>
-                        <DropdownItem>Category 4</DropdownItem>
+                        {categories}
                     </DropdownMenu>
                 </ButtonDropdown>
 
@@ -45,6 +46,9 @@ const UserDashboard: React.FC = () => {
                         <DropdownItem> Date 4 </DropdownItem>
                     </DropdownMenu>
                 </ButtonDropdown></div>
+            <div>
+                <VertColViz />
+            </div>
         </div>
     )
 }
