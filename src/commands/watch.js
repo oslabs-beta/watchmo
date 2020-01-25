@@ -23,21 +23,23 @@ function saveData(data, savePath) {
   });
 }
 
-async function watch(endpoint, categories, dirPath) {
+async function sendQueriesAndSave(endpoint, category, dirPath) {
   const timingInfo = {};
-  let counter = 0;
   let responseObject;
-  for (let cat in categories) {
-    for (query of categories[cat].queries) {
-      counter = 0;
-      responseObject = await buildQueryPromise(endpoint, query);
-      timingInfo[query] = responseObject;
-    }
+  for (query of category.queries) {
+    responseObject = await buildQueryPromise(endpoint, query);
+    timingInfo[query] = responseObject;
   }
   const timestamp = new Date();
   const savePath = path.join(dirPath, `${timestamp.toString()}.json`);
   console.log(savePath);
   saveData(timingInfo, savePath);
+}
+
+function watch(endpoint, categories, dirPath) {
+  for (let cat in categories) {
+    setInterval(() => sendQueriesAndSave(endpoint, categories[cat], dirPath), categories[cat].frequency);
+  }
 }
 
 
