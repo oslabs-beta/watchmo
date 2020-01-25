@@ -13,8 +13,9 @@ function mo() {
   fs.copyFile(`${process.cwd()}/src/server/server.js`, `${process.cwd()}/src/server/test-server.js`, err => {
     if (err) console.log(err);
     console.log('Watchmo server firing up....listening on port 3333');
+    let directory = path.join(__dirname, '../server/server.js')
     opn('http://localhost:3333/');
-    const output = execSync(`node ${process.cwd()}/src/server/test-server.js`, { encoding: 'utf-8' });    
+    const output = execSync(`node ${directory}`, { encoding: 'utf-8' });    
   })
 }
 
