@@ -19,6 +19,8 @@ const checkAndGetConfig = configPath => {
   } else return {};
 };
 
+
+//Defining the CLI functionality
 argv
   .config(checkAndGetConfig(path.join(process.cwd(), '/watchmo/config.json')))
   .command('$0', 'opens up visualizer in browser', cliDefault)
@@ -27,7 +29,7 @@ argv
     'watch',
     'begins sending queries to the endpoint at the configured frequency',
     ({ argv }) => {
-      watch(argv.endpoint, argv.categories);
+      watch(argv.endpoint, argv.categories, path.join(process.cwd(), '/watchmo/snapshots'));
     }
   )
   .command('mo', 'who knows?', mo)
