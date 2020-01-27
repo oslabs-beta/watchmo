@@ -27,8 +27,10 @@ argv
     'watch',
     'begins sending queries to the endpoint at the configured frequency',
     ({ argv }) => {
-      watch(argv.endpoint, argv.categories, path.join(__dirname, '../watchmoData/snapshots'));
+      watch(argv.endpoint, argv.categories, path.join(__dirname, '../watchmoData/snapshots.txt'));
     }
   )
-  .command('mo', 'who knows?', mo)
+  .command('mo', 'parses data and opens up visualizer', () => {
+    mo(path.join(__dirname, '../watchmoData/snapshots.txt'), path.join(__dirname, '../watchmoData/parsedData.json'))
+  })
   .help().argv;
