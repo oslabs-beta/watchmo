@@ -40,7 +40,7 @@ async function sendQueriesAndSave(endpoint, categoryName, category, dirPath,) {
     timingInfo[query] = responseObject;
   }
   // this structure is necessary for parsing the saved data later, see 'mo.js', parseDataFileAndSave
-  saveData({category: categoryName, data: {timestamp: new Date(), response : timingInfo}, dirPath);
+  saveData({category: categoryName, data: {timestamp: new Date(), response : timingInfo}}, dirPath);
 }
 
 // sets an interval for each category of query

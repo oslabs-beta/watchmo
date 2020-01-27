@@ -12,11 +12,18 @@ const { DEMARCATION } = require('./watch');
 //dataString is a string of JSON objects separated by DEMARCATION (a stylized WM right now)
 function parseDataFileAndSave(dataString, savePath) {
   let responses = dataString.split(DEMARCATION);
+
+  // the final element is empty because of the saving method
+  if (responses[responses.length - 1] === '') {
+    responses.pop();
+  }
+
+  console.log(`responses ${responses}`);
   const parsed = {};
   let jsonResponse;
 
   // build the parsed object to be saved with the structure the frontend requires
-  responses = responses.forEach((response) => {
+  responses.forEach((response) => {
     jsonResponse = JSON.parse(response);
     console.log(jsonResponse);
     if (!parsed[jsonResponse.category]) {
@@ -44,13 +51,13 @@ function mo(dataPath, savePath) {
       parseDataFileAndSave(data, savePath);
     }
   })
-  fs.copyFile(`${process.cwd()}/src/server/server.js`, `${process.cwd()}/src/server/test-server.js`, err => {
-    if (err) console.log(err);
-    console.log('Watchmo server firing up....listening on port 3333');
-    let directory = path.join(__dirname, '../server/server.js')
-    opn('http://localhost:3333/');
-    const output = execSync(`node ${directory}`, { encoding: 'utf-8' });
-  })
+  // fs.copyFile(`${process.cwd()}/src/server/server.js`, `${process.cwd()}/src/server/test-server.js`, err => {
+  //   if (err) console.log(err);
+  //   console.log('Watchmo server firing up....listening on port 3333');
+  //   let directory = path.join(__dirname, '../server/server.js')
+  //   opn('http://localhost:3333/');
+  //   const output = execSync(`node ${directory}`, { encoding: 'utf-8' });
+  // })
 }
 
 module.exports = { mo };
