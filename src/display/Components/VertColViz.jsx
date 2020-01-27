@@ -8,14 +8,42 @@ import React, { useRef, useEffect, useState } from "react";
 function VertColViz() {
     //hooks that sets the state of data
     const [data, setData] = useState([25, 30, 45, 60, 10, 65, 75]);
+    const [hoverRef, isHovered] = useHover();
+
     /*The useRef Hook creates a variable that "holds on' to a value across rendering passes. 
     In this case, it will hold our component's SVG DOM element. It's initialized null and React will assign it later
     (see return statement)
     */
     const svgRef = useRef();
+    // Hook
+    function useHover() {
+        const [value, setValue] = useState(false);
 
+        const ref = useRef(null);
+
+        const handleMouseOver = () => setValue(true);
+        const handleMouseOut = () => setValue(false);
+
+        useEffect(
+            () => {
+                const node = ref.current;
+                if (node) {
+                    node.addEventListener('mouseover', handleMouseOver);
+                    node.addEventListener('mouseout', handleMouseOut);
+
+                    return () => {
+                        node.removeEventListener('mouseover', handleMouseOver);
+                        node.removeEventListener('mouseout', handleMouseOut);
+                    };
+                }
+            },
+            [ref.current] // Recall only if ref changes
+        );
+
+        return [ref, value];
+    }
     // will be called initially and on every data change
-     /* Scalar Vector Graphics is an open web standard that uses a structured text format (XML) for rendering vector graphics.
+    /* Scalar Vector Graphics is an open web standard that uses a structured text format (XML) for rendering vector graphics.
 
 The most basic SVG file contains the following format:
 
@@ -24,7 +52,7 @@ The most basic SVG file contains the following format:
 --Drawing instructions using the shapes elements
 --Style specifications describing how each element should be drawn.*/
     useEffect(() => {
-       
+
         const svg = select(svgRef.current);
         const xScale = scaleBand()
             .domain(data.map((value, index) => index))
@@ -35,19 +63,19 @@ The most basic SVG file contains the following format:
             .domain([0, 150])
             .range([150, 0]);
 
-            //changes the color depending on scale of data
+        //changes the color depending on scale of data
         const colorScale = scaleLinear()
             .domain([20, 40, 60, 80, 100, 120])
             .range(["red", "orange", "yellow", "green", "blue", "pink"])
             .clamp(true);
-//defines the x axis & style
+        //defines the x axis & style
         const xAxis = axisBottom(xScale).ticks(data.length);
 
         svg
             .select(".x-axis")
             .style("transform", "translateY(150px)")
             .call(xAxis);
-//defines the y axis
+        //defines the y axis
         const yAxis = axisRight(yScale);
         svg
             .select(".y-axis")
@@ -83,6 +111,9 @@ The most basic SVG file contains the following format:
             <button onClick={() => setData(data.filter(value => value < 35))}>
                 Filter data
           </button>
+            {/* <div ref={hoverRef}>
+                {isHovered ? '😁' : '☹️'}
+            </div> */}
         </React.Fragment>
     );
 }

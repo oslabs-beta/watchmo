@@ -16,10 +16,10 @@ const UserDashboard: React.FC = () => {
     const toggleDate = (): void => {
         setDateOpen(!dropdownDateOpen);
     }
-    const arrayOfCategories: string [] = ["Cat 1", "Cat 2", "Cat 3"];
+    const arrayOfCategories: string[] = ["Cat 1", "Cat 2", "Cat 3"];
     const categories: object[] = [];
     for (let i = 0; i < arrayOfCategories.length; i++) {
-        categories.push(<DropdownItem > { arrayOfCategories[i]} </DropdownItem>)
+        categories.push(<DropdownItem key={i} > {arrayOfCategories[i]} </DropdownItem>)
     }
     return (
         <div id='UserDashboard'>
