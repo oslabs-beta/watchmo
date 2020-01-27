@@ -11,9 +11,12 @@ app.use(express.static(path.join(__dirname, '../display')));
 app.use(bodyParser.json());
 
 app.get('/build/bundle.js', (req, res) => {
-  console.log('in server.js');
   res.sendFile(path.join(__dirname, '../../build/bundle.js'));
 });
+
+app.get('/config', (req, res) => {
+  res.json(path.join(__dirname, '../watchmoData/config.json'))
+})
 
 app.use('*', (req, res) => {
   res.sendStatus(404);
