@@ -1,5 +1,5 @@
 //Packages
-const execSync = require('child_process').exec;
+const exec = require('child_process').exec;
 const fs = require('fs');
 const path = require('path');
 const opn = require('opn');
@@ -7,7 +7,7 @@ const { DEMARCATION } = require('./watch');
 const { PORT } = require('../server/server');
 
 // function mo () { //this will run npm run dev, good for development, bad for production
-//   const output = execSync('npm run dev', { encoding: 'utf-8' });
+//   const output = exec('npm run dev', { encoding: 'utf-8' });
 // }
 
 //dataString is a string of JSON objects separated by DEMARCATION (a stylized WM right now)
@@ -45,15 +45,8 @@ function mo(dataPath, savePath) {
       parseDataFileAndSave(data, savePath);
     }
   })
-  // fs.copyFile(`${process.cwd()}/src/server/server.js`, `${process.cwd()}/src/server/test-server.js`, err => {
-  //   if (err) console.log(err);
-  //   console.log('Watchmo server firing up....listening on port 3333');
-  //   let directory = path.join(__dirname, '../server/server.js')
-  //   opn('http://localhost:3333/');
-  //   const output = execSync(`node ${directory}`, { encoding: 'utf-8' });
-  // })
   const directory = path.join(__dirname, '../server/server.js');
-  execSync(`node ${directory}`, { encoding: 'utf-8'});
+  exec(`node ${directory}`, { encoding: 'utf-8'});
   opn(`http://localhost:${PORT}`);
 }
 
