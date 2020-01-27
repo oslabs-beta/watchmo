@@ -38,4 +38,7 @@ function errorHandler(err, req, res, next) {
 app.listen(PORT);
 console.log(`app listening on ${PORT}`);
 
-module.exports = app;
+module.exports = {
+  app,
+  PORT
+}

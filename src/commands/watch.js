@@ -3,7 +3,7 @@ const path = require('path');
 const { request } = require('graphql-request');
 
 //the characters demarcating the space between different responses in the rawData file
-const DEMARCATION = '*\\/\\/*/\\/\\*';
+const DEMARCATION = '*W*M*O*';
 
 // returns a promise that resolves to the response/timing object to be saved
 const buildQueryPromise = (endpoint, query) => new Promise((resolve, reject) => {

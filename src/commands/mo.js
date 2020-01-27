@@ -1,9 +1,10 @@
 //Packages
-const execSync = require('child_process').execSync;
+const execSync = require('child_process').exec;
 const fs = require('fs');
 const path = require('path');
 const opn = require('opn');
 const { DEMARCATION } = require('./watch');
+const { PORT } = require('../server/server');
 
 // function mo () { //this will run npm run dev, good for development, bad for production
 //   const output = execSync('npm run dev', { encoding: 'utf-8' });
@@ -51,6 +52,9 @@ function mo(dataPath, savePath) {
   //   opn('http://localhost:3333/');
   //   const output = execSync(`node ${directory}`, { encoding: 'utf-8' });
   // })
+  const directory = path.join(__dirname, '../server/server.js');
+  execSync(`node ${directory}`, { encoding: 'utf-8'});
+  opn(`http://localhost:${PORT}`);
 }
 
 module.exports = { mo };
