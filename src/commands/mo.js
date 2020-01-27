@@ -11,21 +11,14 @@ const { DEMARCATION } = require('./watch');
 
 //dataString is a string of JSON objects separated by DEMARCATION (a stylized WM right now)
 function parseDataFileAndSave(dataString, savePath) {
-  let responses = dataString.split(DEMARCATION);
-
-  // the final element is empty because of the saving method
-  if (responses[responses.length - 1] === '') {
-    responses.pop();
-  }
-
-  console.log(`responses ${responses}`);
+  // splits the responses, excluding empty strings
+  let responses = dataString.split(DEMARCATION).filter(str => str);
   const parsed = {};
   let jsonResponse;
 
   // build the parsed object to be saved with the structure the frontend requires
   responses.forEach((response) => {
     jsonResponse = JSON.parse(response);
-    console.log(jsonResponse);
     if (!parsed[jsonResponse.category]) {
       parsed[jsonResponse.category] = [jsonResponse.data];
     } else {
