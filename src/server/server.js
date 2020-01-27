@@ -15,7 +15,11 @@ app.get('/build/bundle.js', (req, res) => {
 });
 
 app.get('/config', (req, res) => {
-  res.json(path.join(__dirname, '../watchmoData/config.json'))
+  res.sendFile(path.join(__dirname, '../watchmoData/config.json'))
+})
+
+app.get('/data', (req, res) => {
+  res.sendFile(path.join(__dirname, '../watchmoData/parsedData.json'))
 })
 
 app.use('*', (req, res) => {
