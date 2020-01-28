@@ -26,7 +26,6 @@ function parseData(dataString) {
   const parsed = {};
   categoricalResponses.forEach((catRes) => {
     let parsedRes = JSON.parse(catRes);
-    console.log(parsedRes);
     let category = parsedRes.category;
     if (!parsed[category]) {
       parsed[category] = {};
@@ -34,9 +33,9 @@ function parseData(dataString) {
     parsedRes.data.forEach((queryData) => {
       let { timestamp, query, response, timing } = queryData;
       if (!parsed[category][query]) {
-        parsed[category][query] = [{timestamp, response, timing}];
+        parsed[category][query] = [{ timestamp, response, timing }];
       } else {
-        parsed[category][query].push({timestamp, response, timing});
+        parsed[category][query].push({ timestamp, response, timing });
       }
     });
   });
@@ -53,7 +52,7 @@ function mo(dataPath, savePath) {
   });
   let directory = path.join(__dirname, '../server/server.js');
   exec(`node ${directory}`, { encoding: 'utf-8' });
-  opn('http://localhost:3333/');  
+  opn('http://localhost:3333/');
 }
 
 

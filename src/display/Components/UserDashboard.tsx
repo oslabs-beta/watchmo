@@ -2,7 +2,6 @@ import * as React from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import VertColViz from './VertColViz';
-
 //typescript: testing heading and caption
 const UserDashboard: React.FC = () => {
     //setting the state for the drop down button with typescript
