@@ -33,14 +33,15 @@ function saveData(data, savePath) {
 // This ensures that the timer starting and stopping in the Promise itself is starting and stopping at the appropriate times
 // Finally, it saves the data built up from each query and saves it in the the given path as a JSON file.
 async function sendQueriesAndSave(endpoint, categoryName, category, dirPath,) {
-  const timingInfo = {};
+  const timingInfo = [];
   let responseObject;
   for (query of category.queries) {
-    responseObject = await buildQueryPromise(endpoint, query).catch((err) => console.log(err));
-    timingInfo[query] = responseObject;
+    let {response, timing} = await buildQueryPromise(endpoint, query).catch((err) => console.log(err));
+    responseObject = {query, response, timing, timestamp: new Date()};
+    timingInfo.push(responseObject);
   }
   // this structure is necessary for parsing the saved data later, see 'mo.js', parseDataFileAndSave
-  saveData({category: categoryName, data: {timestamp: new Date(), response : timingInfo}}, dirPath);
+  saveData({category: categoryName, data: timingInfo}, dirPath);
 }
 
 // sets an interval for each category of query

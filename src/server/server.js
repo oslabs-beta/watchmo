@@ -40,5 +40,4 @@ console.log(`app listening on ${PORT}`);
 
 module.exports = {
   app,
-  PORT
 }
