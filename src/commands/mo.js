@@ -10,32 +10,6 @@ const { DEMARCATION } = require('./watch');
 //   const output = exec('npm run dev', { encoding: 'utf-8' });
 // }
 
-
-// function parseDataFileAndSave(dataString, savePath) {
-//   // splits the responses, excluding empty strings
-//   let responses = dataString.split(DEMARCATION).filter(str => str);
-//   const parsed = {};
-//   let jsonResponse;
-//
-//   // build the parsed object to be saved with the structure the frontend requires
-//   responses.forEach((response) => {
-//     jsonResponse = JSON.parse(response);
-//     if (!parsed[jsonResponse.category]) {
-//       parsed[jsonResponse.category] = {};
-//     } else {
-//       parsed[jsonResponse.category].push(jsonResponse.data);
-//     }
-//   })
-//
-//   fs.writeFile(savePath, JSON.stringify(parsed), (err) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log('DATA BUNDLED');
-//     }
-//   })
-// }
-
 function saveParsed(parsedData, savePath) {
   fs.writeFile(savePath, JSON.stringify(parsedData), (err) => {
     if (err) {
@@ -77,6 +51,9 @@ function mo(dataPath, savePath) {
       saveParsed(parseData(data), savePath);
     }
   });
+  let directory = path.join(__dirname, '../server/server.js');
+  exec(`node ${directory}`, { encoding: 'utf-8' });
+  opn('http://localhost:3333/');  
 }
 
 
