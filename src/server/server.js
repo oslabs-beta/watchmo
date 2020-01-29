@@ -11,13 +11,20 @@ app.use(express.static(path.join(__dirname, '../display')));
 app.use(bodyParser.json());
 
 app.get('/build/bundle.js', (req, res) => {
-  console.log('in server.js');
   res.sendFile(path.join(__dirname, '../../build/bundle.js'));
 });
 
+app.get('/config', (req, res) => {
+  res.sendFile(path.join(__dirname, '../watchmoData/config.json'))
+})
+
+app.get('/data', (req, res) => {
+  res.sendFile(path.join(__dirname, '../watchmoData/parsedData.json'))
+})
+
 app.use('*', (req, res) => {
   res.sendStatus(404);
-})
+});
 
 // global error handler
 function errorHandler(err, req, res, next) {
@@ -31,4 +38,6 @@ function errorHandler(err, req, res, next) {
 app.listen(PORT);
 console.log(`app listening on ${PORT}`);
 
-module.exports = app;
+module.exports = {
+  app,
+}
