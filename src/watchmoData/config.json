@@ -2,9 +2,18 @@
   "endpoint": "http://localhost:4545/graphql",
   "categories": {
     "default": {
-      "queries": ["{ books { name }}", "{ authors { name }}"],
+      "queries": [
+        "{ books { name }}",
+        "{ authors { name }}"
+      ],
       "frequency": 5000
-      }
+    },
+    "isbn": {
+      "queries": [
+        "{ isbns { isbn id } }"
+      ],
+      "frequency": 5000
+    }
   },
   "ISONLYFORDEVELOPMENTPLEASEDONTUPLOADTHIS": true
 }

@@ -11,6 +11,8 @@ function UserDashboard() {
 
   const [dataFromServer, setDataFromServer] = React.useState([1]);
   const [dataGained, setDataGained] = React.useState(false);
+
+  const [currentCat, setCurrentCat] = React.useState('');
   
   React.useEffect(() => {
     if(!dataGained){
@@ -18,14 +20,14 @@ function UserDashboard() {
       fetch('/data')
         .then(data => data.json())
         .then(parsed => {
-          console.log("parsed", parsed)
           setDataFromServer(parsed)
           setDataGained(true)
         })
         .catch(err => console.log(err));
     }
     else {
-      console.log("i got this")
+      console.log("i got the data")
+      console.log(dataFromServer)
     }
   }) 
 
@@ -42,7 +44,7 @@ function UserDashboard() {
   }
   const categories = [];
   for (let i = 0; i < arrayOfCategories.length; i++) {
-    categories.push(<DropdownItem key={i} > {arrayOfCategories[i]} </DropdownItem>)
+    categories.push(<DropdownItem key={i} onClick={()=>setCurrentCat(arrayOfCategories[i])}> {arrayOfCategories[i]}  </DropdownItem>)
   }
 
 
@@ -72,7 +74,7 @@ function UserDashboard() {
           </DropdownMenu>
         </ButtonDropdown></div>
       <div>
-        <VertColViz datas = {dataFromServer}/>
+        <VertColViz datas = {dataFromServer} category = {currentCat} />
       </div>
     </div>
   )

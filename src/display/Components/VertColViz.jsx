@@ -5,24 +5,24 @@ import "../stylesheets/style.scss"
 /* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
 
-
+///CURRENTLY NOT USING STATE DATA FOR RENDERING PURPOSE
 function VertColViz(props) {
     console.log('props',props.datas);
+    console.log('category prop', props.category)
     let queries = [];
     let responses = [];
     const [query, setQuery] = useState(queries)
-    const [data, setData] = useState([.1,.2]);
-    for (let category in props.datas) {
-      for (let query in props.datas[category]){
+    const [data, setData] = useState([]);
+      for (let query in props.datas[props.category]){
         let timeTot = 0;
         queries.push(query)
-        props.datas[category][query].forEach(time => {
+        props.datas[props.category][query].forEach(time => {
           timeTot += (time.timing[1]/1000000000);
         });
-        responses.push(timeTot/(props.datas[category][query].length))
+        responses.push(timeTot/(props.datas[props.category][query].length))
       }
-    }
-    useState(queries);
+    
+    // useState(queries);
     
     console.log('queries after', queries);
 
@@ -37,13 +37,17 @@ function VertColViz(props) {
     --Style specifications describing how each element should be drawn.*/
     // will be called initially and on every data change
       useEffect(() => {
-        setData(responses)
-        console.log(data)
-        if (props.datas) {
-          console.log("whoot")
-        }
-        const svg = select(svgRef.current);
 
+        setData(responses)
+        setQuery(queries)
+        
+        const svg = select(svgRef.current);
+        console.log(responses);
+
+        let max = Math.max(...responses)
+        console.log(max);
+        let upper = 1.5*max;
+        console.log(upper);
         // scales
         const xScale = scaleBand()
             .domain(responses.map((value, index) => index)) //x-axis labeled here
@@ -51,11 +55,11 @@ function VertColViz(props) {
             .padding(0.5);
 
         const yScale = scaleLinear()
-            .domain([0, .25])
+            .domain([0, `${upper}`])
             .range([150, 0]);
 
         const colorScale = scaleLinear()
-            .domain([25, 50, 75, 100, 125, 150])
+            .domain([.01, .02, .03, .04, .05, .06])
             .range(["red", "yellow", "green", "blue", "purple", "pink"])
             .clamp(true);
 
@@ -91,7 +95,8 @@ function VertColViz(props) {
                     .data([value])
                     .join(enter => enter.append("text").attr("y", yScale(value) - 4))
                     .attr("class", "tooltip")
-                    .text(queries[index])
+                    .text(`${responses[index]}`)
+                    .text(`${queries[index]}`)
                     .attr("x", xScale(index) + xScale.bandwidth() / 2)
                     .attr("text-anchor", "middle")
                     .transition()
@@ -102,7 +107,8 @@ function VertColViz(props) {
             .transition()
             .attr("fill", colorScale)
             .attr("height", value => 150 - yScale(value));
-    }, [props.datas]);
+            
+    }, [props.category]);
     
     /*React fragments let you group a list of children without adding extra nodes to the DOM 
            because fragments are not rendered to the DOM. */
