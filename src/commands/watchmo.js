@@ -7,7 +7,6 @@ const argv = require('yargs');
 const path = require('path');
 
 //CLI functions
-const { init } = require('./init');
 const { watch } = require('./watch');
 const { cliDefault } = require('./default');
 const { mo } = require('./mo');
@@ -22,15 +21,16 @@ const checkAndGetConfig = configPath => {
 
 //Defining the CLI functionality
 argv
-  .config(checkAndGetConfig(path.join(process.cwd(), '/watchmo/config.json')))
+  .config(checkAndGetConfig(path.join(__dirname, '../watchmoData/config.json')))
   .command('$0', 'opens up visualizer in browser', cliDefault)
-  .command('init', 'creates configuration files for watchmo', init)
   .command(
     'watch',
     'begins sending queries to the endpoint at the configured frequency',
     ({ argv }) => {
-      watch(argv.endpoint, argv.categories, path.join(process.cwd(), '/watchmo/snapshots'));
+      watch(argv.endpoint, argv.categories, path.join(__dirname, '../watchmoData/snapshots.txt'));
     }
   )
-  .command('mo', 'who knows?', mo)
+  .command('mo', 'parses data and opens up visualizer', () => {
+    mo(path.join(__dirname, '../watchmoData/snapshots.txt'), path.join(__dirname, '../watchmoData/parsedData.json'))
+  })
   .help().argv;
