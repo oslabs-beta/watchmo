@@ -4,7 +4,6 @@ import "../stylesheets/style.scss"
 
 /* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
-
 ///CURRENTLY NOT USING STATE DATA FOR RENDERING PURPOSE
 function VertColViz(props) {
     console.log('props',props.datas);
@@ -29,6 +28,7 @@ function VertColViz(props) {
     const svgRef = useRef();
     console.log(data);
     console.log(responses);
+
     /*The most basic SVG file contains the following format:
   
     --Size of the viewport (Think of this as the image resolution)
@@ -36,6 +36,7 @@ function VertColViz(props) {
     --Drawing instructions using the shapes elements
     --Style specifications describing how each element should be drawn.*/
     // will be called initially and on every data change
+
       useEffect(() => {
 
         setData(responses)
@@ -51,20 +52,25 @@ function VertColViz(props) {
         // scales
         const xScale = scaleBand()
             .domain(responses.map((value, index) => index)) //x-axis labeled here
+
             .range([0, 300])
             .padding(0.5);
 
         const yScale = scaleLinear()
+
             .domain([0, `${upper}`])
             .range([150, 0]);
 
         const colorScale = scaleLinear()
             .domain([.01, .02, .03, .04, .05, .06])
+
             .range(["red", "yellow", "green", "blue", "purple", "pink"])
             .clamp(true);
 
         // create x-axis
+
         const xAxis = axisBottom(xScale).ticks(responses.length);
+
         svg
             .select(".x-axis")
             .style("transform", "translateY(150px)")
@@ -82,7 +88,9 @@ function VertColViz(props) {
         // draw the bars
         svg
             .selectAll(".bar")
+
             .data(responses)
+
             .join("rect")
             .attr("class", "bar")
             .style("transform", "scale(1, -1)")
@@ -95,8 +103,10 @@ function VertColViz(props) {
                     .data([value])
                     .join(enter => enter.append("text").attr("y", yScale(value) - 4))
                     .attr("class", "tooltip")
+
                     .text(`${responses[index]}`)
                     .text(`${queries[index]}`)
+
                     .attr("x", xScale(index) + xScale.bandwidth() / 2)
                     .attr("text-anchor", "middle")
                     .transition()
@@ -107,9 +117,11 @@ function VertColViz(props) {
             .transition()
             .attr("fill", colorScale)
             .attr("height", value => 150 - yScale(value));
+
             
     }, [props.category]);
     
+
     /*React fragments let you group a list of children without adding extra nodes to the DOM 
            because fragments are not rendered to the DOM. */
     return (
@@ -119,10 +131,12 @@ function VertColViz(props) {
                 <g className="y-axis" />
             </svg>
             <button onClick={() => setData(data.map(value => value + 5))}>
+
                 Add Five
         </button>
             <button onClick={() => setData(data.filter(value => value < 35))}>
                 Filter
+
         </button>
             <button
                 onClick={() => setData([...data, Math.round(Math.random() * 100)])}
