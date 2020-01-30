@@ -2,6 +2,7 @@
   "endpoint": "http://localhost:4545/graphql",
   "categories": {
     "default": {
+
       "queries": [
         "{ books { name }}",
         "{ authors { name }}"
@@ -27,4 +28,4 @@
     }
   },
   "ISONLYFORDEVELOPMENTPLEASEDONTUPLOADTHIS": true
-}
+

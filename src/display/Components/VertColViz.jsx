@@ -4,7 +4,6 @@ import "../stylesheets/style.scss"
 
 /* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
-
 ///CURRENTLY NOT USING STATE DATA FOR RENDERING PURPOSE
 function VertColViz(props) {
   let queries = [];

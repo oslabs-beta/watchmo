@@ -35,6 +35,7 @@ function saveData(data, savePath) {
 async function sendQueriesAndSave(endpoint, categoryName, category, dirPath, frequency) {
   const timingInfo = [];
   let responseObject;
+
   for (let i = 0; i < category.queries.length; i+=1) {
     let query = category.queries[i];
     let {response, timing} = await buildQueryPromise(endpoint, query).catch((err) => console.log(err));
@@ -50,6 +51,7 @@ async function sendQueriesAndSave(endpoint, categoryName, category, dirPath, fre
 // Promises resolve with priority over setInterval, so the timing data isn't affected
 // We may want this to be a cron job or something else in the future
 function watch(endpoint, categories, dirPath) {
+
   console.log("categories", categories)
   for (let cat in categories) {
     setTimeout(() => sendQueriesAndSave(endpoint, cat, categories[cat], dirPath, categories[cat].frequency), categories[cat].frequency);
