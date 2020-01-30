@@ -10,6 +10,7 @@ const path = require('path');
 const { watch } = require('./watch');
 const { cliDefault } = require('./default');
 const { mo } = require('./mo');
+const { less } = require('./less');
 
 //helper functions
 const checkAndGetConfig = configPath => {
@@ -21,6 +22,10 @@ const checkAndGetConfig = configPath => {
 
 //Defining the CLI functionality
 argv
+  .alias({
+    open: "o",
+    bundle: "b"
+  })
   .config(checkAndGetConfig(path.join(__dirname, '../watchmoData/config.json')))
   .command('$0', 'opens up visualizer in browser', cliDefault)
   .command(
@@ -30,7 +35,8 @@ argv
       watch(argv.endpoint, argv.categories, path.join(__dirname, '../watchmoData/snapshots.txt'));
     }
   )
-  .command('mo', 'parses data and opens up visualizer', () => {
-    mo(path.join(__dirname, '../watchmoData/snapshots.txt'), path.join(__dirname, '../watchmoData/parsedData.json'))
+  .command('mo', 'parses data and opens up visualizer', ({argv}) => {
+    mo(path.join(__dirname, '../watchmoData/snapshots.txt'), path.join(__dirname, '../watchmoData/parsedData.json'), argv.open, argv.bundle)
   })
+  .command('less', 'cleans up raw and parsed data', less)
   .help().argv;

@@ -42,17 +42,21 @@ function parseData(dataString) {
   return parsed;
 }
 
-function mo(dataPath, savePath) {
-  fs.readFile(dataPath, 'utf8', (err, data) => {
-    if (err) {
-      console.log('Error trying to grab raw Data:', err);
-    } else {
-      saveParsed(parseData(data), savePath);
-    }
-  });
-  let directory = path.join(__dirname, '../server/server.js');
-  exec(`node ${directory}`, { encoding: 'utf-8' });
-  opn('http://localhost:3333/');
+function mo(dataPath, savePath, shouldOpen, noBundle = false) {
+  if (!noBundle) {
+    fs.readFile(dataPath, 'utf8', (err, data) => {
+      if (err) {
+        console.log('Error trying to grab raw Data:', err);
+      } else {
+        saveParsed(parseData(data), savePath);
+      }
+    });
+  }
+  if (shouldOpen) {
+    let directory = path.join(__dirname, '../server/server.js');
+    exec(`node ${directory}`, { encoding: 'utf-8' });
+    opn('http://localhost:3333/');
+  }
 }
 
 
