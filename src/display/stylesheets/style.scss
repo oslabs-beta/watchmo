@@ -61,7 +61,12 @@ button:hover {
 }
 
 .tooltip {
-opacity: 1;
+  padding: 5;
+  font-size: 20px;
+  fill: whitesmoke;
+  stroke: darkgray;
+  font-weight: 600;
+  opacity: 1;
 }
 
 
