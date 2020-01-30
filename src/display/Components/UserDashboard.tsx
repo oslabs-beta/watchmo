@@ -6,15 +6,15 @@ import VertColViz from './VertColViz';
 const UserDashboard: React.FC = () => {
     //setting the state for the drop down button with typescript
     const [dropdownCatOpen, setCatOpen] = React.useState<boolean>(false);
-    const [dropdownDateOpen, setDateOpen] = React.useState<boolean>(false);
+    // const [dropdownDateOpen, setDateOpen] = React.useState<boolean>(false);
 
     //function that is in charge of changing the state
     const toggleCat = (): void => {
         setCatOpen(!dropdownCatOpen);
     }
-    const toggleDate = (): void => {
-        setDateOpen(!dropdownDateOpen);
-    }
+    // const toggleDate = (): void => {
+    //     setDateOpen(!dropdownDateOpen);
+    // }
     const arrayOfCategories: string[] = ["Cat 1", "Cat 2", "Cat 3"];
     const categories: object[] = [];
     for (let i = 0; i < arrayOfCategories.length; i++) {
@@ -26,7 +26,7 @@ const UserDashboard: React.FC = () => {
             <button className="configButton">CONFIG</button>
             <div className="categoriesDrop">
                 <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>
-                    <DropdownToggle caret color="primary">
+                    <DropdownToggle caret color="secondary">
                         Catagories:
   </DropdownToggle>
                     <DropdownMenu>
@@ -34,7 +34,7 @@ const UserDashboard: React.FC = () => {
                     </DropdownMenu>
                 </ButtonDropdown>
 
-                <ButtonDropdown isOpen={dropdownDateOpen} toggle={toggleDate}>
+                {/* <ButtonDropdown isOpen={dropdownDateOpen} toggle={toggleDate}>
                     <DropdownToggle caret color="info">
                         Dates:
   </DropdownToggle>
@@ -44,7 +44,8 @@ const UserDashboard: React.FC = () => {
                         <DropdownItem> Date 3 </DropdownItem>
                         <DropdownItem> Date 4 </DropdownItem>
                     </DropdownMenu>
-                </ButtonDropdown></div>
+                </ButtonDropdown> */}
+            </div>
             <div>
                 <VertColViz />
             </div>
