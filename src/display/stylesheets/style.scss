@@ -1,3 +1,5 @@
+
+
 h1, h2{
     display: flex;
     justify-content: center;
@@ -27,7 +29,7 @@ h1, h2{
 width: 150px;
 }
 svg {
-  width:750px;
+  width: 750px;
   height: 300px;
   overflow: visible;
   margin-bottom: 2rem;
@@ -59,7 +61,12 @@ button:hover {
 }
 
 .tooltip {
-opacity: 1;
+  padding: 5;
+  font-size: 20px;
+  fill: whitesmoke;
+  stroke: darkgray;
+  font-weight: 600;
+  opacity: 1;
 }
 
 
