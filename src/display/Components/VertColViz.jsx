@@ -6,6 +6,7 @@ import TimeViz from './TimeViz';
        for instance inserting elements into the DOM using D3 */
 ///CURRENTLY NOT USING STATE DATA FOR RENDERING PURPOSE
 function VertColViz(props) {
+
   let queries = [];
   let responses = [];
   let selectedQss = [];
@@ -75,13 +76,26 @@ function VertColViz(props) {
       .domain([`${upper*.2}`, `${upper*.3}`, `${upper*.35}`, `${upper*.4}`, `${upper*.45}`, `${upper*.5}`])
       .range(["red", "yellow", "green", "blue", "purple", "pink"])
       .clamp(true);
+      let defs = svg.append("defs");
 
+      //Filter for the outside glow
+      let filter = defs.append("filter")
+          .attr("id", "glow");
+      filter.append("feGaussianBlur")
+          .attr("stdDeviation", "3.5")
+          .attr("result", "coloredBlur");
+      let feMerge = filter.append("feMerge");
+      feMerge.append("feMergeNode")
+          .attr("in", "coloredBlur");
+      feMerge.append("feMergeNode")
+          .attr("in", "SourceGraphic");
     // create x-axis
     const xAxis = axisBottom(xScale).ticks(responses.length);
     svg
       .select(".x-axis")
       .style("transform", "translateY(300px)")
-      .call(xAxis);
+      .call(xAxis)
+      .style("filter", "url(#glow)");
 
     // create y-axis
     //location of bars, the higher the number, the higher the position on the graph
@@ -90,6 +104,7 @@ function VertColViz(props) {
     svg
       .select(".y-axis")
       .style("transform", "translateX(750px)")
+      .style("filter", "url(#glow)")
       .call(yAxis);
 
     // draw the bars
@@ -140,14 +155,15 @@ function VertColViz(props) {
       </svg>
       <button onClick={() => setData(data.map(value => value + 5))}>
         Add Five
+
         </button>
-      <button onClick={() => setData(data.filter(value => value < 35))}>
-        Filter
+            <button onClick={() => setData(data.filter(value => value < 35))}>
+                Filter
         </button>
-      <button
-        onClick={() => setData([...data, Math.round(Math.random() * 100)])}
-      >
-        Add data
+            <button
+                onClick={() => setData([...data, Math.round(Math.random() * 100)])}
+            >
+                Add data
         </button>
         <div>       
           {timeGraph}
@@ -156,8 +172,8 @@ function VertColViz(props) {
 
         
 
-    </React.Fragment>
-  );
+        </React.Fragment>
+    );
 }
 
 

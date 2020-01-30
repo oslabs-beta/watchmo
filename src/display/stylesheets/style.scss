@@ -14,8 +14,9 @@ h1, h2{
 
 #UserDashboard {
   width: 750px;
-  justify-content: center;
-  align-items: center;
+  color: white;
+  font-family: 'Audiowide', cursive;
+
 }
 
 .categoriesDrop {
@@ -23,13 +24,22 @@ h1, h2{
     justify-content: center;
     align-items: center;
 }
+
+.btn {
+width: 150px;
+}
 svg {
   width: 750px;
   height: 300px;
-  background: #eee;
   overflow: visible;
   margin-bottom: 2rem;
   display: block;
+  box-shadow: inset 1px 2000px rgba(208, 208, 208, 0.54);
+
+}
+
+text{
+  color: white;
 }
 
 #root {
@@ -45,11 +55,21 @@ button {
   width: 100px;
 } 
   
+button:hover {
+  color: rgb(114, 120, 171);
+  box-shadow: 0 5px 15px rgb(114, 120, 171);
+}
+
 .tooltip {
 opacity: 1;
 }
+
+
+
   .bar:hover {
-    fill: darkslategray
+    fill: rgb(255, 183, 75);
+    fill-opacity: 70%;
+    box-shadow: 0 5px 15px rgb(114, 120, 171);
   }
 
   

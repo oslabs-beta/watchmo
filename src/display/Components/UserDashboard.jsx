@@ -13,9 +13,9 @@ function UserDashboard() {
   const [dataGained, setDataGained] = React.useState(false);
 
   const [currentCat, setCurrentCat] = React.useState('');
-  
+
   React.useEffect(() => {
-    if(!dataGained){
+    if (!dataGained) {
       console.log("whot");
       fetch('/data')
         .then(data => data.json())
@@ -29,7 +29,7 @@ function UserDashboard() {
       console.log("i got the data")
       console.log(dataFromServer)
     }
-  }) 
+  })
 
   //function that is in charge of changing the state
   const toggleCat = () => {
@@ -44,7 +44,7 @@ function UserDashboard() {
   }
   const categories = [];
   for (let i = 0; i < arrayOfCategories.length; i++) {
-    categories.push(<DropdownItem key={i} onClick={()=>setCurrentCat(arrayOfCategories[i])}> {arrayOfCategories[i]}  </DropdownItem>)
+    categories.push(<DropdownItem key={i} onClick={() => setCurrentCat(arrayOfCategories[i])}> {arrayOfCategories[i]}  </DropdownItem>)
   }
 
 
@@ -54,7 +54,7 @@ function UserDashboard() {
       <button className="configButton">CONFIG</button>
       <div className="categoriesDrop">
         <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>
-          <DropdownToggle caret color="primary">
+          <DropdownToggle caret color="primary" class="catbutton">
             Categories:
   </DropdownToggle>
           <DropdownMenu>
@@ -62,7 +62,7 @@ function UserDashboard() {
           </DropdownMenu>
         </ButtonDropdown>
 
-        <ButtonDropdown isOpen={dropdownDateOpen} toggle={toggleDate}>
+        {/* <ButtonDropdown isOpen={dropdownDateOpen} toggle={toggleDate}>
           <DropdownToggle caret color="info">
             Dates:
   </DropdownToggle>
@@ -72,9 +72,10 @@ function UserDashboard() {
             <DropdownItem> Date 3 </DropdownItem>
             <DropdownItem> Date 4 </DropdownItem>
           </DropdownMenu>
-        </ButtonDropdown></div>
+        </ButtonDropdown> */}
+      </div>
       <div>
-        <VertColViz dataCat = {dataFromServer[currentCat]} />
+        <VertColViz dataCat={dataFromServer[currentCat]} />
       </div>
     </div>
   )
