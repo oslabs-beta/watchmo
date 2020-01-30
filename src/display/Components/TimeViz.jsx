@@ -3,7 +3,11 @@ import React, { useRef, useEffect, useState } from "react";
 import "../stylesheets/style.scss"
 /* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
-function TimeViz() {
+function TimeViz(props) {
+  let timeData = props.timeData;
+  let selectedQueries = props.selectedQueries;
+  console.log("time data", props.timeData);
+  console.log(props.selectedQueries);
   const [data, setData] = useState([25, 30, 45, 60, 10, 65, 75]);
   // const [time, setTime] = useState([{ name: "Query 1", labelOffset: 60, value: function (t) { return d3.hsl(t, 1, 0.5); } },
   // ]);

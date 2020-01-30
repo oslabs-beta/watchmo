@@ -9,13 +9,24 @@ import TimeViz from './TimeViz';
 function VertColViz(props) {
   let queries = [];
   let responses = [];
-  const [query, setQuery] = useState(queries);
-  const [data, setData] = useState(responses);
+  let selectedQss = [];
+
   const [selectedQuery, setSelectedQuery] = useState([]);
 
-  // function(query) {
-
-  // }
+  function addOrRemove(queryIn) {
+    console.log(queryIn);
+    if (selectedQss.includes(queryIn)) {
+      console.log("trying to filter");
+      setSelectedQuery(selectedQuery.filter(selectedQs => selectedQs !== queryIn))
+      selectedQss = selectedQss.filter(selectedQs => selectedQs !== queryIn)
+    }
+    else {
+      console.log("trying to add");
+      setSelectedQuery(selectedQs=> [...selectedQs, queryIn])
+      selectedQss.push(queryIn);
+    }
+    console.log(selectedQss);
+  }
 
   const svgRef = useRef();
   /*The most basic SVG file contains the following format:
@@ -26,8 +37,6 @@ function VertColViz(props) {
   --Style specifications describing how each element should be drawn.*/
   // will be called initially and on every data change
   useEffect(() => {
-    console.log('cateogry data', props.dataCat)
-    console.log('data', data)
   
     for (let query in props.dataCat) {
       let timeTot = 0;
@@ -37,14 +46,12 @@ function VertColViz(props) {
       });
       responses.push(timeTot / (props.dataCat[query].length))
     }
-    setData(responses)
-    setQuery(queries)
   }, [props.dataCat])
 
 
   useEffect(() => {
 
-     
+    setSelectedQuery([]);
       
     const svg = select(svgRef.current);
 
@@ -105,7 +112,7 @@ function VertColViz(props) {
           .attr("opacity", 1);
       })
       .on("mouseleave", () => svg.select(".tooltip").remove())
-      .on("click", (value, index) => {setSelectedQuery(`${queries[index]}`)})
+      .on("click", (value, index) => {addOrRemove(`${queries[index]}`)})
       .transition()
       .attr("fill", colorScale)
       .attr("height", value => 150 - yScale(value)); }
@@ -132,7 +139,9 @@ function VertColViz(props) {
       >
         Add data
         </button>
-        {/* <TimeViz timeData = {props.dataCat[selectedQuery]} selectedQuery = {props.selectedQuery} /> */}
+        {selectedQuery && <TimeViz timeData = {props.dataCat} selectedQueries = {selectedQuery}/>}
+        
+
     </React.Fragment>
   );
 }
