@@ -4,7 +4,15 @@
     "default": {
       "queries": ["{ books { name }}", "{ authors { name }}"],
       "frequency": 5000
-      }
+    },
+    "default2": {
+      "queries": ["{ books { name }}", "{ authors { name }}"],
+      "frequency": 5000
+    },
+    "default3": {
+      "queries": ["{ books { name }}", "{ authors { name }}"],
+      "frequency": 5000
+    }
   },
   "ISONLYFORDEVELOPMENTPLEASEDONTUPLOADTHIS": true
 }

@@ -1,19 +1,20 @@
-h1, h2{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+h1,
+h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.configButton{
-    position: absolute;
-    right: 10px;
-    top: 15px;
+.configButton {
+  position: absolute;
+  right: 10px;
+  top: 15px;
 }
 
 .categoriesDrop {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 svg {
   background: #eee;
@@ -27,23 +28,34 @@ svg {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+#userDashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
+}
+
+#navBtn {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
 }
 
 button {
   margin-bottom: 5px;
   width: 100px;
 }
-  
-.tooltip {
-opacity: 1;
-}
-  .bar:hover {
-    fill: rgb(0, 0, 0) ;
-  }
 
-  
-   
+.tooltip {
+  opacity: 1;
+}
+.bar:hover {
+  fill: rgb(0, 0, 0);
+}
+
 // .d3-tip {
 //     line-height: 1;
 //     font-weight: bold;
@@ -52,7 +64,7 @@ opacity: 1;
 //     color: #fff;
 //     border-radius: 2px;
 //   }
-  
+
 //   /* Creates a small triangle extender for the tooltip */
 //   .d3-tip:after {
 //     box-sizing: border-box;
@@ -65,7 +77,7 @@ opacity: 1;
 //     position: absolute;
 //     text-align: center;
 //   }
-  
+
 //   /* Style northward tooltips differently */
 //   .d3-tip.n:after {
 //     margin: -1px 0 0 0;
