@@ -44,15 +44,15 @@ async function sendQueriesAndSave(endpoint, categoryName, category, dirPath, fre
   }
   // this structure is necessary for parsing the saved data later, see 'mo.js', parseDataFileAndSave
   saveData({category: categoryName, data: timingInfo}, dirPath);
+  
+  // allows for calls to be made at the specified intervals
   setTimeout(() => sendQueriesAndSave(endpoint, categoryName, category, dirPath, frequency), frequency)
 }
-
-// sets an interval for each category of query
+ 
+// sets an interval for each category of query (via recursive setTimeout)
 // Promises resolve with priority over setInterval, so the timing data isn't affected
 // We may want this to be a cron job or something else in the future
 function watch(endpoint, categories, dirPath) {
-
-  console.log("categories", categories)
   for (let cat in categories) {
     setTimeout(() => sendQueriesAndSave(endpoint, cat, categories[cat], dirPath, categories[cat].frequency), categories[cat].frequency);
   }
