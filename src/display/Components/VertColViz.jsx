@@ -1,6 +1,7 @@
 import { select, axisBottom, axisRight, scaleLinear, scaleBand } from "d3";
 import React, { useRef, useEffect, useState } from "react";
 import "../stylesheets/style.scss"
+import TimeViz from './TimeViz';
 
 /* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
@@ -8,8 +9,24 @@ import "../stylesheets/style.scss"
 function VertColViz(props) {
   let queries = [];
   let responses = [];
-  const [query, setQuery] = useState(queries)
-  const [data, setData] = useState(responses);
+  let selectedQss = [];
+
+  const [selectedQuery, setSelectedQuery] = useState([]);
+
+  function addOrRemove(queryIn) {
+    console.log(queryIn);
+    if (selectedQss.includes(queryIn)) {
+      console.log("trying to filter");
+      setSelectedQuery(selectedQuery.filter(selectedQs => selectedQs !== queryIn))
+      selectedQss = selectedQss.filter(selectedQs => selectedQs !== queryIn)
+    }
+    else {
+      console.log("trying to add");
+      setSelectedQuery(selectedQs=> [...selectedQs, queryIn])
+      selectedQss.push(queryIn);
+    }
+    console.log(selectedQss);
+  }
 
   const svgRef = useRef();
   /*The most basic SVG file contains the following format:
@@ -20,8 +37,6 @@ function VertColViz(props) {
   --Style specifications describing how each element should be drawn.*/
   // will be called initially and on every data change
   useEffect(() => {
-    console.log('cateogry data', props.dataCat)
-    console.log('data', data)
   
     for (let query in props.dataCat) {
       let timeTot = 0;
@@ -31,14 +46,12 @@ function VertColViz(props) {
       });
       responses.push(timeTot / (props.dataCat[query].length))
     }
-    setData(responses)
-    setQuery(queries)
   }, [props.dataCat])
 
 
   useEffect(() => {
 
-     
+    setSelectedQuery([]);
       
     const svg = select(svgRef.current);
 
@@ -47,15 +60,15 @@ function VertColViz(props) {
     // scales
     const xScale = scaleBand()
       .domain(responses.map((value, index) => index)) //x-axis labeled here
-      .range([0, 300])
+      .range([0, 750])
       .padding(0.5);
 
     const yScale = scaleLinear()
       .domain([0, `${upper}`])
-      .range([150, 0]);
+      .range([300, 0]);
 
     const colorScale = scaleLinear()
-      .domain([`${upper*.5}`, `${upper*.7}`, `${upper*.75}`, `${upper*.8}`, `${upper*.85}`, `${upper*.9}`])
+      .domain([`${upper*.2}`, `${upper*.3}`, `${upper*.35}`, `${upper*.4}`, `${upper*.45}`, `${upper*.5}`])
       .range(["red", "yellow", "green", "blue", "purple", "pink"])
       .clamp(true);
 
@@ -63,7 +76,7 @@ function VertColViz(props) {
     const xAxis = axisBottom(xScale).ticks(responses.length);
     svg
       .select(".x-axis")
-      .style("transform", "translateY(150px)")
+      .style("transform", "translateY(300px)")
       .call(xAxis);
 
     // create y-axis
@@ -72,7 +85,7 @@ function VertColViz(props) {
     const yAxis = axisRight(yScale);
     svg
       .select(".y-axis")
-      .style("transform", "translateX(300px)")
+      .style("transform", "translateX(750px)")
       .call(yAxis);
 
     // draw the bars
@@ -83,25 +96,26 @@ function VertColViz(props) {
       .attr("class", "bar")
       .style("transform", "scale(1, -1)")
       .attr("x", (value, index) => xScale(index))
-      .attr("y", -150)
+      .attr("y", -300)
       .attr("width", xScale.bandwidth())
       .on("mouseenter", (value, index) => {
         svg
           .selectAll(".tooltip")
           .data([value])
-          .join(enter => enter.append("text").attr("y", yScale(value) - 4))
+          .join(enter => enter.append("text").attr("y", yScale(value) - 50))
           .attr("class", "tooltip")
           .text(`${queries[index]}`)
           .attr("x", xScale(index) + xScale.bandwidth() / 2)
           .attr("text-anchor", "middle")
           .transition()
-          .attr("y", yScale(value) - 8)
+          .attr("y", yScale(value) - 80)
           .attr("opacity", 1);
       })
       .on("mouseleave", () => svg.select(".tooltip").remove())
+      .on("click", (value, index) => {addOrRemove(`${queries[index]}`)})
       .transition()
       .attr("fill", colorScale)
-      .attr("height", value => 150 - yScale(value)); }
+      .attr("height", value => 350 - yScale(value)); }
 
 
   , [props.dataCat]);
@@ -125,6 +139,9 @@ function VertColViz(props) {
       >
         Add data
         </button>
+        {selectedQuery && <TimeViz timeData = {props.dataCat} selectedQueries = {selectedQuery}/>}
+        
+
     </React.Fragment>
   );
 }
