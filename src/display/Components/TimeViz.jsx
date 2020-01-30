@@ -17,6 +17,7 @@ function TimeViz(props) {
       timeStamps.push(response.timestamp);
       timing[quer].push((response.timing[0] + response.timing[1] / 1000000000))
     });
+    timing[quer].shift()
   }
 
  
@@ -50,20 +51,24 @@ function TimeViz(props) {
 
     }
 
+    let max = Math.max(...data)
+    let upperLine = 1.5 * max;
+
+
     const svg = select(svgRef.current);
     //range in the scales control how long the axis line is on the graph
-    const xScale = scaleLinear().domain([0, lengthy.length - 1]).range([0, 300]);
+    const xScale = scaleLinear().domain([0, lengthy.length - 1]).range([0, 750]);
     const yScale = scaleLinear()
         //domain is the complete set of values and the range is the set of resulting values of a function
-        .domain([0, .35])
-        .range([150, 0]);
+        .domain([0, `${upperLine}`])
+        .range([300, 0]);
     // let z = schemeCategory10();
     //calling the xAxis function with current selection
-    const xAxis = axisBottom(xScale).ticks(lengthy.length).tickFormat(index => index + 1);
-    svg.select('.x-axis').style('transform', "translateY(150px)").call(xAxis)
+    const xAxis = axisBottom(xScale).ticks(lengthy.length).tickFormat(index => Math.floor(index + 1));
+    svg.select('.x-axis').style('transform', "translateY(300px)").call(xAxis)
     //ticks are each value in the line
-    const yAxis = axisRight(yScale).ticks(lengthy.length).tickFormat(index => index + 0.01);
-    svg.select(".y-axis").style("transform", "translateX(300px)").call(yAxis);
+    const yAxis = axisRight(yScale).ticks(20).tickFormat(index => Math.round((index + 0.01)*1000)/1000);
+    svg.select(".y-axis").style("transform", "translateX(750px)").call(yAxis);
     //initialize a line to the value of line 
     //x line is rendering xscale and y is rendering yscale
     const newLine = line().x((value, index) => xScale(index)).y(yScale).curve(curveCardinal);

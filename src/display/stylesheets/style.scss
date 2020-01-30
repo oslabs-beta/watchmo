@@ -10,12 +10,18 @@ h1, h2{
     top: 15px;
 }
 
+#UserDashboard {
+  width: 750px;
+}
+
 .categoriesDrop {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 svg {
+  width:750px;
+  height: 300px;
   background: #eee;
   overflow: visible;
   margin-bottom: 2rem;
