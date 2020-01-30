@@ -10,7 +10,7 @@ function VertColViz(props) {
   let queries = [];
   let responses = [];
   let selectedQss = [];
-  let timeGraph = <div></div> 
+  let timeGraph = <div></div>
 
   const [selectedQuery, setSelectedQuery] = useState([]);
   const [renderLine, setRenderLine] = useState(false);
@@ -20,14 +20,14 @@ function VertColViz(props) {
     if (selectedQss.includes(queryIn)) {
       setSelectedQuery(selectedQuery.filter(selectedQs => selectedQs !== queryIn))
       selectedQss = selectedQss.filter(selectedQs => selectedQs !== queryIn)
-      if(selectedQss.length === 0){
+      if (selectedQss.length === 0) {
         setRenderLine(false);
       }
     }
     else {
       setSelectedQuery([]);
       selectedQss = [];
-      setSelectedQuery(selectedQs=> [...selectedQs, queryIn])
+      setSelectedQuery(selectedQs => [...selectedQs, queryIn])
       setRenderLine(true);
       selectedQss.push(queryIn);
     }
@@ -57,7 +57,7 @@ function VertColViz(props) {
   useEffect(() => {
 
     setSelectedQuery([]);
-      
+
     const svg = select(svgRef.current);
 
     let max = Math.max(...responses)
@@ -73,22 +73,22 @@ function VertColViz(props) {
       .range([300, 0]);
 
     const colorScale = scaleLinear()
-      .domain([`${upper*.2}`, `${upper*.3}`, `${upper*.35}`, `${upper*.4}`, `${upper*.45}`, `${upper*.5}`])
+      .domain([`${upper * .2}`, `${upper * .3}`, `${upper * .35}`, `${upper * .4}`, `${upper * .45}`, `${upper * .5}`])
       .range(["red", "yellow", "green", "blue", "purple", "pink"])
       .clamp(true);
-      let defs = svg.append("defs");
+    let defs = svg.append("defs");
 
-      //Filter for the outside glow
-      let filter = defs.append("filter")
-          .attr("id", "glow");
-      filter.append("feGaussianBlur")
-          .attr("stdDeviation", "3.5")
-          .attr("result", "coloredBlur");
-      let feMerge = filter.append("feMerge");
-      feMerge.append("feMergeNode")
-          .attr("in", "coloredBlur");
-      feMerge.append("feMergeNode")
-          .attr("in", "SourceGraphic");
+    //Filter for the outside glow
+    let filter = defs.append("filter")
+      .attr("id", "glow");
+    filter.append("feGaussianBlur")
+      .attr("stdDeviation", "3.5")
+      .attr("result", "coloredBlur");
+    let feMerge = filter.append("feMerge");
+    feMerge.append("feMergeNode")
+      .attr("in", "coloredBlur");
+    feMerge.append("feMergeNode")
+      .attr("in", "SourceGraphic");
     // create x-axis
     const xAxis = axisBottom(xScale).ticks(responses.length);
     svg
@@ -131,17 +131,18 @@ function VertColViz(props) {
           .attr("opacity", 1);
       })
       .on("mouseleave", () => svg.select(".tooltip").remove())
-      .on("click", (value, index) => {addOrRemove(`${queries[index]}`)})
+      .on("click", (value, index) => { addOrRemove(`${queries[index]}`) })
       .transition()
       .attr("fill", colorScale)
-      .attr("height", value => 350 - yScale(value)); }
-  , [props.dataCat]);
+      .attr("height", value => 350 - yScale(value));
+  }
+    , [props.dataCat]);
 
 
 
 
-  if (renderLine===true) {
-    timeGraph = <TimeViz key = {"lineGraph"} timeData = {props.dataCat} selectedQueries = {selectedQuery}/>
+  if (renderLine === true) {
+    timeGraph = <TimeViz key={"lineGraph"} timeData={props.dataCat} selectedQueries={selectedQuery} />
   }
 
 
@@ -157,23 +158,19 @@ function VertColViz(props) {
         Add Five
 
         </button>
-            <button onClick={() => setData(data.filter(value => value < 35))}>
-                Filter
+      <button onClick={() => setData(data.filter(value => value < 35))}>
+        Filter
         </button>
-            <button
-                onClick={() => setData([...data, Math.round(Math.random() * 100)])}
-            >
-                Add data
+      <button
+        onClick={() => setData([...data, Math.round(Math.random() * 100)])}
+      >
+        Add data
         </button>
-        <div>       
-          {timeGraph}
-        </div>
-
-
-        
-
-        </React.Fragment>
-    );
+      <div>
+        {timeGraph}
+      </div>
+    </React.Fragment>
+  );
 }
 
 

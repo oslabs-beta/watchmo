@@ -20,7 +20,7 @@ function TimeViz(props) {
     timing[quer].shift()
   }
 
- 
+
   console.log("values", timing)
   console.log("x-axis", timeStamps)
   console.log("digging for data", timing[selectedQueries[0]])
@@ -46,96 +46,82 @@ function TimeViz(props) {
   --Style specifications describing how each element should be drawn.*/
   // will be called initially and on every data change
 
-    useEffect(() => {
+  useEffect(() => {
 
-        if (timing[selectedQueries[0]]) {
+    if (timing[selectedQueries[0]]) {
 
-        }
+    }
 
-        let max = Math.max(...data)
-        let upperLine = 1.5 * max;
+    let max = Math.max(...data)
+    let upperLine = 1.5 * max;
 
 
-        const svg = select(svgRef.current);
+    const svg = select(svgRef.current);
 
-        //range in the scales control how long the axis line is on the graph
-        const xScale = scaleLinear().domain([0, lengthy.length - 1]).range([0, 750]);
-        const yScale = scaleLinear()
-            //domain is the complete set of values and the range is the set of resulting values of a function
-            .domain([0, `${upperLine}`])
-            .range([300, 0]);
-        // let z = schemeCategory10();
-        //calling the xAxis function with current selection
-        const xAxis = axisBottom(xScale).ticks(lengthy.length).tickFormat(index => Math.floor(index + 1));
-        svg.select('.x-axis').style('transform', "translateY(300px)").style("filter", "url(#glow)").call(xAxis)
-        //ticks are each value in the line
-        const yAxis = axisRight(yScale).ticks(20).tickFormat(index => Math.round((index + 0.01) * 1000) / 1000);
-        svg.select(".y-axis").style("transform", "translateX(750px)").style("filter", "url(#glow)").call(yAxis);
-        //initialize a line to the value of line 
-        //x line is rendering xscale and y is rendering yscale
-        const newLine = line().x((value, index) => xScale(index)).y(yScale).curve(curveCardinal);
-        //select all the line elements you find in the svg and synchronize with data provided
-        //wrap data in another array so d3 doesn't generate a new path element for every element in data array
-        //join creates a new path element for every new piece of data
-        //class line is to new updating path elements
-        //Container for the gradients
-        let defs = svg.append("defs");
+    //range in the scales control how long the axis line is on the graph
+    const xScale = scaleLinear().domain([0, lengthy.length - 1]).range([0, 750]);
+    const yScale = scaleLinear()
+      //domain is the complete set of values and the range is the set of resulting values of a function
+      .domain([0, `${upperLine}`])
+      .range([300, 0]);
+    // let z = schemeCategory10();
+    //calling the xAxis function with current selection
+    const xAxis = axisBottom(xScale).ticks(lengthy.length).tickFormat(index => Math.floor(index + 1));
+    svg.select('.x-axis').style('transform', "translateY(300px)").style("filter", "url(#glow)").call(xAxis)
+    //ticks are each value in the line
+    const yAxis = axisRight(yScale).ticks(20).tickFormat(index => Math.round((index + 0.01) * 1000) / 1000);
+    svg.select(".y-axis").style("transform", "translateX(750px)").style("filter", "url(#glow)").call(yAxis);
+    //initialize a line to the value of line 
+    //x line is rendering xscale and y is rendering yscale
+    const newLine = line().x((value, index) => xScale(index)).y(yScale).curve(curveCardinal);
+    //select all the line elements you find in the svg and synchronize with data provided
+    //wrap data in another array so d3 doesn't generate a new path element for every element in data array
+    //join creates a new path element for every new piece of data
+    //class line is to new updating path elements
+    //Container for the gradients
+    let defs = svg.append("defs");
 
-        //Filter for the outside glow
-        let filter = defs.append("filter")
-            .attr("id", "glow");
-        filter.append("feGaussianBlur")
-            .attr("stdDeviation", "3.5")
-            .attr("result", "coloredBlur");
-        let feMerge = filter.append("feMerge");
-        feMerge.append("feMergeNode")
-            .attr("in", "coloredBlur");
-        feMerge.append("feMergeNode")
-            .attr("in", "SourceGraphic");
+    //Filter for the outside glow
+    let filter = defs.append("filter")
+      .attr("id", "glow");
+    filter.append("feGaussianBlur")
+      .attr("stdDeviation", "3.5")
+      .attr("result", "coloredBlur");
+    let feMerge = filter.append("feMerge");
+    feMerge.append("feMergeNode")
+      .attr("in", "coloredBlur");
+    feMerge.append("feMergeNode")
+      .attr("in", "SourceGraphic");
 
-        let g = svg
-            .selectAll(".line")
-            .data([lengthy])
-            .join("path")
-            .attr("class", "line")
-            .attr("d", newLine)
-            .attr("fill", "none")
-            .attr("stroke", "rgb(6, 75, 115)")
-            .style("filter", "url(#glow)");
-        //adding label to each line -- coming back here
-        //     g.append("text")
-        //         .attr("x", () => setTime(time.map(d => d.labelOffset)) ;
-        // })
-        //     .attr("dy", -5)
-        //     .style("fill", function (d, i) { return lab(z(i)).darker(); })
-        //     .append("textPath")
-        //     .text(function (d) { return d.name; });
-    },
-        //rerender data here
-        [lengthy]);
-    return (
-        <React.Fragment>
-            <svg ref={svgRef}>
-                <g className="x-axis" />
-                <g className="y-axis" /></svg>
-            <br />
-            <button onClick={() => setData(data.map(value => value + 5))}>
-                Update Data </button>
-        </React.Fragment >
-    )
+    let g = svg
+      .selectAll(".line")
+      .data([lengthy])
+      .join("path")
+      .attr("class", "line")
+      .attr("d", newLine)
+      .attr("fill", "none")
+      .attr("stroke", "rgb(6, 75, 115)")
+      .style("filter", "url(#glow)");
+    //adding label to each line -- coming back here
+    //     g.append("text")
+    //         .attr("x", () => setTime(time.map(d => d.labelOffset)) ;
+    // })
+    //     .attr("dy", -5)
+    //     .style("fill", function (d, i) { return lab(z(i)).darker(); })
+    //     .append("textPath")
+    //     .text(function (d) { return d.name; });
+  },
+    //rerender data here
+    [lengthy]);
+  return (
+    <React.Fragment>
+      <svg ref={svgRef}>
+        <g className="x-axis" />
+        <g className="y-axis" /></svg>
+      <br />
+      <button onClick={() => setData(data.map(value => value + 5))}>
+        Update Data </button>
+    </React.Fragment >
+  )
 }
 export default TimeViz;
-
-
-    //time will be populated depending on setTime function
-    // const [time, setTime] = useState([{name: "Query 1", labelOffset: 60, value: function (t) { return d3.hsl(t, 1, 0.5); } },
-    // {name: "Query 2", labelOffset: 20, value: function (t) { return d3.hcl(t, 1, 0, 5); } },
-    // {name: "Query 3", labelOffset: 40, value: d3.scaleRainbow().domain([0, 360]) }]);
-    // .map(function (color) {
-    //     return color.deltas = d3.range(0, 360, 3).map(function (x) {
-    //         return {
-    //             input: x,
-    //             delta: delta(color.value(x - 10), color.value(x + 10))
-    //         };
-    //     }), color;
-    // });
