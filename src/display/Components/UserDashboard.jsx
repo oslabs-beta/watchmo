@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Link, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import VertColViz from './VertColViz';
-// typescript: testing heading and caption
+//typescript: testing heading and caption
 function UserDashboard() {
-  // setting the state for the drop down button with typescript
+  //setting the state for the drop down button with typescript
   const [dropdownCatOpen, setCatOpen] = React.useState(false);
   const [dropdownDateOpen, setDateOpen] = React.useState(false);
 
@@ -30,7 +29,7 @@ function UserDashboard() {
     }
   });
 
-  // function that is in charge of changing the state
+  //function that is in charge of changing the state
   const toggleCat = () => {
     setCatOpen(!dropdownCatOpen);
   };
@@ -71,21 +70,9 @@ function UserDashboard() {
           </DropdownToggle>
           <DropdownMenu>{categories}</DropdownMenu>
         </ButtonDropdown>
-
-        <ButtonDropdown isOpen={dropdownDateOpen} toggle={toggleDate}>
-          <DropdownToggle caret color="info">
-            Dates:
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem>Date 1</DropdownItem>
-            <DropdownItem> Date 2 </DropdownItem>
-            <DropdownItem> Date 3 </DropdownItem>
-            <DropdownItem> Date 4 </DropdownItem>
-          </DropdownMenu>
-        </ButtonDropdown>
       </div>
       <div>
-        <VertColViz datas={dataFromServer} category={currentCat} />
+        <VertColViz dataCat={dataFromServer[currentCat]} />
       </div>
     </div>
   );

@@ -11,26 +11,26 @@ const { DEMARCATION } = require('./watch');
 // }
 
 function saveParsed(parsedData, savePath) {
-  fs.writeFile(savePath, JSON.stringify(parsedData), (err) => {
+  fs.writeFile(savePath, JSON.stringify(parsedData), err => {
     if (err) {
       console.log(err);
     } else {
       console.log('DATA BUNDLED');
     }
-  })
+  });
 }
 
 //dataString is a string of JSON objects separated by DEMARCATION (a stylized WM right now)
 function parseData(dataString) {
   let categoricalResponses = dataString.split(DEMARCATION).filter(str => str);
   const parsed = {};
-  categoricalResponses.forEach((catRes) => {
+  categoricalResponses.forEach(catRes => {
     let parsedRes = JSON.parse(catRes);
     let category = parsedRes.category;
     if (!parsed[category]) {
       parsed[category] = {};
     }
-    parsedRes.data.forEach((queryData) => {
+    parsedRes.data.forEach(queryData => {
       let { timestamp, query, response, timing } = queryData;
       if (!parsed[category][query]) {
         parsed[category][query] = [{ timestamp, response, timing }];
@@ -42,18 +42,21 @@ function parseData(dataString) {
   return parsed;
 }
 
-function mo(dataPath, savePath) {
-  fs.readFile(dataPath, 'utf8', (err, data) => {
-    if (err) {
-      console.log('Error trying to grab raw Data:', err);
-    } else {
-      saveParsed(parseData(data), savePath);
-    }
-  });
-  let directory = path.join(__dirname, '../server/server.js');
-  exec(`node ${directory}`, { encoding: 'utf-8' });
-  opn('http://localhost:3333/');
+function mo(dataPath, savePath, shouldOpen, noBundle = false) {
+  if (!noBundle) {
+    fs.readFile(dataPath, 'utf8', (err, data) => {
+      if (err) {
+        console.log('Error trying to grab raw Data:', err);
+      } else {
+        saveParsed(parseData(data), savePath);
+      }
+    });
+  }
+  if (shouldOpen) {
+    let directory = path.join(__dirname, '../server/server.js');
+    exec(`node ${directory}`, { encoding: 'utf-8' });
+    opn('http://localhost:3333/');
+  }
 }
-
 
 module.exports = { mo };

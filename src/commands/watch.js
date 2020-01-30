@@ -34,11 +34,13 @@ function saveData(data, savePath) {
 // This function waits for the query Promise to resolve to the appropriate data for each query.
 // This ensures that the timer starting and stopping in the Promise itself is starting and stopping at the appropriate times
 // Finally, it saves the data built up from each query and saves it in the the given path as a JSON file.
-async function sendQueriesAndSave(endpoint, categoryName, category, dirPath) {
+async function sendQueriesAndSave(endpoint, categoryName, category, dirPath, frequency) {
   const timingInfo = [];
   let responseObject;
-  for (query of category.queries) {
-    const { response, timing } = await buildQueryPromise(endpoint, query).catch(err =>
+
+  for (let i = 0; i < category.queries.length; i += 1) {
+    let query = category.queries[i];
+    let { response, timing } = await buildQueryPromise(endpoint, query).catch(err =>
       console.log(err)
     );
     responseObject = { query, response, timing, timestamp: new Date() };
@@ -46,15 +48,21 @@ async function sendQueriesAndSave(endpoint, categoryName, category, dirPath) {
   }
   // this structure is necessary for parsing the saved data later, see 'mo.js', parseDataFileAndSave
   saveData({ category: categoryName, data: timingInfo }, dirPath);
+
+  // allows for calls to be made at the specified intervals
+  setTimeout(
+    () => sendQueriesAndSave(endpoint, categoryName, category, dirPath, frequency),
+    frequency
+  );
 }
 
-// sets an interval for each category of query
+// sets an interval for each category of query (via recursive setTimeout)
 // Promises resolve with priority over setInterval, so the timing data isn't affected
 // We may want this to be a cron job or something else in the future
 function watch(endpoint, categories, dirPath) {
-  for (const cat in categories) {
-    setInterval(
-      () => sendQueriesAndSave(endpoint, cat, categories[cat], dirPath),
+  for (let cat in categories) {
+    setTimeout(
+      () => sendQueriesAndSave(endpoint, cat, categories[cat], dirPath, categories[cat].frequency),
       categories[cat].frequency
     );
   }

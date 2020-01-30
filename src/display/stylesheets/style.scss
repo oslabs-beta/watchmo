@@ -11,16 +11,32 @@ h2 {
   top: 15px;
 }
 
+#UserDashboard {
+  width: 750px;
+  color: white;
+  font-family: 'Audiowide', cursive;
+}
+
 .categoriesDrop {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.btn {
+  width: 150px;
+}
 svg {
-  background: #eee;
+  width: 750px;
+  height: 300px;
   overflow: visible;
   margin-bottom: 2rem;
   display: block;
+  box-shadow: inset 1px 2000px rgba(208, 208, 208, 0.54);
+}
+
+text {
+  color: white;
 }
 
 #root {
@@ -58,11 +74,24 @@ button {
   width: 100px;
 }
 
+button:hover {
+  color: rgb(114, 120, 171);
+  box-shadow: 0 5px 15px rgb(114, 120, 171);
+}
+
 .tooltip {
+  padding: 5;
+  font-size: 20px;
+  fill: whitesmoke;
+  stroke: darkgray;
+  font-weight: 600;
   opacity: 1;
 }
+
 .bar:hover {
-  fill: rgb(0, 0, 0);
+  fill: rgb(255, 183, 75);
+  fill-opacity: 70%;
+  box-shadow: 0 5px 15px rgb(114, 120, 171);
 }
 
 // .d3-tip {
