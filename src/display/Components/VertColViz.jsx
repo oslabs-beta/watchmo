@@ -1,6 +1,7 @@
 import { select, axisBottom, axisRight, scaleLinear, scaleBand } from "d3";
 import React, { useRef, useEffect, useState } from "react";
 import "../stylesheets/style.scss"
+import TimeViz from './TimeViz';
 
 /* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
@@ -8,8 +9,13 @@ import "../stylesheets/style.scss"
 function VertColViz(props) {
   let queries = [];
   let responses = [];
-  const [query, setQuery] = useState(queries)
+  const [query, setQuery] = useState(queries);
   const [data, setData] = useState(responses);
+  const [selectedQuery, setSelectedQuery] = useState([]);
+
+  // function(query) {
+
+  // }
 
   const svgRef = useRef();
   /*The most basic SVG file contains the following format:
@@ -99,6 +105,7 @@ function VertColViz(props) {
           .attr("opacity", 1);
       })
       .on("mouseleave", () => svg.select(".tooltip").remove())
+      .on("click", (value, index) => {setSelectedQuery(`${queries[index]}`)})
       .transition()
       .attr("fill", colorScale)
       .attr("height", value => 150 - yScale(value)); }
@@ -125,6 +132,7 @@ function VertColViz(props) {
       >
         Add data
         </button>
+        {/* <TimeViz timeData = {props.dataCat[selectedQuery]} selectedQuery = {props.selectedQuery} /> */}
     </React.Fragment>
   );
 }
