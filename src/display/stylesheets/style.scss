@@ -22,6 +22,10 @@ h1, h2{
     justify-content: center;
     align-items: center;
 }
+
+.btn {
+width: 150px;
+}
 svg {
   width:750px;
   height: 300px;
@@ -61,8 +65,9 @@ opacity: 1;
 
 
   .bar:hover {
-    color: rgb(114, 120, 171);
-  box-shadow: 0 5px 15px rgb(114, 120, 171);
+    fill: rgb(255, 183, 75);
+    fill-opacity: 70%;
+    box-shadow: 0 5px 15px rgb(114, 120, 171);
   }
 
   
