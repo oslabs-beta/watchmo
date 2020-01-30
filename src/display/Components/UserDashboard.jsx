@@ -74,7 +74,7 @@ function UserDashboard() {
           </DropdownMenu>
         </ButtonDropdown></div>
       <div>
-        <VertColViz datas = {dataFromServer} category = {currentCat} />
+        <VertColViz dataCat = {dataFromServer[currentCat]} />
       </div>
     </div>
   )
