@@ -44,6 +44,15 @@ svg {
   align-self: flex-end;
 }
 
+div#navBtn {
+  display: flex;
+  flex-direction: row-reverse;
+}
+span {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 button {
   margin-bottom: 5px;
   width: 100px;

@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import { runtime } from 'regenerator-runtime';
 import '../stylesheets/style.scss';
 import { render } from 'react-dom';
+import Category from './Category';
 
 // Custom hook for handling input boxes
 // saves us from creating onChange handlers for them individually
@@ -55,12 +56,6 @@ const ConfigDashboard = () => {
     setEndpointConfig(url);
   };
 
-  // For handling query string on change
-  const queryChange = e => {
-    const query = e.target.value;
-    setQueryString(query);
-  };
-
   // For handling updates to frequency
   const freqChange = e => {
     const newFreq = e.target.value;
@@ -75,6 +70,8 @@ const ConfigDashboard = () => {
     const cats = Object.entries({ ...catArr[1] });
     console.log(cats);
     for (let i = 0; i < cats.length; i += 1) {
+      // iterate through cats and create array of child components
+      // pass down props needed
       let catName = cats[i][0];
       let catFreq = cats[i][1].frequency.toString();
       console.log(typeof catFreq);
@@ -83,36 +80,16 @@ const ConfigDashboard = () => {
       cats[i][1].queries.forEach(el => queries.push(el));
       // console.log(queries);
       let curCard = (
-        <Card size="md" key={catName}>
-          <CardBody>
-            <CardTitle>
-              <h4>{catName}</h4>
-            </CardTitle>
-            <CardSubtitle>Frequency:</CardSubtitle>
-            <Input
-              type="text"
-              name="frequency"
-              id={`${catName}-freq`}
-              placeholder="Set frequency of query execution"
-              value={catFreq}
-              onChange={freqChange}
-            />
-            <Button size="sm">Update</Button>
-            <br />
-            <br />
-            <CardSubtitle>Queries:</CardSubtitle>
-            <Input
-              type="text"
-              name="queryString"
-              id={queries}
-              placeholder="Input your GraphQL queries"
-              value={queries}
-              onChange={queryChange}
-            />
-
-            <Button size="sm">Edit Queries</Button>
-          </CardBody>
-        </Card>
+        <div id={catName} key={catName}>
+          <Category
+            catData={categoryData}
+            key={i}
+            catName={catName}
+            catFreq={catFreq}
+            queries={queries}
+          />
+          <hr />
+        </div>
       );
       cards.push(curCard);
     }
@@ -121,6 +98,16 @@ const ConfigDashboard = () => {
   };
 
   const categoryCards = buildCards(dataFromConfig);
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    console.log(data);
+
+    await fetch('http://localhost:3333/configDash', {
+      method: 'POST',
+      body: data
+    });
+  }
 
   React.useEffect(() => {
     fetchData();
@@ -137,7 +124,7 @@ const ConfigDashboard = () => {
       </div>
       <div id="configHeader">
         <h1>Config Dashboard</h1>
-        <Form id="configForm">
+        <Form id="configForm" action="/configDash">
           <Label for="endpointLabel">
             <h4>Endpoint</h4>
           </Label>
@@ -149,6 +136,7 @@ const ConfigDashboard = () => {
             value={endpointConfig}
             onChange={handleEndpointChange}
           />
+          <hr />
           <div id="categories">
             <FormGroup>
               <Label for="categories">
@@ -158,9 +146,12 @@ const ConfigDashboard = () => {
             </FormGroup>
           </div>
           <span>
-            <Button>Save</Button>
-            {'  '}
-            <Button>Cancel</Button>
+            <Button color="primary" type="submit" onSubmit={handleSubmit}>
+              Save
+            </Button>
+            <Button color="secondary" onClick={() => window.location.reload()}>
+              Cancel
+            </Button>
           </span>
         </Form>
       </div>

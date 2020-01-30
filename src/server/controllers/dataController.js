@@ -16,4 +16,16 @@ dataController.getConfig = (req, res, next) => {
   });
 };
 
+dataController.updateConfig = (req, res, next) => {
+  // console.log(req);
+  res.locals.config = req.body;
+  fs.writeFile(WMD, JSON.stringify(req.body), (err, data) => {
+    if (err) {
+      return next(err);
+    }
+    console.log(data);
+    return next();
+  });
+};
+
 module.exports = dataController;

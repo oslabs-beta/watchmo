@@ -25,6 +25,11 @@ app.get('/api/configDash', dataController.getConfig, (req, res) => {
   res.status(200).json(res.locals.config);
 });
 
+app.post('/configDash', dataController.updateConfig, (req, res) => {
+  console.log(res.locals.config);
+  res.status(200).json();
+});
+
 app.get('/data', (req, res) => {
   res.sendFile(path.join(__dirname, '../watchmoData/parsedData.json'));
 });
