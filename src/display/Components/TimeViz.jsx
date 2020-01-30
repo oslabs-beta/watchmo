@@ -31,12 +31,12 @@ function TimeViz(props) {
     data = timing[selectedQueries[0]];
   }
   else {
-    data = [.25, .10, .15, .06, .10, .06, .07];
+    data = [.10, .10, .10, .10, .10, .10, .10];
   }
 
 
   let lengthy = data;
-  // const [time, setTime] = useState([{ name: "Query 1", labelOffset: 60, value: function (t) { return d3.hsl(t, 1, 0.5); } },
+  // const [time, setTime] = useState([{ name: "Query 1", labelOffset: 60, value: function (t) { return d3.10l(t, 1, 0.5); } },
   // ]);
   const svgRef = useRef();
   /*The most basic SVG file contains the following format:

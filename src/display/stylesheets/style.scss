@@ -1,3 +1,5 @@
+
+
 h1, h2{
     display: flex;
     justify-content: center;
@@ -12,6 +14,8 @@ h1, h2{
 
 #UserDashboard {
   width: 750px;
+  justify-content: center;
+  align-items: center;
 }
 
 .categoriesDrop {
@@ -20,7 +24,7 @@ h1, h2{
     align-items: center;
 }
 svg {
-  width:750px;
+  width: 750px;
   height: 300px;
   background: #eee;
   overflow: visible;
@@ -45,7 +49,7 @@ button {
 opacity: 1;
 }
   .bar:hover {
-    text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+    fill: darkslategray
   }
 
   

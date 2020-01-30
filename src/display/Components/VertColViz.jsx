@@ -2,7 +2,6 @@ import { select, axisBottom, axisRight, scaleLinear, scaleBand } from "d3";
 import React, { useRef, useEffect, useState } from "react";
 import "../stylesheets/style.scss"
 import TimeViz from './TimeViz';
-
 /* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
 ///CURRENTLY NOT USING STATE DATA FOR RENDERING PURPOSE
@@ -10,22 +9,27 @@ function VertColViz(props) {
   let queries = [];
   let responses = [];
   let selectedQss = [];
+  let timeGraph = <div></div> 
 
   const [selectedQuery, setSelectedQuery] = useState([]);
+  const [renderLine, setRenderLine] = useState(false);
 
   function addOrRemove(queryIn) {
     console.log(queryIn);
     if (selectedQss.includes(queryIn)) {
-      console.log("trying to filter");
       setSelectedQuery(selectedQuery.filter(selectedQs => selectedQs !== queryIn))
       selectedQss = selectedQss.filter(selectedQs => selectedQs !== queryIn)
+      if(selectedQss.length === 0){
+        setRenderLine(false);
+      }
     }
     else {
-      console.log("trying to add");
+      setSelectedQuery([]);
+      selectedQss = [];
       setSelectedQuery(selectedQs=> [...selectedQs, queryIn])
+      setRenderLine(true);
       selectedQss.push(queryIn);
     }
-    console.log(selectedQss);
   }
 
   const svgRef = useRef();
@@ -37,7 +41,7 @@ function VertColViz(props) {
   --Style specifications describing how each element should be drawn.*/
   // will be called initially and on every data change
   useEffect(() => {
-  
+    setRenderLine(false);;
     for (let query in props.dataCat) {
       let timeTot = 0;
       queries.push(query)
@@ -116,9 +120,15 @@ function VertColViz(props) {
       .transition()
       .attr("fill", colorScale)
       .attr("height", value => 350 - yScale(value)); }
-
-
   , [props.dataCat]);
+
+
+
+
+  if (renderLine===true) {
+    timeGraph = <TimeViz key = {"lineGraph"} timeData = {props.dataCat} selectedQueries = {selectedQuery}/>
+  }
+
 
   /*React fragments let you group a list of children without adding extra nodes to the DOM 
          because fragments are not rendered to the DOM. */
@@ -139,7 +149,11 @@ function VertColViz(props) {
       >
         Add data
         </button>
-        {selectedQuery && <TimeViz timeData = {props.dataCat} selectedQueries = {selectedQuery}/>}
+        <div>       
+          {timeGraph}
+        </div>
+
+
         
 
     </React.Fragment>
