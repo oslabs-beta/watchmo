@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Link, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import VertColViz from './VertColViz';
 //typescript: testing heading and caption
