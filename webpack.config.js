@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: path.join(__dirname, './src/display/index.tsx'), // where to build dependency graph
+  entry: path.join(__dirname, './src/display/index.jsx'), // where to build dependency graph
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js'

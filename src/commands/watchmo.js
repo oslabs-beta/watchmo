@@ -19,12 +19,11 @@ const checkAndGetConfig = configPath => {
   } else return {};
 };
 
-
 //Defining the CLI functionality
 argv
   .alias({
-    open: "o",
-    bundle: "b"
+    open: 'o',
+    bundle: 'b'
   })
   .config(checkAndGetConfig(path.join(__dirname, '../watchmoData/config.json')))
   .command('$0', 'opens up visualizer in browser', cliDefault)
@@ -35,8 +34,13 @@ argv
       watch(argv.endpoint, argv.categories, path.join(__dirname, '../watchmoData/snapshots.txt'));
     }
   )
-  .command('mo', 'parses data and opens up visualizer', ({argv}) => {
-    mo(path.join(__dirname, '../watchmoData/snapshots.txt'), path.join(__dirname, '../watchmoData/parsedData.json'), argv.open, argv.bundle)
+  .command('mo', 'parses data and opens up visualizer', ({ argv }) => {
+    mo(
+      path.join(__dirname, '../watchmoData/snapshots.txt'),
+      path.join(__dirname, '../watchmoData/parsedData.json'),
+      argv.open,
+      argv.bundle
+    );
   })
   .command('less', 'cleans up raw and parsed data', less)
   .help().argv;

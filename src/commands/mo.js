@@ -11,26 +11,26 @@ const { DEMARCATION } = require('./watch');
 // }
 
 function saveParsed(parsedData, savePath) {
-  fs.writeFile(savePath, JSON.stringify(parsedData), (err) => {
+  fs.writeFile(savePath, JSON.stringify(parsedData), err => {
     if (err) {
       console.log(err);
     } else {
       console.log('DATA BUNDLED');
     }
-  })
+  });
 }
 
 //dataString is a string of JSON objects separated by DEMARCATION (a stylized WM right now)
 function parseData(dataString) {
   let categoricalResponses = dataString.split(DEMARCATION).filter(str => str);
   const parsed = {};
-  categoricalResponses.forEach((catRes) => {
+  categoricalResponses.forEach(catRes => {
     let parsedRes = JSON.parse(catRes);
     let category = parsedRes.category;
     if (!parsed[category]) {
       parsed[category] = {};
     }
-    parsedRes.data.forEach((queryData) => {
+    parsedRes.data.forEach(queryData => {
       let { timestamp, query, response, timing } = queryData;
       if (!parsed[category][query]) {
         parsed[category][query] = [{ timestamp, response, timing }];
@@ -58,6 +58,5 @@ function mo(dataPath, savePath, shouldOpen, noBundle = false) {
     opn('http://localhost:3333/');
   }
 }
-
 
 module.exports = { mo };

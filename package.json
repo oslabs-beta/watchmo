@@ -40,7 +40,10 @@
     "opn": "^6.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2",
     "reactstrap": "^8.4.0",
+    "regenerator": "^0.14.2",
+    "regenerator-runtime": "^0.13.3",
     "yargs": "^15.1.0"
   },
   "devDependencies": {

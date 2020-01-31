@@ -1,32 +1,36 @@
-
-
-h1, h2{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+h1,
+h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.configButton{
-    position: absolute;
-    right: 10px;
-    top: 15px;
+.configButton {
+  position: absolute;
+  right: 10px;
+  top: 15px;
 }
 
 #UserDashboard {
   width: 750px;
   color: white;
   font-family: 'Audiowide', cursive;
+}
 
+#configDashboard {
+  width: 750px;
+  color: white;
+  font-family: 'Audiowide', cursive;
 }
 
 .categoriesDrop {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn {
-width: 150px;
+  width: 150px;
 }
 svg {
   width: 750px;
@@ -35,10 +39,9 @@ svg {
   margin-bottom: 2rem;
   display: block;
   box-shadow: inset 1px 2000px rgba(208, 208, 208, 0.54);
-
 }
 
-text{
+text {
   color: white;
 }
 
@@ -47,14 +50,36 @@ text{
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+#userDashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
+}
+
+#navBtn {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+}
+
+div#navBtn {
+  display: flex;
+  flex-direction: row-reverse;
+}
+span {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 button {
   margin-bottom: 5px;
   width: 100px;
-} 
-  
+}
+
 button:hover {
   color: rgb(114, 120, 171);
   box-shadow: 0 5px 15px rgb(114, 120, 171);
@@ -69,16 +94,12 @@ button:hover {
   opacity: 1;
 }
 
+.bar:hover {
+  fill: rgb(255, 183, 75);
+  fill-opacity: 70%;
+  box-shadow: 0 5px 15px rgb(114, 120, 171);
+}
 
-
-  .bar:hover {
-    fill: rgb(255, 183, 75);
-    fill-opacity: 70%;
-    box-shadow: 0 5px 15px rgb(114, 120, 171);
-  }
-
-  
-   
 // .d3-tip {
 //     line-height: 1;
 //     font-weight: bold;
@@ -87,7 +108,7 @@ button:hover {
 //     color: #fff;
 //     border-radius: 2px;
 //   }
-  
+
 //   /* Creates a small triangle extender for the tooltip */
 //   .d3-tip:after {
 //     box-sizing: border-box;
@@ -100,7 +121,7 @@ button:hover {
 //     position: absolute;
 //     text-align: center;
 //   }
-  
+
 //   /* Style northward tooltips differently */
 //   .d3-tip.n:after {
 //     margin: -1px 0 0 0;
