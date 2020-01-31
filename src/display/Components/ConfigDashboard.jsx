@@ -15,6 +15,7 @@ import {
 import { Link } from 'react-router-dom';
 import { runtime } from 'regenerator-runtime';
 import '../stylesheets/style.scss';
+import 'bootstrap/dist/css/bootstrap.css';
 import { render } from 'react-dom';
 import Category from './Category';
 

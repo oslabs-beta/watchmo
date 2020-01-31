@@ -27,7 +27,7 @@ const UserDashboard: React.FC = () => {
       <div className="categoriesDrop">
         <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>
           <DropdownToggle caret color="secondary">
-            Catagories:
+            Categories:
           </DropdownToggle>
           <DropdownMenu>{categories}</DropdownMenu>
         </ButtonDropdown>
