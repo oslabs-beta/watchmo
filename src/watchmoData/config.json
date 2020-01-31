@@ -2,10 +2,7 @@
   "endpoint": "http://localhost:4545/graphql",
   "categories": {
     "default": {
-      "queries": [
-        "{ books { name }}",
-        "{ authors { name }}"
-      ],
+      "queries": ["{ books { name }}", "{ authors { name }}"],
       "frequency": 5000
     },
     "bigq": {
@@ -17,11 +14,7 @@
       "frequency": 5000
     },
     "isbn": {
-      "queries": [
-        "{ isbns { isbn id } }",
-        "{ book(id: \"5e2f46e69f2cae22f6f6095f\") { name }}"
-
-      ],
+      "queries": ["{ isbns { isbn id } }", "{ book(id: \"5e2f46e69f2cae22f6f6095f\") { name }}"],
       "frequency": 5000
     }
   },
