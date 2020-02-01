@@ -6,8 +6,6 @@ import "../stylesheets/style.scss"
 function TimeViz(props) {
   let timeData = props.timeData;
   let selectedQueries = props.selectedQueries;
-  console.log("time data", props.timeData);
-  console.log(props.selectedQueries);
   let timing = {}; //this will be a {"querr": [array of all responsetimes]}
   let timeStamps = []; //this will be an array of timestamp strings
 
@@ -21,10 +19,6 @@ function TimeViz(props) {
   }
 
 
-  console.log("values", timing)
-  console.log("x-axis", timeStamps)
-  console.log("digging for data", timing[selectedQueries[0]])
-
   // const [data, setData] = useState();
   let data;
   if (timing[selectedQueries[0]]) {
@@ -35,7 +29,6 @@ function TimeViz(props) {
   }
 
 
-  let lengthy = data;
   // const [time, setTime] = useState([{ name: "Query 1", labelOffset: 60, value: function (t) { return d3.10l(t, 1, 0.5); } },
   // ]);
   const svgRef = useRef();
@@ -59,14 +52,14 @@ function TimeViz(props) {
     const svg = select(svgRef.current);
 
     //range in the scales control how long the axis line is on the graph
-    const xScale = scaleLinear().domain([0, lengthy.length - 1]).range([0, 750]);
+    const xScale = scaleLinear().domain([0, data.length - 1]).range([0, 750]);
     const yScale = scaleLinear()
       //domain is the complete set of values and the range is the set of resulting values of a function
       .domain([0, `${upperLine}`])
       .range([300, 0]);
     // let z = schemeCategory10();
     //calling the xAxis function with current selection
-    const xAxis = axisBottom(xScale).ticks(lengthy.length).tickFormat(index => Math.floor(index + 1));
+    const xAxis = axisBottom(xScale).ticks(data.length).tickFormat(index => Math.floor(index + 1));
     svg.select('.x-axis').style('transform', "translateY(300px)").style("filter", "url(#glow)").call(xAxis)
     //ticks are each value in the line
     const yAxis = axisRight(yScale).ticks(20).tickFormat(index => Math.round((index + 0.01) * 1000) / 1000);
@@ -95,7 +88,7 @@ function TimeViz(props) {
 
     let g = svg
       .selectAll(".line")
-      .data([lengthy])
+      .data([data])
       .join("path")
       .attr("class", "line")
       .attr("d", newLine)
@@ -112,7 +105,7 @@ function TimeViz(props) {
     //     .text(function (d) { return d.name; });
   },
     //rerender data here
-    [lengthy]);
+    [data]);
   return (
     <React.Fragment>
       <svg ref={svgRef}>
