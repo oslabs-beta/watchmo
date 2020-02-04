@@ -8,26 +8,23 @@ import TimeViz from './TimeViz';
 function VertColViz(props) {
   let queries = [];
   let responses = [];
-  let selectedQss = [];
+  let localQuerySelected = [];
   let timeGraph = <div></div>;
 
   const [selectedQuery, setSelectedQuery] = useState([]);
   const [renderLine, setRenderLine] = useState(false);
 
   function addOrRemove(queryIn) {
-    console.log(queryIn);
-    if (selectedQss.includes(queryIn)) {
-      setSelectedQuery(selectedQuery.filter(selectedQs => selectedQs !== queryIn));
-      selectedQss = selectedQss.filter(selectedQs => selectedQs !== queryIn);
-      if (selectedQss.length === 0) {
-        setRenderLine(false);
-      }
-    } else {
+    if (localQuerySelected.includes(queryIn)) {
+      localQuerySelected = [];
       setSelectedQuery([]);
-      selectedQss = [];
-      setSelectedQuery(selectedQs => [...selectedQs, queryIn]);
+      setRenderLine(false)
+    } else {
+      localQuerySelected = [];
+      localQuerySelected.push(queryIn);
+      setSelectedQuery([]);
+      setSelectedQuery([queryIn]);
       setRenderLine(true);
-      selectedQss.push(queryIn);
     }
   }
 
@@ -39,8 +36,11 @@ function VertColViz(props) {
   --Drawing instructions using the shapes elements
   --Style specifications describing how each element should be drawn.*/
   // will be called initially and on every data change
+
   useEffect(() => {
-    setRenderLine(false);
+    setRenderLine(false); //these are necessary to effectively blank out the graph and line charts when switching categories
+    setSelectedQuery([]); //this is necessary to keep switching categories from messing things up
+
     for (let query in props.dataCat) {
       let timeTot = 0;
       queries.push(query);
@@ -49,15 +49,15 @@ function VertColViz(props) {
       });
       responses.push(timeTot / props.dataCat[query].length);
     }
-  }, [props.dataCat]);
 
-  useEffect(() => {
-    setSelectedQuery([]);
 
     const svg = select(svgRef.current);
 
+    //used for dynamic y-axis
     let max = Math.max(...responses);
     let upper = 1.5 * max;
+
+
     // scales
     const xScale = scaleBand()
       .domain(responses.map((value, index) => index)) //x-axis labeled here
@@ -129,7 +129,7 @@ function VertColViz(props) {
           .attr('text-anchor', 'middle')
           .transition()
           .attr('y', yScale(value) - 80)
-          .attr('opacity', 1);
+          .style('opacity', 1);
       })
       .on('mouseleave', () => svg.select('.tooltip').remove())
       .on('click', (value, index) => {
@@ -154,9 +154,7 @@ function VertColViz(props) {
         <g className="x-axis" />
         <g className="y-axis" />
       </svg>
-      <button onClick={() => setData(data.map(value => value + 5))}>Add Five</button>
-      <button onClick={() => setData(data.filter(value => value < 35))}>Filter</button>
-      <button onClick={() => setData([...data, Math.round(Math.random() * 100)])}>Add data</button>
+      {/* <button onClick={() => setData(data.filter(value => value < 35))}>Filter</button> */}
       <div>{timeGraph}</div>
     </React.Fragment>
   );
