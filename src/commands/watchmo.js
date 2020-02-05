@@ -3,7 +3,7 @@
 
 //Packages
 const fs = require('fs');
-const argv = require('yargs');
+const yargs = require('yargs');
 const path = require('path');
 
 //CLI functions
@@ -20,7 +20,7 @@ const checkAndGetConfig = configPath => {
 };
 
 //Defining the CLI functionality
-argv
+yargs
   .alias({
     open: 'o',
     bundle: 'b'
