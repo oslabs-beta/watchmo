@@ -11,6 +11,7 @@ const { watch } = require('./watch');
 const { cliDefault } = require('./default');
 const { mo } = require('./mo');
 const { less } = require('./less');
+// const { configure } = require('./configure');
 
 //helper functions
 const checkAndGetConfig = configPath => {
@@ -20,18 +21,19 @@ const checkAndGetConfig = configPath => {
 };
 
 //Defining the CLI functionality
-yargs
+const argv = yargs
   .alias({
     open: 'o',
     bundle: 'b'
   })
-  .config(checkAndGetConfig(path.join(__dirname, '../watchmoData/config.json')))
+  // .config(checkAndGetConfig(path.join(__dirname, '../watchmoData/config.json')))
   .command('$0', 'opens up visualizer in browser', cliDefault)
   .command(
-    'watch',
+    'watch [projectName]',
     'begins sending queries to the endpoint at the configured frequency',
     ({ argv }) => {
-      watch(argv.endpoint, argv.categories, path.join(__dirname, '../watchmoData/snapshots.txt'));
+      const projectName = argv._[1] ? argv._[1] : 'default';
+      watch(projectName);
     }
   )
   .command('mo', 'parses data and opens up visualizer', ({ argv }) => {

@@ -56,15 +56,30 @@ async function sendQueriesAndSave(endpoint, categoryName, category, dirPath, fre
   );
 }
 
+const checkAndGetConfig = configPath => {
+  if (fs.existsSync(configPath)) {
+    return JSON.parse(fs.readFileSync(configPath));
+  } else return {};
+};
+
 // sets an interval for each category of query (via recursive setTimeout)
 // Promises resolve with priority over setInterval, so the timing data isn't affected
 // We may want this to be a cron job or something else in the future
-function watch(endpoint, categories, dirPath) {
-  for (let cat in categories) {
-    setTimeout(
-      () => sendQueriesAndSave(endpoint, cat, categories[cat], dirPath, categories[cat].frequency),
-      categories[cat].frequency
-    );
+function watch(projectName) {
+  const dirPath = path.join(__dirname, '../watchmoData/', projectName, 'snapshots.txt');
+
+  const { endpoint, categories } = checkAndGetConfig(path.join(__dirname, '../watchmoData/', projectName, 'config.json'))
+
+  if (endpoint && categories) {
+    for (let cat in categories) {
+      setTimeout(
+        () => sendQueriesAndSave(endpoint, cat, categories[cat], dirPath, categories[cat].frequency),
+        categories[cat].frequency
+      );
+    }
+  }
+  else {
+    console.log(`\nProject ${projectName} is not configured\nRun "watchmo config ${projectName}" to create this project\n`);
   }
 }
 
