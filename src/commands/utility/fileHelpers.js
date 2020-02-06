@@ -5,11 +5,23 @@ const PATH_TO_DATA = '../../watchmoData/';
 //the characters demarcating the space between different responses in the rawData file
 const DEMARCATION = '*W*M*O*';
 
-const checkAndParseFile = filePath => {
-  if (fs.existsSync(filePath)) {
-    return JSON.parse(fs.readFileSync(filePath));
-  } else return {};
-};
+//*** HELPER FUNCTIONS ***
+
+const dataPaths = (projectName, file) => ({
+  projectPath: path.join(__dirname, PATH_TO_DATA, projectName),
+  configPath: path.join(__dirname, PATH_TO_DATA, projectName, 'config.json'),
+  rawDataPath: path.join(__dirname, PATH_TO_DATA, projectName, 'snapshots.txt'),
+  parsedDataPath: path.join(__dirname, PATH_TO_DATA, projectName, 'parsedData.json'),
+  templatePath: path.join(__dirname, '../templates/config.json'),
+  projectNamesPath: path.join(__dirname, PATH_TO_DATA, 'projectNames.json'),
+  })
+
+  const checkAndParseFile = filePath => {
+    if (fs.existsSync(filePath)) {
+      return JSON.parse(fs.readFileSync(filePath));
+    } else return {};
+  };
+
 
 //DEMARCATION is used to demarcate new entries in the textfile
 const appendRawData = (data, savePath) => {
@@ -21,15 +33,6 @@ const appendRawData = (data, savePath) => {
     }
   });
 }
-
-const dataPaths = (projectName, file) => ({
-  projectPath: path.join(__dirname, PATH_TO_DATA, projectName),
-  configPath: path.join(__dirname, PATH_TO_DATA, projectName, 'config.json'),
-  rawDataPath: path.join(__dirname, PATH_TO_DATA, projectName, 'snapshots.txt'),
-  parsedDataPath: path.join(__dirname, PATH_TO_DATA, projectName, 'parsedData.json'),
-  templatePath: path.join(__dirname, '../templates/config.json'),
-  projectNamesPath: path.join(__dirname, PATH_TO_DATA, 'projectNames.json'),
-  })
 
 //Higher order function for creating functions for performing a file system action on all files in a given array
 const actionOnAllFiles = fileAction => (pathArray => {
@@ -55,6 +58,8 @@ const removeProject = projectName => {
   checkAndRemoveAllFiles([configPath, rawDataPath, parsedDataPath]);
   fs.rmdirSync(projectPath);
 }
+
+
 
 
 module.exports = {
