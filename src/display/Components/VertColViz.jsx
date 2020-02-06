@@ -8,26 +8,23 @@ import TimeViz from './TimeViz';
 function VertColViz(props) {
   let queries = [];
   let responses = [];
-  let selectedQss = [];
+  let localQuerySelected = [];
   let timeGraph = <div></div>;
 
   const [selectedQuery, setSelectedQuery] = useState([]);
   const [renderLine, setRenderLine] = useState(false);
 
   function addOrRemove(queryIn) {
-    console.log(queryIn);
-    if (selectedQss.includes(queryIn)) {
-      setSelectedQuery(selectedQuery.filter(selectedQs => selectedQs !== queryIn));
-      selectedQss = selectedQss.filter(selectedQs => selectedQs !== queryIn);
-      if (selectedQss.length === 0) {
-        setRenderLine(false);
-      }
-    } else {
+    if (localQuerySelected.includes(queryIn)) {
+      localQuerySelected = [];
       setSelectedQuery([]);
-      selectedQss = [];
-      setSelectedQuery(selectedQs => [...selectedQs, queryIn]);
+      setRenderLine(false)
+    } else {
+      localQuerySelected = [];
+      localQuerySelected.push(queryIn);
+      setSelectedQuery([]);
+      setSelectedQuery([queryIn]);
       setRenderLine(true);
-      selectedQss.push(queryIn);
     }
   }
 
@@ -39,8 +36,11 @@ function VertColViz(props) {
   --Drawing instructions using the shapes elements
   --Style specifications describing how each element should be drawn.*/
   // will be called initially and on every data change
+
   useEffect(() => {
-    setRenderLine(false);
+    setRenderLine(false); //these are necessary to effectively blank out the graph and line charts when switching categories
+    setSelectedQuery([]); //this is necessary to keep switching categories from messing things up
+
     for (let query in props.dataCat) {
       let timeTot = 0;
       queries.push(query);
@@ -49,19 +49,42 @@ function VertColViz(props) {
       });
       responses.push(timeTot / props.dataCat[query].length);
     }
-  }, [props.dataCat]);
 
-  useEffect(() => {
-    setSelectedQuery([]);
 
     const svg = select(svgRef.current);
 
+    //used for dynamic y-axis
     let max = Math.max(...responses);
     let upper = 1.5 * max;
-    // scales
-    const xScale = scaleBand()
+
+    const chartDiv = document.getElementById("chartArea") //grab the chart area that the graph lives in
+    const margin = { yheight: chartDiv.clientHeight, xwidth: chartDiv.clientWidth } //margins required for resizing
+
+    function redrawBar() {
+      margin.yheight = chartDiv.clientHeight
+      margin.xwidth = chartDiv.clientWidth
+
+      xScale.range([0, margin.xwidth]);
+
+      svg
+        .select('.y-axis')
+        .style('transform', `translateX(${margin.xwidth}px)`)
+        .call(yAxis);
+
+      xAxis = axisBottom(xScale).ticks(responses.length + 1);
+
+      svg
+        .select('.x-axis').call(xAxis)
+
+      svg
+        .selectAll('.bar').attr('x', (value, index) => xScale(index)).attr('width', xScale.bandwidth())
+    }
+
+    window.addEventListener("resize", redrawBar);
+    // scales 
+    let xScale = scaleBand()
       .domain(responses.map((value, index) => index)) //x-axis labeled here
-      .range([0, 750])
+      .range([0, margin.xwidth])
       .padding(0.5);
 
     const yScale = scaleLinear()
@@ -71,13 +94,9 @@ function VertColViz(props) {
     const colorScale = scaleLinear()
       .domain([
         `${upper * 0.2}`,
-        `${upper * 0.3}`,
-        `${upper * 0.35}`,
-        `${upper * 0.4}`,
-        `${upper * 0.45}`,
-        `${upper * 0.5}`
+        `${upper}`
       ])
-      .range(['red', 'yellow', 'green', 'blue', 'purple', 'pink'])
+      .range(['blue', 'red'])
       .clamp(true);
     let defs = svg.append('defs');
 
@@ -91,7 +110,7 @@ function VertColViz(props) {
     feMerge.append('feMergeNode').attr('in', 'coloredBlur');
     feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
     // create x-axis
-    const xAxis = axisBottom(xScale).ticks(responses.length);
+    let xAxis = axisBottom(xScale).ticks(responses.length);
     svg
       .select('.x-axis')
       .style('transform', 'translateY(300px)')
@@ -100,13 +119,25 @@ function VertColViz(props) {
 
     // create y-axis
     //location of bars, the higher the number, the higher the position on the graph
-
     const yAxis = axisRight(yScale);
     svg
       .select('.y-axis')
-      .style('transform', 'translateX(750px)')
+      .style('transform', `translateX(${margin.xwidth}px)`)
       .style('filter', 'url(#glow)')
       .call(yAxis);
+
+    if (responses.length !== 0) {
+      svg.select(".y-axis").append("text")
+        .attr("class", "yaxislabel")
+        .attr("transform", "rotate(90)")
+        .attr("y", 20)
+        .attr("dy", "-3em")
+        .attr("x", "3em")
+        .style("text-anchor", "start")
+        .style("fill", 'white')
+        .attr("font-size", "20px")
+        .text("Avg. Response Time(s)");
+    }
 
     // draw the bars
     svg
@@ -129,7 +160,7 @@ function VertColViz(props) {
           .attr('text-anchor', 'middle')
           .transition()
           .attr('y', yScale(value) - 80)
-          .attr('opacity', 1);
+          .style('opacity', 1);
       })
       .on('mouseleave', () => svg.select('.tooltip').remove())
       .on('click', (value, index) => {
@@ -154,9 +185,7 @@ function VertColViz(props) {
         <g className="x-axis" />
         <g className="y-axis" />
       </svg>
-      <button onClick={() => setData(data.map(value => value + 5))}>Add Five</button>
-      <button onClick={() => setData(data.filter(value => value < 35))}>Filter</button>
-      <button onClick={() => setData([...data, Math.round(Math.random() * 100)])}>Add data</button>
+      {/* <button onClick={() => setData(data.filter(value => value < 35))}>Filter</button> */}
       <div>{timeGraph}</div>
     </React.Fragment>
   );

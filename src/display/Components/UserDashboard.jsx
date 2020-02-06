@@ -7,11 +7,12 @@ import VertColViz from './VertColViz';
 function UserDashboard() {
   //setting the state for the drop down button with typescript
   const [dropdownCatOpen, setCatOpen] = React.useState(false);
-  const [dropdownDateOpen, setDateOpen] = React.useState(false);
 
-  const [dataFromServer, setDataFromServer] = React.useState([1]);
+  //these are used to grab data from watchmo and loaded it into the state
+  const [dataFromServer, setDataFromServer] = React.useState([]);
   const [dataGained, setDataGained] = React.useState(false);
 
+  //this is to hold the current category to be displayed int he bar graph
   const [currentCat, setCurrentCat] = React.useState('');
 
   React.useEffect(() => {
@@ -21,32 +22,26 @@ function UserDashboard() {
         .then(data => data.json())
         .then(parsed => {
           setDataFromServer(parsed);
-          setDataGained(true);
         })
         .catch(err => console.log(err));
-    } else {
-      console.log('i got the data');
-      console.log(dataFromServer);
+      setDataGained(true);
     }
-  });
+    else {
+      console.log("i got it")
+    }
+
+  }, [dataFromServer]);
 
   //function that is in charge of changing the state
   const toggleCat = () => {
     setCatOpen(!dropdownCatOpen);
   };
-  const toggleDate = () => {
-    setDateOpen(!dropdownDateOpen);
-  };
-  const arrayOfCategories = [];
-  for (let i in dataFromServer) {
-    arrayOfCategories.push(i);
-  }
-  const categories = [];
-  for (let i = 0; i < arrayOfCategories.length; i++) {
-    categories.push(
-      <DropdownItem key={i} onClick={() => setCurrentCat(arrayOfCategories[i])}>
-        {' '}
-        {arrayOfCategories[i]}{' '}
+  //dropdown menu items construction with categories from the data (the first layer of keys in the object)
+  const categoriesInDropDown = [];
+  for (const category in dataFromServer) {
+    categoriesInDropDown.push(
+      <DropdownItem key={category} onClick={() => setCurrentCat(category)}>
+        {category}
       </DropdownItem>
     );
   }
@@ -60,19 +55,16 @@ function UserDashboard() {
           </button>
         </Link>
       </div>
-      {/* <button type="button" className="configButton">
-        CONFIG
-      </button> */}
       <h1> User Dashboard </h1>
       <div className="categoriesDrop">
         <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>
           <DropdownToggle caret color="primary">
             Categories:
           </DropdownToggle>
-          <DropdownMenu>{categories}</DropdownMenu>
+          <DropdownMenu>{categoriesInDropDown}</DropdownMenu>
         </ButtonDropdown>
       </div>
-      <div>
+      <div id = "chartArea">
         <VertColViz dataCat={dataFromServer[currentCat]} />
       </div>
     </div>
