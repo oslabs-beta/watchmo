@@ -71,13 +71,9 @@ function VertColViz(props) {
     const colorScale = scaleLinear()
       .domain([
         `${upper * 0.2}`,
-        `${upper * 0.3}`,
-        `${upper * 0.35}`,
-        `${upper * 0.4}`,
-        `${upper * 0.45}`,
-        `${upper * 0.5}`
+        `${upper}`
       ])
-      .range(['red', 'yellow', 'green', 'blue', 'purple', 'pink'])
+      .range(['blue', 'red'])
       .clamp(true);
     let defs = svg.append('defs');
 
