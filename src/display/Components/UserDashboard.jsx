@@ -64,7 +64,7 @@ function UserDashboard() {
           <DropdownMenu>{categoriesInDropDown}</DropdownMenu>
         </ButtonDropdown>
       </div>
-      <div>
+      <div id = "chartArea">
         <VertColViz dataCat={dataFromServer[currentCat]} />
       </div>
     </div>
