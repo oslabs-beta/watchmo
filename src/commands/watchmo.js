@@ -2,47 +2,67 @@
 // shebang necessary to interact with command line
 
 //Packages
-const fs = require('fs');
 const yargs = require('yargs');
-const path = require('path');
 
 //CLI functions
 const { watch } = require('./watch');
 const { cliDefault } = require('./default');
 const { mo } = require('./mo');
 const { less } = require('./less');
-// const { configure } = require('./configure');
+const { configure } = require('./configure');
 
 //helper functions
-const checkAndGetConfig = configPath => {
-  if (fs.existsSync(configPath)) {
-    return JSON.parse(fs.readFileSync(configPath));
-  } else return {};
-};
+const projectPositional = (yargs) => {
+  yargs.positional('project', {
+    describe: 'name of the project',
+    type: 'string',
+    default: 'default'
+  })
+}
 
 //Defining the CLI functionality
-const argv = yargs
+yargs
   .alias({
     open: 'o',
-    bundle: 'b'
+    bundle: 'b',
+    development: 'd',
+    remove: 'r'
   })
-  // .config(checkAndGetConfig(path.join(__dirname, '../watchmoData/config.json')))
   .command('$0', 'opens up visualizer in browser', cliDefault)
   .command(
-    'watch [projectName]',
+    'watch [project]',
     'begins sending queries to the endpoint at the configured frequency',
-    ({ argv }) => {
-      const projectName = argv._[1] ? argv._[1] : 'default';
-      watch(projectName);
+    projectPositional,
+    (argv) => watch(argv.project)
+  )
+  .command(
+    'mo [project]',
+    'parses data and opens up visualizer',
+    projectPositional,
+    (argv) => {
+      mo(
+        argv.project,
+        argv.open,
+        argv.bundle
+      )
     }
   )
-  .command('mo', 'parses data and opens up visualizer', ({ argv }) => {
-    mo(
-      path.join(__dirname, '../watchmoData/snapshots.txt'),
-      path.join(__dirname, '../watchmoData/parsedData.json'),
-      argv.open,
-      argv.bundle
-    );
-  })
-  .command('less', 'cleans up raw and parsed data', less)
+  .command(
+    'less [project]',
+    'cleans up raw and parsed data',
+    projectPositional,
+    (argv) => less(argv.project, argv.remove)
+  )
+  .command(
+    'configure [project]',
+    'configures specified project',
+    projectPositional,
+    (argv) => configure(argv.project, argv.development)
+  )
+  .command(
+    'test [arg]',
+    'prints out argv',
+    projectPositional,
+    (argv) => console.log(argv)
+  )
   .help().argv;
