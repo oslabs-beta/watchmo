@@ -57,11 +57,34 @@ function VertColViz(props) {
     let max = Math.max(...responses);
     let upper = 1.5 * max;
 
+    const chartDiv = document.getElementById("chartArea") //grab the chart area that the graph lives in
+    const margin = { yheight: chartDiv.clientHeight, xwidth: chartDiv.clientWidth } //margins required for resizing
 
-    // scales
-    const xScale = scaleBand()
+    function redrawBar() {
+      margin.yheight = chartDiv.clientHeight
+      margin.xwidth = chartDiv.clientWidth
+
+      xScale.range([0, margin.xwidth]);
+
+      svg
+        .select('.y-axis')
+        .style('transform', `translateX(${margin.xwidth}px)`)
+        .call(yAxis);
+
+      xAxis = axisBottom(xScale).ticks(responses.length + 1);
+
+      svg
+        .select('.x-axis').call(xAxis)
+
+      svg
+        .selectAll('.bar').attr('x', (value, index) => xScale(index)).attr('width', xScale.bandwidth())
+    }
+
+    window.addEventListener("resize", redrawBar);
+    // scales 
+    let xScale = scaleBand()
       .domain(responses.map((value, index) => index)) //x-axis labeled here
-      .range([0, 750])
+      .range([0, margin.xwidth])
       .padding(0.5);
 
     const yScale = scaleLinear()
@@ -87,7 +110,7 @@ function VertColViz(props) {
     feMerge.append('feMergeNode').attr('in', 'coloredBlur');
     feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
     // create x-axis
-    const xAxis = axisBottom(xScale).ticks(responses.length);
+    let xAxis = axisBottom(xScale).ticks(responses.length);
     svg
       .select('.x-axis')
       .style('transform', 'translateY(300px)')
@@ -96,13 +119,25 @@ function VertColViz(props) {
 
     // create y-axis
     //location of bars, the higher the number, the higher the position on the graph
-
     const yAxis = axisRight(yScale);
     svg
       .select('.y-axis')
-      .style('transform', 'translateX(750px)')
+      .style('transform', `translateX(${margin.xwidth}px)`)
       .style('filter', 'url(#glow)')
       .call(yAxis);
+
+    if (responses.length !== 0) {
+      svg.select(".y-axis").append("text")
+        .attr("class", "yaxislabel")
+        .attr("transform", "rotate(90)")
+        .attr("y", 20)
+        .attr("dy", "-3em")
+        .attr("x", "3em")
+        .style("text-anchor", "start")
+        .style("fill", 'white')
+        .attr("font-size", "20px")
+        .text("Avg. Response Time(s)");
+    }
 
     // draw the bars
     svg
