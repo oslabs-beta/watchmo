@@ -1,4 +1,4 @@
-const { cleanAllFiles, removeProject, dataPaths, checkAndParseFile } = require('./utility/fileHelpers');
+const { cleanAllFiles, removeProject, dataPaths, checkAndParseFile, writeJSON } = require('./utility/fileHelpers');
 const fs = require('fs');
 
 /*
@@ -21,7 +21,8 @@ function less(projectName, remove=false) {
 
   const removeProjectName = () => {
     projectNamesArray = projectNamesArray.filter((el) => (el !== projectName));
-    fs.writeFileSync(projectNamesPath, JSON.stringify(projectNamesArray), (err) => console.log(err));
+    // fs.writeFileSync(projectNamesPath, JSON.stringify(projectNamesArray), (err) => console.log(err));
+    writeJSON(projectNamesPath, projectNamesArray);
   }
 
   if (!fs.existsSync(projectPath)) {

@@ -1,4 +1,4 @@
-const { dataPaths, checkAndParseFile } = require('./utility/fileHelpers');
+const { dataPaths, checkAndParseFile, writeJSON } = require('./utility/fileHelpers');
 const fs = require('fs');
 
 /*
@@ -12,11 +12,12 @@ function configure(projectName, development=false) {
 
   const addProjectName = () => {
     projectNamesArray.push(projectName);
-    fs.writeFileSync(projectNamesPath, JSON.stringify(projectNamesArray), (err) => console.log(err));
+    // fs.writeFileSync(projectNamesPath, JSON.stringify(projectNamesArray), (err) => console.log(err));
+    writeJSON(projectNamesPath, projectNamesArray);
   }
 
   if (!fs.existsSync(projectPath)) {
-    fs.mkdir(projectPath, (err) => console.log(err));
+    fs.mkdirSync(projectPath, (err) => console.log(err));
     if (!development) {
       fs.copyFileSync(templatePath, configPath);
       console.log(`Project ${projectName} initialized.[DEV NOTE: add helpful configuration advice here]`);
@@ -25,6 +26,7 @@ function configure(projectName, development=false) {
       const devConfigPath = dataPaths('default').configPath;
       fs.copyFileSync(devConfigPath, configPath);
       console.log(`Project ${projectName} initialized. SAMPLE CONFIG FILE MADE FROM DEFAULT FOR DEVELEPMENT PURPOSES [DEV NOTE: add helpful configuration advice here]`);
+      addProjectName();
     }
   } else {
     console.log('Project already exists. [DEV NOTE: add helpful configuration advice here]');

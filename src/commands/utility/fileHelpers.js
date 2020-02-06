@@ -2,12 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const PATH_TO_DATA = '../../watchmoData/';
 
+
 //the characters demarcating the space between different responses in the rawData file
 const DEMARCATION = '*W*M*O*';
 
 //*** HELPER FUNCTIONS ***
 
-const dataPaths = (projectName, file) => ({
+const dataPaths = (projectName) => ({
   projectPath: path.join(__dirname, PATH_TO_DATA, projectName),
   configPath: path.join(__dirname, PATH_TO_DATA, projectName, 'config.json'),
   rawDataPath: path.join(__dirname, PATH_TO_DATA, projectName, 'snapshots.txt'),
@@ -32,6 +33,26 @@ const appendRawData = (data, savePath) => {
       console.log(`file saved in ${savePath}`);
     }
   });
+}
+
+function writeJSON(savePath, object) {
+  fs.writeFile(savePath, JSON.stringify(object), err => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(`DATA SAVED TO ${savePath}`);
+    }
+  });
+}
+
+function readParseWriteJSON(readPath, parser, writePath) {
+  fs.readFile(readPath, 'utf-8', (err, data) => {
+    if (err) {
+      console.log('Error reading file', err);
+    } else {
+      writeJSON(writePath, parser(data));
+    }
+  })
 }
 
 //Higher order function for creating functions for performing a file system action on all files in a given array
@@ -68,5 +89,7 @@ module.exports = {
   dataPaths,
   removeProject,
   cleanAllFiles,
+  writeJSON,
+  readParseWriteJSON,
   DEMARCATION,
 }
