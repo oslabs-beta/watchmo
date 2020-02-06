@@ -1,5 +1,5 @@
+const { cleanAllFiles, removeProject, dataPaths, checkAndParseFile, writeJSON } = require('./utility/fileHelpers');
 const fs = require('fs');
-const path = require('path');
 
 /*
 THIS FUNCTION DEPENDS UPON THE FOLLOWING FILE STRUCTURE:
@@ -15,21 +15,34 @@ THIS FUNCTION DEPENDS UPON THE FOLLOWING FILE STRUCTURE:
    -> /snapshots.txt
 */
 
-const cleanAllFiles = pathArray => {
-  pathArray.forEach(path => {
-    fs.writeFile(path, '', err => {
-      if (err) {
-        console.log(err);
-      }
-    });
-  });
-};
+function less(projectName, remove=false) {
+  const { rawDataPath, parsedDataPath, projectPath, projectNamesPath } = dataPaths(projectName);
+  let projectNamesArray = checkAndParseFile(projectNamesPath);
 
-function less() {
-  const parsedPath = path.join(__dirname, '../watchmoData/parsedData.json');
-  const rawPath = path.join(__dirname, '../watchmoData/snapshots.txt');
-  cleanAllFiles([parsedPath, rawPath]);
-  console.log('FILES CLEAN');
+  const removeProjectName = () => {
+    projectNamesArray = projectNamesArray.filter((el) => (el !== projectName));
+    // fs.writeFileSync(projectNamesPath, JSON.stringify(projectNamesArray), (err) => console.log(err));
+    writeJSON(projectNamesPath, projectNamesArray);
+  }
+
+  if (!fs.existsSync(projectPath)) {
+    console.log('Project does not exist. ');
+  }
+  else if (!remove) {
+    cleanAllFiles([parsedDataPath, rawDataPath]);
+    console.log('FILES CLEAN');
+  } else {
+    if (projectName === 'default') {
+      console.log('Cannot remove default file');
+    } else {
+      removeProject(projectName);
+      removeProjectName();
+      console.log(`PROJECT ${projectName} DELETED`);
+
+    }
+
+  }
+
 }
 
 module.exports = {

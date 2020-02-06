@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const dataController = require('./controllers/dataController');
 
 const router = express.Router();
-const PORT = 3333;
+const { PORT } = require('../commands/utility/serverHelpers');
 
 const app = express();
 
@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, '../display')));
+app.use(express.static(path.join(__dirname, '../watchmoData')));
 
 app.get('/build/bundle.js', (req, res) => {
   res.sendFile(path.join(__dirname, '../../build/bundle.js'));
