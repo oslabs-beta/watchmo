@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const dataController = require('./controllers/dataController');
 
 const router = express.Router();
-const PORT = 3333;
+const { PORT } = require('../commands/utility/serverHelpers');
 
 const app = express();
 
