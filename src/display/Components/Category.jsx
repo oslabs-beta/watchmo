@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 import { runtime } from 'regenerator-runtime';
 import '../stylesheets/style.scss';
 import { render } from 'react-dom';
+import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
 
 const Category = ({ catData, catName, catFreq, queries }) => {
   // const [categories, setCategories] = useInput([]);
@@ -65,6 +66,7 @@ const Category = ({ catData, catName, catFreq, queries }) => {
             onChange={queryChange}
           />
         </FormGroup>
+        {/* <GraphqlCodeBlock className="GraphqlCodeBlock" queryBody={queryStrings} /> */}
 
         {/* <Button size="sm">Edit Queries</Button> */}
       </CardBody>

@@ -18,6 +18,7 @@ import '../stylesheets/style.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import { render } from 'react-dom';
 import Category from './Category';
+import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
 
 // Custom hook for handling input boxes
 // saves us from creating onChange handlers for them individually
@@ -138,6 +139,7 @@ const ConfigDashboard = () => {
             onChange={handleEndpointChange}
           />
           <hr />
+
           <div id="categories">
             <FormGroup>
               <Label for="categories">
