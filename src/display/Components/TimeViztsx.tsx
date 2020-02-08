@@ -59,8 +59,8 @@ const TimeViz: React.FC<TimeVizProps> = (props) => {
       margin.xwidth = chartDiv.clientWidth
       xScale.range([0, margin.xwidth]);
       xAxis = axisBottom(xScale).ticks(data.length)//.tickFormat(index => Math.floor(index + 1));
-      svg.select('.x-axis').style('transform', "translateY(300px)").style("filter", "url(#glow)")
-      svg.select(".y-axis").style("transform", `translateX(${margin.xwidth}px)`).style("filter", "url(#glow)")
+      svg.select('.x-axis').call(xAxis)
+      svg.select(".y-axis").style("transform", `translateX(${margin.xwidth}px)`)
       // svg.select(".y-axis").append("text")
 
       newLine = line().x((_value, index) => xScale(index)).y(yScale).curve(curveCardinal);
@@ -71,14 +71,13 @@ const TimeViz: React.FC<TimeVizProps> = (props) => {
         .attr('width', `${margin.xwidth}`);
 
       svg
-        .selectAll(".line")
+        .selectAll(".line").attr("d", newLine)
     }
     window.addEventListener("resize", redrawLine); //force a redraw when the page resizes
 
 
     let max = Math.max(...data)
     let upperLine = 1.5 * max;
-
 
     let svg = select(svgRef.current);
 
@@ -89,11 +88,11 @@ const TimeViz: React.FC<TimeVizProps> = (props) => {
       
     //calling the xAxis function with current selection
     let xAxis:any = axisBottom(xScale).ticks(data.length)
-    xAxis.tickFormat((_d, index) => (Math.floor(index + 1)).toString());
+    xAxis.tickFormat((domain) => (Math.floor(domain)).toString());
     svg.select('.x-axis').style('transform', "translateY(300px)").style("filter", "url(#glow)").call(xAxis)
     //\ticks are each value in the line
     let yAxis:any = axisRight(yScale).ticks(20)
-    yAxis.tickFormat((_d, index) => (Math.round((index + 0.01) * 1000) / 1000).toString());
+    yAxis.tickFormat((domain) => (Math.round((domain) * 1000) / 1000).toString());
     svg.select(".y-axis").style("transform", `translateX(${margin.xwidth}px)`).style("filter", "url(#glow)").call(yAxis)
     svg.select(".y-axis").append("text")
       .attr("class", "yaxislabel")
@@ -190,7 +189,7 @@ const TimeViz: React.FC<TimeVizProps> = (props) => {
         .attr("cx", xScale(x0))
         .attr("cy", yScale(selectedDataY))
       focusText
-        .html((x0 + 1) + "  : " + selectedDataY + "s")
+        .html((x0) + "  : " + selectedDataY + "s")
         .attr("x", xScale(x0) + 15)
         .attr("y", yScale(selectedDataY) - 25)
       mouseLine
