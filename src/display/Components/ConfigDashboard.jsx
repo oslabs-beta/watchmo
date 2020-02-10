@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { ProjectContext } from './Context/ProjectContext';
 import {
   Card,
   CardText,
@@ -38,8 +39,10 @@ const ConfigDashboard = () => {
   const [queryString, setQueryString] = useState('');
   const [freq, setFrequency] = useState('');
 
+  const { project, updateProject } = useContext(ProjectContext)
+
   async function fetchData() {
-    const response = await fetch('/api/configDash');
+    const response = await fetch(`${project.projects}/config.json`);
     const result = await response
       .json()
       .then(res => {

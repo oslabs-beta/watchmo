@@ -20,4 +20,5 @@ describe('<TimeViz/>', () => {
         wrapper = shallow(< TimeViz {...props} />)
         expect(wrapper).toBeDefined();
     })
+
 })

@@ -18,11 +18,8 @@ app.get('/build/bundle.js', (req, res) => {
   res.sendFile(path.join(__dirname, '../../build/bundle.js'));
 });
 
-app.get('/configDash', (req, res) => {
-  res.sendFile(path.join(__dirname, '../display/index.html'));
-});
-
 app.get('/api/configDash', dataController.getConfig, (req, res) => {
+  console.log("infconifg get")
   res.status(200).json(res.locals.config);
 });
 
@@ -36,6 +33,14 @@ app.get('/data', (req, res) => {
 });
 
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../display/index.html'));
+});
+
+app.get('/configDash', (req, res) => {
+  res.sendFile(path.join(__dirname, '../display/index.html'));
+});
+
+app.get('/userDashBoard', (req, res) => {
   res.sendFile(path.join(__dirname, '../display/index.html'));
 });
 
