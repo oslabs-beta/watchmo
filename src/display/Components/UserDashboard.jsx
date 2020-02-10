@@ -1,30 +1,30 @@
-import * as React from 'react';
+import React, { useContext, useEffect, useState }  from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Link, Route, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import VertColViz from './VertColViz';
+import VertColViz from './VertColViztsx';
 //typescript: testing heading and caption
 import { ProjectContext } from './Context/ProjectContext';
 
 function UserDashboard(props) {
   //setting the state for the drop down button with typescript
-  const [dropdownCatOpen, setCatOpen] = React.useState(false);
+  const [dropdownCatOpen, setCatOpen] = useState(false);
 
   //these are used to grab data from watchmo and loaded it into the state
-  const [dataFromServer, setDataFromServer] = React.useState([]);
-  const [dataGained, setDataGained] = React.useState(false);
+  const [dataFromServer, setDataFromServer] = useState([]);
+  const [dataGained, setDataGained] = useState(false);
 
 
-  const { project, updateProject } = React.useContext(ProjectContext)
+  const { project, updateProject } = useContext(ProjectContext)
 
     if (!project.projects) {
       props.history.push("/");
     }
 
   //this is to hold the current category to be displayed int he bar graph
-  const [currentCat, setCurrentCat] = React.useState('');
+  const [currentCat, setCurrentCat] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log(project.projects)
     if (!dataGained) {
       console.log('whot');
