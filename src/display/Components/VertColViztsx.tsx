@@ -1,17 +1,21 @@
 import { select, axisBottom, axisRight, scaleLinear, scaleBand } from 'd3';
 import React, { useRef, useEffect, useState } from 'react';
 import '../stylesheets/style.scss';
-import TimeViz from './TimeViz';
+import TimeViz from './TimeViztsx';
 /* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
 ///CURRENTLY NOT USING STATE DATA FOR RENDERING PURPOSE
-function VertColViz(props) {
-  let queries = [];
-  let responses = [];
-  let localQuerySelected = [];
-  let timeGraph = <div></div>;
 
-  const [selectedQuery, setSelectedQuery] = useState([]);
+interface VertColVisProps  {
+  dataCat : any[]
+}
+const VertColViz: React.FC<VertColVisProps> = (props) => {
+  let queries: string[] = [];
+  let responses: any[] = [];
+  let localQuerySelected: string[] = [];
+  let timeGraph: JSX.Element = <div></div>;
+
+  const [selectedQuery, setSelectedQuery] = useState<string[]|never[]>([]);
   const [renderLine, setRenderLine] = useState(false);
 
   function addOrRemove(queryIn) {
@@ -35,14 +39,14 @@ function VertColViz(props) {
   --Grouping instructions via the element -- How should elements be grouped?
   --Drawing instructions using the shapes elements
   --Style specifications describing how each element should be drawn.*/
-  // will be called initially and on every data change
+  // will be called initially and on every data changes
 
   useEffect(() => {
     setRenderLine(false); //these are necessary to effectively blank out the graph and line charts when switching categories
     setSelectedQuery([]); //this is necessary to keep switching categories from messing things up
 
     for (let query in props.dataCat) {
-      let timeTot = 0;
+      let timeTot:number = 0;
       queries.push(query);
       props.dataCat[query].forEach(time => {
         timeTot += time.timing[1] / 1000000000;
@@ -51,13 +55,13 @@ function VertColViz(props) {
     }
 
 
-    const svg = select(svgRef.current);
+    const svg:any = select(svgRef.current);
 
     //used for dynamic y-axis
-    let max = Math.max(...responses);
-    let upper = 1.5 * max;
+    let max : number = Math.max(...responses);
+    let upper : number = 1.5 * max;
 
-    const chartDiv = document.getElementById("chartArea") //grab the chart area that the graph lives in
+    const chartDiv : HTMLElement = document.getElementById("chartArea") //grab the chart area that the graph lives in
     const margin = { yheight: chartDiv.clientHeight, xwidth: chartDiv.clientWidth } //margins required for resizing
 
     function redrawBar() {
@@ -77,24 +81,24 @@ function VertColViz(props) {
         .select('.x-axis').call(xAxis)
 
       svg
-        .selectAll('.bar').attr('x', (value, index) => xScale(index)).attr('width', xScale.bandwidth())
+        .selectAll('.bar').attr('x', (_value, index) => xScale(index)).attr('width', xScale.bandwidth())
     }
 
     window.addEventListener("resize", redrawBar);
     // scales 
-    let xScale = scaleBand()
-      .domain(responses.map((value, index) => index)) //x-axis labeled here
+    let xScale = scaleBand<number>()
+      .domain(responses.map((_value, index) => index)) //x-axis labeled here
       .range([0, margin.xwidth])
       .padding(0.5);
 
-    const yScale = scaleLinear()
-      .domain([0, `${upper}`])
+    const yScale = scaleLinear<number, number>()
+      .domain([0, upper])
       .range([300, 0]);
 
-    const colorScale = scaleLinear()
+    const colorScale = scaleLinear<string>()
       .domain([
-        `${upper * 0.2}`,
-        `${upper}`
+        upper * 0.2,
+        upper
       ])
       .range(['blue', 'red'])
       .clamp(true);
@@ -146,7 +150,7 @@ function VertColViz(props) {
       .join('rect')
       .attr('class', 'bar')
       .style('transform', 'scale(1, -1)')
-      .attr('x', (value, index) => xScale(index))
+      .attr('x', (_value, index) => xScale(index))
       .attr('y', -300)
       .attr('width', xScale.bandwidth())
       .on('mouseenter', (value, index) => {
@@ -163,7 +167,7 @@ function VertColViz(props) {
           .style('opacity', 1);
       })
       .on('mouseleave', () => svg.select('.tooltip').remove())
-      .on('click', (value, index) => {
+      .on('click', (_value, index) => {
         addOrRemove(`${queries[index]}`);
       })
       .transition()

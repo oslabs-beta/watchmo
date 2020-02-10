@@ -7,18 +7,18 @@
     "rootDir": "./src",
     "strict": true,
     "noImplicitAny": false,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": false,
     "alwaysStrict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": false
   }
 }
