@@ -12,7 +12,6 @@ function configure(projectName, development=false) {
 
   const addProjectName = () => {
     projectNamesArray.push(projectName);
-    // fs.writeFileSync(projectNamesPath, JSON.stringify(projectNamesArray), (err) => console.log(err));
     writeJSON(projectNamesPath, projectNamesArray);
   }
 
