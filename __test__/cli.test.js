@@ -243,17 +243,47 @@ describe("watchmo mo", () => {
   })
 })
 //
-// describe("watchmo less", () => {
-//
-//   beforeEach(() => {
-//     fs.__setMockFiles(MOCK_FILES);
-//   })
-//
-//   // it("deletes data", () => {
-//   //   less("testProject")
-//   // })
-//   //
-//   // it("removes entire project with the -r option", () => {
-//   //
-//   // })
-// })
+describe("watchmo less", () => {
+
+  beforeEach(() => {
+    fs.__setMockFiles(MOCK_FILES);
+    const parsedData = fs.readFileSync(parsedDataPath);
+    const rawData = fs.readFileSync(rawDataPath);
+    const projectNames = fs.readFileSync(projectNamesPath);
+    const projectExists = fs.readFile(projectPath);
+    expect(projectExists).toBeTruthy();
+    expect(parsedData).toBeDefined();
+    expect(rawData).toBeDefined();
+    expect(projectNames).toBeDefined();
+  })
+
+  it("deletes data from correct position", () => {
+    less("testProject");
+    const parsedData = fs.readFileSync(parsedDataPath);
+    const rawData = fs.readFileSync(rawDataPath);
+    expect(parsedData).toBe("")
+    expect(rawData).toBe("");
+  })
+
+  it("removes entire project with the -r option", () => {
+    less("testProject", true);
+    const parsedData = fs.readFileSync(parsedDataPath);
+    const rawData = fs.readFileSync(rawDataPath);
+    const projectExists = fs.readFile(projectPath);
+    expect(projectExists).toBeUndefined();
+    expect(parsedData).toBeUndefined();
+    expect(rawData).toBeUndefined();
+  })
+
+  it("changes project names list with the -r option", () => {
+    less("testProject", true);
+    const projectNames = JSON.parse(fs.readFileSync(projectNamesPath));
+    expect(projectNames).toEqual(["default"]);
+  })
+
+  it("won't delete the default project", () => {
+    less("default", true);
+    const projectNames = JSON.parse(fs.readFileSync(projectNamesPath));
+    expect(projectNames).toEqual(["default", "testProject"]);
+  })
+})
