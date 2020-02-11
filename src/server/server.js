@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, '../display')));
 app.use(express.static(path.join(__dirname, '../watchmoData')));
+app.use(express.static(path.join(__dirname, '../../src/assets')));
 
 app.get('/build/bundle.js', (req, res) => {
   res.sendFile(path.join(__dirname, '../../build/bundle.js'));

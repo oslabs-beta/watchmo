@@ -1,3 +1,7 @@
+footer {
+  display:flex;
+  justify-content: center;
+}
 
 h1,
 h2 {
@@ -63,6 +67,7 @@ text {
 
 #root {
   font-family: 'Audiowide', cursive;
+  flex-basis:100%;
   display: flex;
   flex-direction: column;
   align-items: center;
