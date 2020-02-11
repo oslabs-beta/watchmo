@@ -7,6 +7,7 @@ const router = express.Router();
 const { PORT } = require('../commands/utility/serverHelpers');
 
 const app = express();
+const chalk = require('chalk');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,7 +59,7 @@ function errorHandler(err, req, res, next) {
 }
 
 app.listen(PORT);
-console.log(`app listening on ${PORT}`);
+console.log(chalk.cyan.bold(`app listening on ${PORT}`));
 
 module.exports = {
   app

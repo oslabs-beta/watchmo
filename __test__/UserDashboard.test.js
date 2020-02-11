@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import TimeViz from '../src/display/Components/TimeViz';
+import TimeViz from '../src/display/Components/TimeViztsx';
 import renderer from 'react-test-renderer';
 import { stratify } from 'd3';
 
