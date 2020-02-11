@@ -1,20 +1,27 @@
-import { select, axisBottom, axisRight, scaleLinear, scaleBand } from 'd3';
-import React, { useRef, useEffect, useState } from 'react';
+import {
+  select,
+  axisBottom,
+  axisRight,
+  scaleLinear,
+  scaleBand
+} from 'd3';
+import React, {
+  useRef,
+  useEffect,
+  useState
+} from 'react';
 import '../stylesheets/style.scss';
 import TimeViz from './TimeViztsx';
-/* The useEffect Hook is for running side effects outside of React,
-       for instance inserting elements into the DOM using D3 */
-///CURRENTLY NOT USING STATE DATA FOR RENDERING PURPOSE
 
-interface VertColVisProps  {
-  dataCat : any[]
+interface VertColVisProps {
+  dataCat: any[]
 }
 const VertColViz: React.FC<VertColVisProps> = (props) => {
   let queries: string[] = [];
   let responses: any[] = [];
   let localQuerySelected: string[] = [];
   let timeGraph: JSX.Element = <div></div>;
-  const [selectedQuery, setSelectedQuery] = useState<string[]|never[]>([]);
+  const [selectedQuery, setSelectedQuery] = useState<string[] | never[]>([]);
   const [renderLine, setRenderLine] = useState(false);
 
   function addOrRemove(queryIn) {
@@ -45,7 +52,7 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
     setSelectedQuery([]); //this is necessary to keep switching categories from messing things up
 
     for (let query in props.dataCat) {
-      let timeTot:number = 0;
+      let timeTot: number = 0;
       queries.push(query);
       props.dataCat[query].forEach(time => {
         timeTot += time.timing[1] / 1000000000;
@@ -54,13 +61,13 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
     }
 
 
-    const svg:any = select(svgRef.current);
+    const svg: any = select(svgRef.current);
 
     //used for dynamic y-axis
-    let max : number = Math.max(...responses);
-    let upper : number = 1.5 * max;
+    let max: number = Math.max(...responses);
+    let upper: number = 1.5 * max;
 
-    const chartDiv : HTMLElement = document.getElementById("chartArea") //grab the chart area that the graph lives in
+    const chartDiv: HTMLElement = document.getElementById('chartArea') //grab the chart area that the graph lives in
     const margin = { yheight: chartDiv.clientHeight, xwidth: chartDiv.clientWidth } //margins required for resizing
 
     function redrawBar() {
@@ -83,7 +90,7 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
         .selectAll('.bar').attr('x', (_value, index) => xScale(index)).attr('width', xScale.bandwidth())
     }
 
-    window.addEventListener("resize", redrawBar);
+    window.addEventListener('resize', redrawBar);
     // scales 
     let xScale = scaleBand<number>()
       .domain(responses.map((_value, index) => index)) //x-axis labeled here
@@ -130,16 +137,16 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
       .call(yAxis);
 
     if (responses.length !== 0) {
-      svg.select(".y-axis").append("text")
-        .attr("class", "yaxislabel")
-        .attr("transform", "rotate(90)")
-        .attr("y", 20)
-        .attr("dy", "-3em")
-        .attr("x", "3em")
-        .style("text-anchor", "start")
-        .style("fill", 'white')
-        .attr("font-size", "20px")
-        .text("Avg. Response Time(s)");
+      svg.select('.y-axis').append('text')
+        .attr('class', 'yaxislabel')
+        .attr('transform', 'rotate(90)')
+        .attr('y', 20)
+        .attr('dy', '-3em')
+        .attr('x', '3em')
+        .style('text-anchor', 'start')
+        .style('fill', 'white')
+        .attr('font-size', '20px')
+        .text('Avg. Response Time(s)');
     }
 
     // draw the bars
@@ -160,7 +167,7 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
           .attr('class', 'tooltip')
           .text(`${queries[index]}`)
           .attr('x', xScale(index) + xScale.bandwidth() / 2)
-          .attr('text-anchor', 'middle')  
+          .attr('text-anchor', 'middle')
           .transition()
           .attr('y', yScale(value) - 80)
           .style('opacity', 1)
@@ -185,10 +192,9 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
   return (
     <React.Fragment>
       <svg ref={svgRef}>
-        <g className="x-axis" />
-        <g className="y-axis" />
+        <g className='x-axis' />
+        <g className='y-axis' />
       </svg>
-      {/* <button onClick={() => setData(data.filter(value => value < 35))}>Filter</button> */}
       <div>{timeGraph}</div>
     </React.Fragment>
   );
