@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState }  from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -17,17 +17,15 @@ function UserDashboard(props) {
 
   const { project, updateProject } = useContext(ProjectContext)
 
-    if (!project.projects) {
-      props.history.push("/");
-    }
+  if (!project.projects) {
+    props.history.push("/");
+  }
 
   //this is to hold the current category to be displayed int he bar graph
   const [currentCat, setCurrentCat] = useState('');
 
   useEffect(() => {
-    console.log(project.projects)
     if (!dataGained) {
-      console.log('whot');
       fetch(`${project.projects}/parsedData.json`)
         .then(data => data.json())
         .then(parsed => {
@@ -36,10 +34,6 @@ function UserDashboard(props) {
         .catch(err => console.log(err));
       setDataGained(true);
     }
-    else {
-      console.log("i got it")
-    }
-
   }, [project]);
 
   //function that is in charge of changing the state
@@ -57,27 +51,32 @@ function UserDashboard(props) {
   }
 
   return (
-      <div id="UserDashboard">
-        <div id="configBtn">
-          <Link to="/configDash">
-            <button type="button" className="btnSecondary">
-              CONFIG
+    <div id="UserDashboard">
+      <div id="configBtn">
+      <Link to="/">
+          <button type="button" className="btnSecondary">
+            Project Select
           </button>
-          </Link>
-        </div>
-        <h1> User Dashboard </h1>
-        <div className="categoriesDrop">
-          <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>
-            <DropdownToggle caret color="primary">
-              Categories:
-          </DropdownToggle>
-            <DropdownMenu>{categoriesInDropDown}</DropdownMenu>
-          </ButtonDropdown>
-        </div>
-        <div id="chartArea">
-          <VertColViz dataCat={dataFromServer[currentCat]} />
-        </div>
+        </Link>
+        <Link to="/configDash">
+          <button type="button" className="btnSecondary">
+            CONFIG
+          </button>
+        </Link>
       </div>
+      <h1> User Dashboard </h1>
+      <div className="categoriesDrop">
+        <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>
+          <DropdownToggle caret color="primary">
+            Categories:
+          </DropdownToggle>
+          <DropdownMenu>{categoriesInDropDown}</DropdownMenu>
+        </ButtonDropdown>
+      </div>
+      <div id="chartArea">
+        <VertColViz dataCat={dataFromServer[currentCat]} />
+      </div>
+    </div>
   );
 }
 
