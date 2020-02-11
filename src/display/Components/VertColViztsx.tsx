@@ -154,16 +154,16 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
       .attr('width', xScale.bandwidth())
       .on('mouseenter', (value, index) => {
         svg
-          .selectAll('.tooltip')
+          .selectAll('.tooltip').append('div')
           .data([value])
           .join(enter => enter.append('text').attr('y', yScale(value) - 50))
           .attr('class', 'tooltip')
           .text(`${queries[index]}`)
           .attr('x', xScale(index) + xScale.bandwidth() / 2)
-          .attr('text-anchor', 'middle')
+          .attr('text-anchor', 'middle')  
           .transition()
           .attr('y', yScale(value) - 80)
-          .style('opacity', 1);
+          .style('opacity', 1)
       })
       .on('mouseleave', () => svg.select('.tooltip').remove())
       .on('click', (_value, index) => {
