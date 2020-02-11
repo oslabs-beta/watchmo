@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const PATH_TO_DATA = '../../watchmoData/';
+const chalk = require('chalk');
 
 
 //the characters demarcating the space between different responses in the rawData file
@@ -15,13 +16,13 @@ const dataPaths = (projectName) => ({
   parsedDataPath: path.join(__dirname, PATH_TO_DATA, projectName, 'parsedData.json'),
   templatePath: path.join(__dirname, '../templates/config.json'),
   projectNamesPath: path.join(__dirname, PATH_TO_DATA, 'projectNames.json'),
-  })
+})
 
-  const checkAndParseFile = filePath => {
-    if (fs.existsSync(filePath)) {
-      return JSON.parse(fs.readFileSync(filePath));
-    } else return {};
-  };
+const checkAndParseFile = filePath => {
+  if (fs.existsSync(filePath)) {
+    return JSON.parse(fs.readFileSync(filePath));
+  } else return {};
+};
 
 
 //DEMARCATION is used to demarcate new entries in the textfile
@@ -30,7 +31,7 @@ const appendRawData = (data, savePath) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(`file saved in ${savePath}`);
+      console.log(chalk.green.bold.underline(`file saved in ${savePath}`));
     }
   });
 }
@@ -40,7 +41,7 @@ function writeJSON(savePath, object) {
     if (err) {
       console.log(err);
     } else {
-      console.log(`DATA SAVED TO ${savePath}`);
+      console.log(chalk.green.bold.underline(`DATA SAVED TO ${savePath}`));
     }
   });
 }
@@ -48,7 +49,7 @@ function writeJSON(savePath, object) {
 function readParseWriteJSON(readPath, parser, writePath) {
   fs.readFile(readPath, 'utf-8', (err, data) => {
     if (err) {
-      console.log('Error reading file', err);
+      console.log(chalk.red.bold.underline('Error reading file', err));
     } else {
       writeJSON(writePath, parser(data));
     }
