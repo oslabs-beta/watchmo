@@ -25,17 +25,14 @@ function ProjectSelect(props) {
 
   useEffect(() => {
     if (!projGained) {
-      console.log('whot');
       fetch('/projectNames.json')
         .then(data => data.json())
         .then(parsed => {
+          console.log(parsed)
           setProjsFromServer(parsed);
         })
         .catch(err => console.log(err));
       setDataGained(true);
-    }
-    else {
-      console.log("i got it")
     }
   }, [projsFromServer]);
 
