@@ -30,7 +30,7 @@ function less(projectName, remove = false) {
   }
   else if (!remove) {
     cleanAllFiles([parsedDataPath, rawDataPath]);
-    console.log(chalk.blue.bgWhite.bold.underline('FILES CLEAN'));
+    console.log(chalk.cyan.italic.underline('FILES CLEAN'));
   } else {
     if (projectName === 'default') {
       console.log(chalk.red.bold.underline('Cannot remove default file'));
