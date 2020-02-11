@@ -37,7 +37,6 @@ const appendRawData = (data, savePath) => {
 }
 
 function writeJSON(savePath, object) {
-  console.log("IN WRITE JSON...");
   fs.writeFile(savePath, JSON.stringify(object), err => {
     if (err) {
       console.log(err);
