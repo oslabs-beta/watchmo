@@ -9,7 +9,11 @@ function __setMockFiles(newMockFiles) {
   mockFiles = Object.assign({}, newMockFiles);
 }
 
-function readFileSync(mockFilePath, dummyEncoding, callback) {
+function readFileSync(mockFilePath) {
+  return mockFiles[mockFilePath];
+}
+
+function readFile(mockFilePath, dummyEncoding, callback) {
   if (callback) { callback(null, mockFiles[mockFilePath]); }
   return mockFiles[mockFilePath];
 }
@@ -63,7 +67,9 @@ function copyFileSync(src, destination) {
 
 fs.__setMockFiles = __setMockFiles;
 fs.readFileSync = readFileSync;
+fs.readFile = readFile;
 fs.writeFileSync = writeFileSync;
+fs.writeFile = writeFileSync;
 fs.existsSync = existsSync;
 fs.appendFile = appendFile;
 fs.unlinkSync = unlinkSync;

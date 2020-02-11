@@ -66,7 +66,7 @@ const mockTemplate = {
   }
 }
 
-const mockProjectNames = ['default'];
+const mockProjectNames = ['default', 'testProject'];
 
 const MOCK_FILES = {};
 MOCK_FILES[projectPath] = true;
@@ -81,6 +81,15 @@ describe('fileHelpers', () => {
 
   beforeEach(() => {
     fs.__setMockFiles(MOCK_FILES);
+
+    const projectDirectoryExists = fs.readFileSync(projectPath);
+    const configObject = fs.readFileSync(configPath);
+    const rawData = fs.readFileSync(rawDataPath);
+    const parsedData = fs.readFileSync(parsedDataPath);
+    expect(projectDirectoryExists).toBeTruthy();
+    expect(configObject).toBeDefined();
+    expect(rawData).toBeDefined();
+    expect(parsedData).toBeDefined();
   })
 
   it('can check and parse files', () => {
@@ -111,45 +120,29 @@ describe('fileHelpers', () => {
   })
 
   it('can write JSON', () => {
-    const projectNames = ['default', 'testProject'];
+    const projectNames = ['default', 'testProject', 'secondTestProject'];
     fileHelpers.writeJSON(projectNamesPath, projectNames);
     expect(JSON.stringify(projectNames)).toEqual(fs.readFileSync(projectNamesPath));
   })
 
   it('can clean multiple files', () => {
-    let configString = fs.readFileSync(configPath);
-    let rawData = fs.readFileSync(rawDataPath);
-    let parsedData = fs.readFileSync(parsedDataPath);
-    expect(configString).toBeDefined();
-    expect(rawData).toBeDefined();
-    expect(parsedData).toBeDefined();
-
     fileHelpers.cleanAllFiles([configPath, rawDataPath, parsedDataPath]);
 
-    configString = fs.readFileSync(configPath);
-    rawData = fs.readFileSync(rawDataPath);
-    parsedData = fs.readFileSync(parsedDataPath);
+    const configString = fs.readFileSync(configPath);
+    const rawData = fs.readFileSync(rawDataPath);
+    const parsedData = fs.readFileSync(parsedDataPath);
     expect(configString).toBe('');
     expect(rawData).toBe('');
     expect(parsedData).toBe('');
   })
 
   it('can remove a project', () => {
+    fileHelpers.removeProject('testProject');
+
     let projectDirectoryExists = fs.readFileSync(projectPath);
     let configObject = fs.readFileSync(configPath);
     let rawData = fs.readFileSync(rawDataPath);
     let parsedData = fs.readFileSync(parsedDataPath);
-    expect(projectDirectoryExists).toBeTruthy();
-    expect(configObject).toBeDefined();
-    expect(rawData).toBeDefined();
-    expect(parsedData).toBeDefined();
-
-    fileHelpers.removeProject('testProject');
-
-    projectDirectoryExists = fs.readFileSync(projectPath);
-    configObject = fs.readFileSync(configPath);
-    rawData = fs.readFileSync(rawDataPath);
-    parsedData = fs.readFileSync(parsedDataPath);
     expect(projectDirectoryExists).toBeUndefined;
     expect(configObject).toBeUndefined();
     expect(rawData).toBeUndefined();
@@ -182,12 +175,12 @@ describe('watchmo configure', () => {
 
   it('changes project names list', () => {
     let projectNames = JSON.parse(fs.readFileSync(projectNamesPath));
-    expect(projectNames).toEqual(["default"]);
+    expect(projectNames).toEqual(["default", "testProject"]);
 
     configure('newProject');
 
     projectNames = JSON.parse(fs.readFileSync(projectNamesPath));
-    expect(projectNames).toEqual(["default", "newProject"])
+    expect(projectNames).toEqual(["default", "testProject", "newProject"])
   })
 
   it('does nothing for existing projects', () => {
@@ -220,7 +213,7 @@ describe("watchmo mo", () => {
   })
 
   it('writes data to the correct position', () => {
-    mo('testProject', false, false);
+    mo('testProject', false);
     const parsedData = fs.readFileSync(parsedDataPath);
     expect(parsedData).toBeDefined();
   })
@@ -236,10 +229,31 @@ describe("watchmo mo", () => {
     const parsedData = fs.readFileSync(parsedDataPath);
     expect(parsedData).toBeUndefined();
   })
-})
 
-// describe("watchmo less", () => {
-//   it("deletes data")
+  it('does nothing when project does not exist', () => {
+    const nonExistentProjectRawPath = fileHelpers.dataPaths('nonExistentProject');
+    const nonExistentProjectParsedPath = fileHelpers.dataPaths('nonExistentProject');
+    const nonExistentProjectRawData = fs.readFileSync(nonExistentProjectRawPath);
+    expect(nonExistentProjectRawData).toBeUndefined();
+
+    mo('nonExistentProject', false);
+
+    const parsedData = fs.readFileSync(nonExistentProjectParsedPath);
+    expect(parsedData).toBeUndefined();
+  })
+})
 //
-//   // it("removes entire project with the -r option")
+// describe("watchmo less", () => {
+//
+//   beforeEach(() => {
+//     fs.__setMockFiles(MOCK_FILES);
+//   })
+//
+//   // it("deletes data", () => {
+//   //   less("testProject")
+//   // })
+//   //
+//   // it("removes entire project with the -r option", () => {
+//   //
+//   // })
 // })
