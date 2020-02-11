@@ -14,7 +14,6 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
   let responses: any[] = [];
   let localQuerySelected: string[] = [];
   let timeGraph: JSX.Element = <div></div>;
-
   const [selectedQuery, setSelectedQuery] = useState<string[]|never[]>([]);
   const [renderLine, setRenderLine] = useState(false);
 
