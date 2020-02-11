@@ -37,7 +37,7 @@ const appendRawData = (data, savePath) => {
 }
 
 function writeJSON(savePath, object) {
-  fs.writeFile(savePath, JSON.stringify(object), err => {
+  fs.writeFileSync(savePath, JSON.stringify(object), err => {
     if (err) {
       console.log(err);
     } else {
@@ -47,7 +47,7 @@ function writeJSON(savePath, object) {
 }
 
 function readParseWriteJSON(readPath, parser, writePath) {
-  fs.readFile(readPath, 'utf-8', (err, data) => {
+  fs.readFileSync(readPath, 'utf-8', (err, data) => {
     if (err) {
       console.log(chalk.red.bold.underline('Error reading file', err));
     } else {
