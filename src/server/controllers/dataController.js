@@ -6,7 +6,7 @@ const WMD = path.join(__dirname, '../../watchmoData/config.json');
 const dataController = {};
 
 dataController.getConfig = (req, res, next) => {
-  res.locals.config = fs.readFile(WMD, (err, data) => {
+  res.locals.config = fs.readFileSync(WMD, (err, data) => {
     if (err) {
       return next(err);
     }
@@ -19,7 +19,7 @@ dataController.getConfig = (req, res, next) => {
 dataController.updateConfig = (req, res, next) => {
   // console.log(req);
   res.locals.config = req.body;
-  fs.writeFile(WMD, JSON.stringify(req.body), (err, data) => {
+  fs.writeFileSync(WMD, JSON.stringify(req.body), (err, data) => {
     if (err) {
       return next(err);
     }

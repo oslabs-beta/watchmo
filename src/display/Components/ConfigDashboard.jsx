@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { ProjectContext } from './Context/ProjectContext';
 import {
   Card,
   CardText,
@@ -17,7 +18,7 @@ import { runtime } from 'regenerator-runtime';
 import '../stylesheets/style.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import { render } from 'react-dom';
-import Category from './Category';
+import CategoriesContainer from './CategoriesContainer';
 import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
 
 // Custom hook for handling input boxes
@@ -31,78 +32,40 @@ import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
 //   return [value, onChange];
 // };
 
-const ConfigDashboard = () => {
+const ConfigDashboard = props => {
   const [dataFromConfig, setDataFromConfig] = useState({});
-  const [endpointConfig, setEndpointConfig] = useState('');
-  const [categories, setCategories] = useState([]);
   const [hasError, setErrors] = useState(false);
-  const [queryString, setQueryString] = useState('');
-  const [freq, setFrequency] = useState('');
+  const [endpointConfig, setEndpointConfig] = useState('');
+  // const [categories, setCategories] = useState([]);
+  // const [queryString, setQueryString] = useState('');
+  // const [freq, setFrequency] = useState('');
+  const { project, updateProject } = useContext(ProjectContext);
 
   async function fetchData() {
-    const response = await fetch('/api/configDash');
+    const response = await fetch(`${project.projects}/config.json`);
     const result = await response
       .json()
       .then(res => {
-        setEndpointConfig(res.endpoint);
-        setCategories(Object.keys(res.categories));
         setDataFromConfig(res);
+        setEndpointConfig(res.endpoint);
         localStorage.setItem(`${res}`, JSON.stringify({ ...res }));
       })
       .catch(err => setErrors(err));
   }
 
-  // For updating the config values in UI
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const handleEndpointChange = e => {
     const url = e.target.value;
     setEndpointConfig(url);
   };
 
-  // For handling updates to frequency
-  const freqChange = e => {
-    const newFreq = e.target.value;
-    setFrequency(newFreq);
-  };
-
-  // func to create array of cards to represent each category within config file
-  const buildCards = categoryData => {
-    const cards = [];
-    const dataArr = Object.values(categoryData);
-    const catArr = [...dataArr];
-    const cats = Object.entries({ ...catArr[1] });
-    console.log(cats);
-    for (let i = 0; i < cats.length; i += 1) {
-      // iterate through cats and create array of child components
-      // pass down props needed
-      let catName = cats[i][0];
-      let catFreq = cats[i][1].frequency.toString();
-      console.log(typeof catFreq);
-      let queries = [];
-      let queryObj = Object.values(cats[i][1].queries);
-      cats[i][1].queries.forEach(el => queries.push(el));
-      // console.log(queries);
-      let curCard = (
-        <div id={catName} key={catName}>
-          <Category
-            catData={categoryData}
-            key={i}
-            catName={catName}
-            catFreq={catFreq}
-            queries={queries}
-          />
-          <hr />
-        </div>
-      );
-      cards.push(curCard);
-    }
-
-    return cards;
-  };
-
-  const categoryCards = buildCards(dataFromConfig);
+  // func to update data within config file
   async function handleSubmit(event) {
     event.preventDefault();
-    const data = new FormData(event.target);
+    const data = dataFromConfig;
     console.log(data);
 
     await fetch('http://localhost:3333/configDash', {
@@ -110,10 +73,6 @@ const ConfigDashboard = () => {
       body: data
     });
   }
-
-  React.useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <div id="configDashboard">
@@ -127,25 +86,24 @@ const ConfigDashboard = () => {
       <div id="configHeader">
         <h1>Config Dashboard</h1>
         <Form id="configForm" action="/configDash">
-          <Label for="endpointLabel">
-            <h4>Endpoint</h4>
-          </Label>
-          <Input
-            type="text"
-            name="endpoint"
-            id="endpoint"
-            placeholder="Input your GraphQL endpoint"
-            value={endpointConfig}
-            onChange={handleEndpointChange}
-          />
-          <hr />
-
           <div id="categories">
             <FormGroup>
+              <Label for="endpointLabel">
+                <h4>Endpoint</h4>
+              </Label>
+              <Input
+                type="text"
+                name="endpoint"
+                id="endpoint"
+                placeholder="Input your GraphQL endpoint"
+                value={endpointConfig}
+                onChange={handleEndpointChange}
+              />
+              <hr />
               <Label for="categories">
                 <h4>Categories</h4>
               </Label>
-              {categoryCards}
+              <CategoriesContainer configData={dataFromConfig} />
             </FormGroup>
           </div>
           <span>
