@@ -208,3 +208,38 @@ describe('watchmo configure', () => {
     expect(defaultConfig).toBe(afterConfigureConfig);
   })
 })
+
+describe("watchmo mo", () => {
+
+  beforeEach(() => {
+    fs.__setMockFiles(MOCK_FILES);
+    fs.unlinkSync(parsedDataPath);
+
+    const parsedData = fs.readFileSync(parsedDataPath);
+    expect(parsedData).toBeUndefined();
+  })
+
+  it('writes data to the correct position', () => {
+    mo('testProject', false, false);
+    const parsedData = fs.readFileSync(parsedDataPath);
+    expect(parsedData).toBeDefined();
+  })
+
+  it('correctly parses the raw data', () => {
+    mo('testProject', false);
+    const parsedData = JSON.parse(fs.readFileSync(parsedDataPath));
+    expect(parsedData).toEqual(mockParsedData);
+  })
+
+  it('suppresses parsing with the -b option', () => {
+    mo('testProject', false, true);
+    const parsedData = fs.readFileSync(parsedDataPath);
+    expect(parsedData).toBeUndefined();
+  })
+})
+
+// describe("watchmo less", () => {
+//   it("deletes data")
+//
+//   // it("removes entire project with the -r option")
+// })

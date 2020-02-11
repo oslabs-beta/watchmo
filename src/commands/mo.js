@@ -25,7 +25,7 @@ function parseData(dataString) {
   return parsed;
 }
 
-function mo(projectName, shouldOpen, noBundle=false, all=false) {
+function mo(projectName, shouldOpen, noBundle=false) {
   const { rawDataPath, parsedDataPath } = dataPaths(projectName);
   if (!noBundle) { readParseWriteJSON(rawDataPath, parseData, parsedDataPath); }
   if (shouldOpen) { openServer(); }

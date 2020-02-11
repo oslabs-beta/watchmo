@@ -9,7 +9,8 @@ function __setMockFiles(newMockFiles) {
   mockFiles = Object.assign({}, newMockFiles);
 }
 
-function readFileSync(mockFilePath) {
+function readFileSync(mockFilePath, dummyEncoding, callback) {
+  if (callback) { callback(null, mockFiles[mockFilePath]); }
   return mockFiles[mockFilePath];
 }
 
