@@ -20,6 +20,7 @@ import '../stylesheets/style.scss';
 import { render } from 'react-dom';
 import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
 import useInput from '../../js/input-hook.js';
+import CategoryData from './CategoryData';
 
 const Category = props => {
   // const [categories, setCategories] = useInput([]);
@@ -39,7 +40,7 @@ const Category = props => {
   // For handling updates to frequency
   const freqChange = e => {
     const newFreq = e.target.value;
-    setFrequency(newFreq);
+    setFrequency(Number(newFreq));
   };
 
   const copiedConfig = { ...props.configData };
@@ -60,6 +61,7 @@ const Category = props => {
 
   console.log(copiedConfig);
   console.log(catArrOfObjs);
+
   const categoryCards = [];
   function categoryBuilder(cats) {
     // eslint-disable-next-line no-restricted-syntax
@@ -68,33 +70,7 @@ const Category = props => {
         <div key={category.name}>
           <Card size="md" name={category.name}>
             <CardBody>
-              <CardTitle>
-                <h4>{category.name}</h4>
-              </CardTitle>
-              <CardSubtitle>Frequency:</CardSubtitle>
-              <Input
-                type="text"
-                name="frequency"
-                id={`${category.name}-freq`}
-                placeholder="Set frequency of query execution"
-                value={category.frequency}
-                onChange={() => freqChange}
-              />
-              <br />
-              <CardSubtitle>Queries:</CardSubtitle>
-              <FormGroup>
-                <Input
-                  type="textarea"
-                  name="queryString"
-                  id={`${category.name}-queries`}
-                  placeholder="Input your GraphQL queries"
-                  value={category.queries}
-                  onChange={queryChange}
-                />
-              </FormGroup>
-              {/* <GraphqlCodeBlock className="GraphqlCodeBlock" queryBody={queryStrings} /> */}
-
-              {/* <Button size="sm">Edit Queries</Button> */}
+              <CategoryData catData={category} />
             </CardBody>
           </Card>
         </div>

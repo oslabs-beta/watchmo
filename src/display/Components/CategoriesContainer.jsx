@@ -39,6 +39,7 @@ const CategoriesContainer = props => {
     alert(`Submitting Config ${value}`);
     reset();
   };
+
   const categoryBuiltArray = [];
   const propTest = JSON.stringify(props.configData);
   const propObj = JSON.parse(propTest);
