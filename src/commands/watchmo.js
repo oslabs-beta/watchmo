@@ -3,7 +3,6 @@
 
 //Packages
 const yargs = require('yargs');
-
 //CLI functions
 const { watch } = require('./watch');
 const { cliDefault } = require('./default');

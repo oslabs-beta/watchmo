@@ -1,6 +1,6 @@
 const { cleanAllFiles, removeProject, dataPaths, checkAndParseFile, writeJSON } = require('./utility/fileHelpers');
 const fs = require('fs');
-
+const chalk = require('chalk');
 /*
 THIS FUNCTION DEPENDS UPON THE FOLLOWING FILE STRUCTURE:
 /src
@@ -15,7 +15,7 @@ THIS FUNCTION DEPENDS UPON THE FOLLOWING FILE STRUCTURE:
    -> /snapshots.txt
 */
 
-function less(projectName, remove=false) {
+function less(projectName, remove = false) {
   const { rawDataPath, parsedDataPath, projectPath, projectNamesPath } = dataPaths(projectName);
   let projectNamesArray = checkAndParseFile(projectNamesPath);
 
@@ -26,18 +26,18 @@ function less(projectName, remove=false) {
   }
 
   if (!fs.existsSync(projectPath)) {
-    console.log('Project does not exist. ');
+    console.log(chalk.yellow.underline.bold('Project does not exist. '));
   }
   else if (!remove) {
     cleanAllFiles([parsedDataPath, rawDataPath]);
-    console.log('FILES CLEAN');
+    console.log(chalk.cyan.italic.underline('FILES CLEAN'));
   } else {
     if (projectName === 'default') {
-      console.log('Cannot remove default file');
+      console.log(chalk.red.bold.underline('Cannot remove default file'));
     } else {
       removeProject(projectName);
       removeProjectName();
-      console.log(`PROJECT ${projectName} DELETED`);
+      console.log(chalk.black.bgRed.bold.underline(`PROJECT ${projectName} DELETED`));
 
     }
 
