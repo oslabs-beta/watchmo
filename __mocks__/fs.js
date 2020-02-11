@@ -52,6 +52,14 @@ function rmdirSync(dirPath) {
   }
 }
 
+function mkdirSync(dirPath) {
+  mockFiles[dirPath] = true;
+}
+
+function copyFileSync(src, destination) {
+  mockFiles[destination] = mockFiles[src];
+}
+
 fs.__setMockFiles = __setMockFiles;
 fs.readFileSync = readFileSync;
 fs.writeFileSync = writeFileSync;
@@ -59,5 +67,7 @@ fs.existsSync = existsSync;
 fs.appendFile = appendFile;
 fs.unlinkSync = unlinkSync;
 fs.rmdirSync = rmdirSync;
+fs.mkdirSync = mkdirSync;
+fs.copyFileSync = copyFileSync;
 
 module.exports = fs;
