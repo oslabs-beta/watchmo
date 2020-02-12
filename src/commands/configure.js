@@ -42,6 +42,7 @@ function changeEndpoint(projectName, endpoint) {
 }
 
 function changeCategory(projectName, category, remove=false) {
+  console.log("IN CHANGE CATEGORY");
   const { configPath } = dataPaths(projectName);
   const configObject = checkAndParseFile(configPath);
   if (typeof category === 'boolean') {
@@ -66,7 +67,10 @@ function changeCategory(projectName, category, remove=false) {
   }
 }
 
+
+// If remove is true, the query must be an integer. If false, it is a string
 function changeQuery(projectName, category, query, remove=false) {
+  console.log("IN CHANGE QUERY");
   const { configPath } = dataPaths(projectName);
   const configObject = checkAndParseFile(configPath);
   if (typeof category === 'boolean' || typeof query === 'boolean') {
@@ -83,12 +87,23 @@ function changeQuery(projectName, category, query, remove=false) {
       configObject.categories[category].queries.splice(query, 1);
       writeJSON(configPath, configObject);
     }
-
   }
 }
 
 function changeFrequency(projectName, category, frequency) {
-  console.log("The CLI frequency functionality is not yet supported. Consider using the browser to change the frequency");
+  const { configPath } = dataPaths(projectName);
+  const configObject = checkAndParseFile(configPath);
+  console.log(parseInt(frequency));
+  if (!parseInt(frequency)) {
+    console.log("The --frequency option requires an integer as a positional argument");
+  } else {
+    if (parseInt(frequency) <= 0) {
+      console.log("Please give a positive integer for the frequency.");
+    } else {
+      configObject.categories[category].frequency = frequency;
+      writeJSON(configPath, configObject);
+    }
+  }
 }
 
 function viewConfig(projectName) {
@@ -112,15 +127,18 @@ function viewConfig(projectName) {
   console.log('\n');
 }
 
-function configure(projectName, endpoint, frequency, category, query, remove=false, view=false) {
-  // not an if-else block so that you can configure endpoint AND category/query all at once if desired
+function configure(projectName, endpoint, category, query=false, frequency=false, remove=false, view=false) {
+  // not if-else block to avoid bug with config.json auto deleting
   // default behavior, create project with the given project Name
   if (!endpoint && !category && !frequency && !view) { createProject(projectName); }
-  if (endpoint) { changeEndpoint(projectName, endpoint); }
-  if (category && query === false) { changeCategory(projectName, category, remove); }
-  if (category && query !== false) { changeQuery(projectName, category, query, remove); }
-  if (category && query && frequency) { changeFrequency(projectName, category, frequency); }
-  if (view && !endpoint && !category && !frequency) { viewConfig(projectName); }
+  else if (endpoint) { changeEndpoint(projectName, endpoint); }
+  else if (category && query === false && frequency === false) { changeCategory(projectName, category, remove); }
+  else if (category && query !== false && frequency === false) { changeQuery(projectName, category, query, remove); }
+  else if (category && frequency !== false && query === false) { changeFrequency(projectName, category, frequency); }
+  else if (view && !endpoint && !category && !frequency) { viewConfig(projectName); }
+  else {
+    console.log("Not a valid combination of flags. Please configure values one at a time.");
+  }
 }
 
 

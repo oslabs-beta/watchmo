@@ -64,9 +64,9 @@ yargs
     (argv) => configure(
       argv.project,
       argv.endpoint,
-      argv.frequency,
       argv.category,
       argv.query,
+      argv.frequency,
       argv.remove,
       argv.view,
     )
