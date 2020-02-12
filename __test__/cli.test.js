@@ -202,6 +202,55 @@ describe('watchmo configure', () => {
 
     expect(defaultConfig).toBe(afterConfigureConfig);
   })
+
+  it('changes the endpoint with the --endpoint flag', () => {
+    let configObject = JSON.parse(fs.readFileSync(configPath));
+
+    expect(configObject.endpoint).toEqual("testEndpoint");
+
+    configure('testProject', true);
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.endpoint).toEqual("testEndpoint");
+
+    configure('testProject', 'changedEndpoint');
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.endpoint).toEqual("changedEndpoint");
+  })
+
+  it('adds a category with the --category flag', () => {
+    let configObject = JSON.parse(fs.readFileSync(configPath));
+    const newCategoryObject = {
+      queries: [],
+      frequency: -1,
+    }
+
+    expect(configObject.categories.newCategory).toBeUndefined();
+
+    configure('testProject', null, null, true, null, null);
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.categories.newCategory).toBeUndefined();
+
+    configure('testProject', null, null, 'newCategory', null, null);
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.categories.newCategory).toBeDefined();
+    expect(configObject.categories.newCategory).toEqual(newCategoryObject);
+  })
+
+  it('removes a category with --category --remove flag', () => {
+    let configObject = JSON.parse(fs.readFileSync(configPath));
+
+    expect(configObject.categories.testing).toBeDefined();
+
+    configure('testProject', null, null, true, null, true);
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.categories.testing).toBeDefined();
+
+    configure('testProject', null, null, 'testing', null, true);
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.categories.testing).toBeUndefined();
+  })
+
+
 })
 
 describe("watchmo mo", () => {
