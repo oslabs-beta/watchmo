@@ -7,6 +7,8 @@ const { configure } = require('../src/commands/configure');
 const fs = require('fs');
 
 jest.mock('fs');
+jest.useFakeTimers();
+console.log = jest.fn();
 
 const {
   projectPath,
