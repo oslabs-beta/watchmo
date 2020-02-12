@@ -1,5 +1,14 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import React, { 
+  useRef, 
+  useEffect, 
+  useState, 
+  useContext } from 'react';
+import { 
+  ButtonDropdown, 
+  DropdownToggle, 
+  DropdownMenu, 
+  DropdownItem } 
+  from 'reactstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import ConfigDashboard from './ConfigDashboard';
@@ -28,7 +37,6 @@ function ProjectSelect(props) {
       fetch('/projectNames.json')
         .then(data => data.json())
         .then(parsed => {
-          console.log(parsed)
           setProjsFromServer(parsed);
         })
         .catch(err => console.log(err));
@@ -48,26 +56,26 @@ function ProjectSelect(props) {
 
 
   return (
-    <div id="projectSelect">
-      <div className="projDrop">
+    <div id='projectSelect'>
+      <div className='projDrop'>
         <ButtonDropdown isOpen={dropdownProjOpen} toggle={toggleCat}>
-          <DropdownToggle caret color="primary">
+          <DropdownToggle caret color='primary'>
             Projects:
           </DropdownToggle>
           <DropdownMenu>{projcategoriesInDropDown}</DropdownMenu>
         </ButtonDropdown>
       </div>
       {project.projects && <div>
-      <div id="configBtn">
-        <Link to="/configDash">
-          <button type="button" className="btnSecondary">
+      <div id='configBtn'>
+        <Link to='/configDash'>
+          <button type='button' className='btnSecondary'>
             CONFIG
           </button>
         </Link>
       </div>
         <div>
-          <Link to="/userDashBoard">
-            <button type="button" className="btnSecondary">
+          <Link to='/userDashBoard'>
+            <button type='button' className='btnSecondary'>
               DASHBOARD
           </button>
           </Link>

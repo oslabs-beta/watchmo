@@ -14,35 +14,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, '../display')));
 app.use(express.static(path.join(__dirname, '../watchmoData')));
+app.use(express.static(path.join(__dirname, '../../src/assets')));
 
 app.get('/build/bundle.js', (req, res) => {
   res.sendFile(path.join(__dirname, '../../build/bundle.js'));
 });
 
-app.get('/api/configDash', dataController.getConfig, (req, res) => {
-  console.log("infconifg get")
-  res.status(200).json(res.locals.config);
+//if you are in the page and you refresh, this will boot you back to the first page.
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../display/index.html'));
 });
 
+//this need to be modified to work with the config updater
 app.post('/configDash', dataController.updateConfig, (req, res) => {
   console.log(res.locals.config);
   res.status(200).json();
-});
-
-app.get('/data', (req, res) => {
-  res.sendFile(path.join(__dirname, '../watchmoData/parsedData.json'));
-});
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../display/index.html'));
-});
-
-app.get('/configDash', (req, res) => {
-  res.sendFile(path.join(__dirname, '../display/index.html'));
-});
-
-app.get('/userDashBoard', (req, res) => {
-  res.sendFile(path.join(__dirname, '../display/index.html'));
 });
 
 app.use('*', (req, res) => {

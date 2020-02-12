@@ -31,7 +31,14 @@ import Category from './Category';
 //   return [value, onChange];
 // };
 
-const ConfigDashboard = () => {
+const ConfigDashboard = (props) => {
+  const { project, updateProject } = useContext(ProjectContext)
+
+  if (!project.projects) {
+    props.history.push("/");
+  }
+
+
   const [dataFromConfig, setDataFromConfig] = useState({});
   const [endpointConfig, setEndpointConfig] = useState('');
   const [categories, setCategories] = useState([]);
@@ -39,7 +46,7 @@ const ConfigDashboard = () => {
   const [queryString, setQueryString] = useState('');
   const [freq, setFrequency] = useState('');
 
-  const { project, updateProject } = useContext(ProjectContext)
+
 
   async function fetchData() {
     const response = await fetch(`${project.projects}/config.json`);
