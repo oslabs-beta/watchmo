@@ -31,7 +31,7 @@ const appendRawData = (data, savePath) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(chalk.green.bold.underline(`file saved in ${savePath}`));
+      console.log(chalk.green.bold.underline(`DATA SAVED TO ${savePath}`));
     }
   });
 }

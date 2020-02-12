@@ -1,6 +1,12 @@
 //Helpers
-const { DEMARCATION, dataPaths, readParseWriteJSON } = require('./utility/fileHelpers');
+const {
+   DEMARCATION,
+   dataPaths,
+   readParseWriteJSON,
+  checkAndParseFile,
+} = require('./utility/fileHelpers');
 const { openServer } = require('./utility/serverHelpers');
+const chalk = require('chalk');
 
 
 //dataString is a string of JSON objects separated by DEMARCATION (a stylized WM right now)
@@ -25,10 +31,18 @@ function parseData(dataString) {
   return parsed;
 }
 
-function mo(projectName, shouldOpen, noBundle=false, all=false) {
-  const { rawDataPath, parsedDataPath } = dataPaths(projectName);
-  if (!noBundle) { readParseWriteJSON(rawDataPath, parseData, parsedDataPath); }
-  if (shouldOpen) { openServer(); }
+function mo(projectName, shouldOpen, noBundle=false) {
+  let { rawDataPath, parsedDataPath, projectNamesPath } = dataPaths(projectName);
+  const projectNames = checkAndParseFile(projectNamesPath);
+  if (projectNames.includes(projectName)) {
+    if (!noBundle) {
+      readParseWriteJSON(rawDataPath, parseData, parsedDataPath);
+    }
+    if (shouldOpen) { openServer(); }
+  } else {
+    console.log(chalk.cyan.bold(`\nProject ${projectName} is not configured\nRun "watchmo configure ${projectName}" to create this project\n`));;
+  }
+
 }
 
 module.exports = { mo };

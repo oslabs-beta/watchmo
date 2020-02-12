@@ -24,10 +24,9 @@ yargs
   .alias({
     open: 'o',
     bundle: 'b',
-    development: 'd',
     remove: 'r'
   })
-  .command('$0', 'opens up visualizer in browser', cliDefault)
+  .command('$0', 'welcome to watchmo!', cliDefault)
   .command(
     'watch [project]',
     'begins sending queries to the endpoint at the configured frequency',
@@ -36,7 +35,7 @@ yargs
   )
   .command(
     'mo [project]',
-    'parses data and opens up visualizer',
+    'parses snapshot data and opens up visualizer',
     projectPositional,
     (argv) => {
       mo(
@@ -48,7 +47,7 @@ yargs
   )
   .command(
     'less [project]',
-    'cleans up raw and parsed data',
+    'cleans up data files',
     projectPositional,
     (argv) => less(argv.project, argv.remove)
   )
@@ -56,12 +55,6 @@ yargs
     'configure [project]',
     'configures specified project',
     projectPositional,
-    (argv) => configure(argv.project, argv.development)
-  )
-  .command(
-    'test [arg]',
-    'prints out argv',
-    projectPositional,
-    (argv) => console.log(argv)
+    (argv) => configure(argv.project)
   )
   .help().argv;
