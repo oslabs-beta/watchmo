@@ -1,13 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import React,{
+  useContext, 
+  useEffect, 
+  useState 
+} from 'react';
+
+import { 
+  ButtonDropdown, 
+  DropdownToggle, 
+  DropdownMenu, 
+  DropdownItem } from 'reactstrap';
+
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import VertColViz from './VertColViztsx';
-//typescript: testing heading and caption
 import { ProjectContext } from './Context/ProjectContext';
 
 function UserDashboard(props) {
-  //setting the state for the drop down button with typescript
   const [dropdownCatOpen, setCatOpen] = useState(false);
 
   //these are used to grab data from watchmo and loaded it into the state
@@ -18,7 +26,7 @@ function UserDashboard(props) {
   const { project, updateProject } = useContext(ProjectContext)
 
   if (!project.projects) {
-    props.history.push("/");
+    props.history.push('/');
   }
 
   //this is to hold the current category to be displayed int he bar graph
@@ -51,29 +59,29 @@ function UserDashboard(props) {
   }
 
   return (
-    <div id="UserDashboard">
-      <div id="configBtn">
-      <Link to="/">
-          <button type="button" className="btnSecondary">
+    <div id='UserDashboard'>
+      <div id='configBtn'>
+      <Link to='/'>
+          <button type='button' className='btnSecondary'>
             Project Select
           </button>
         </Link>
-        <Link to="/configDash">
-          <button type="button" className="btnSecondary">
+        <Link to='/configDash'>
+          <button type='button' className='btnSecondary'>
             CONFIG
           </button>
         </Link>
       </div>
       <h1> User Dashboard </h1>
-      <div className="categoriesDrop">
+      <div className='categoriesDrop'>
         <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>
-          <DropdownToggle caret color="primary">
+          <DropdownToggle caret color='primary'>
             Categories:
           </DropdownToggle>
           <DropdownMenu>{categoriesInDropDown}</DropdownMenu>
         </ButtonDropdown>
       </div>
-      <div id="chartArea">
+      <div id='chartArea'>
         <VertColViz dataCat={dataFromServer[currentCat]} />
       </div>
     </div>
