@@ -76,23 +76,29 @@ const ConfigDashboard = props => {
   // func to update data within config file
   async function handleSubmit(event) {
     event.preventDefault();
+    const confMsg =
+      'This will overwrite your current config details. Are you sure you want to save this configuration?';
+    const result = window.confirm(confMsg);
     const data = { project: project.projects, data: dataFromConfig };
-
-    await fetch('/api/configDash', {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
+    // control flow to ensure user confirms the choice to save config details
+    if (result) {
+      await fetch('/api/configDash', {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      window.alert('Config details saved!');
+    }
   }
 
   return (
     <div id="configDashboard">
       <div id="navBtn">
         <Link to="/">
-          <Button type="button" outline color="secondary" className="btnSecondary">
+          <Button id="navProjSelect" type="button" color="secondary" className="btnSecondary">
             Back to Project Select
           </Button>
         </Link>
