@@ -24,7 +24,11 @@ yargs
   .alias({
     open: 'o',
     bundle: 'b',
-    remove: 'r'
+    remove: 'r',
+    endpoint: 'e',
+    category: 'c',
+    query: 'q',
+    mo: 'm',
   })
   .command('$0', 'welcome to watchmo!', cliDefault)
   .command(
@@ -55,6 +59,18 @@ yargs
     'configure [project]',
     'configures specified project',
     projectPositional,
-    (argv) => configure(argv.project)
+    (argv) => configure(
+      argv.project,
+      argv.endpoint,
+      argv.category,
+      argv.query,
+      argv.remove,
+    )
+  )
+  .command(
+    'test [project]',
+    'prints argv',
+    projectPositional,
+    (argv) => console.log(argv)
   )
   .help().argv;
