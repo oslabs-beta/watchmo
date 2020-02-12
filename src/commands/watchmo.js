@@ -26,6 +26,7 @@ yargs
     bundle: 'b',
     remove: 'r',
     endpoint: 'e',
+    frequency: 'f',
     category: 'c',
     query: 'q',
     mo: 'm',
@@ -62,15 +63,10 @@ yargs
     (argv) => configure(
       argv.project,
       argv.endpoint,
+      argv.frequency,
       argv.category,
       argv.query,
       argv.remove,
     )
-  )
-  .command(
-    'test [project]',
-    'prints argv',
-    projectPositional,
-    (argv) => console.log(argv)
   )
   .help().argv;
