@@ -85,14 +85,36 @@ function changeFrequency(projectName, frequency) {
   console.log("The CLI frequency functionality is not yet supported. Consider using the browser to change the frequency");
 }
 
-function configure(projectName, endpoint, frequency, category, query, remove=false) {
+function viewConfig(projectName) {
+  const { configPath } = dataPaths(projectName);
+  const configObject = checkAndParseFile(configPath);
+  if (configObject.endpoint === undefined) {
+    console.log(`\nThe project ${projectName} does not exist. \nRun 'watchmo configure ${projectName}' if you would like to create it.\n`);
+    return;
+  }
+  console.log(`Project: ${projectName}\n`);
+  console.log(`Endpoint: ${configObject.endpoint}`);
+  console.log('Categories:');
+  for (let category in configObject.categories) {
+    console.log(`  ${category}: `);
+    console.log(`    queries:`);
+    for (let i=0; i < configObject.categories[category].queries.length; i++) {
+      console.log((`      ${i}: ${configObject.categories[category].queries[i]}`));
+    }
+    console.log(`    frequency:${configObject.categories[category].frequency}`);
+  }
+  console.log('\n');
+}
+
+function configure(projectName, endpoint, frequency, category, query, remove=false, view=false) {
   // not an if-else block so that you can configure endpoint AND category/query all at once if desired
   // default behavior, create project with the given project Name
-  if (!endpoint && !category && !frequency) { createProject(projectName); }
+  if (!endpoint && !category && !frequency && !view) { createProject(projectName); }
   if (endpoint) { changeEndpoint(projectName, endpoint); }
   if (category && !query) { changeCategory(projectName, category, remove); }
   if (category && query) { changeQuery(projectName, category, query, remove); }
   if (category && query && frequency) { changeFrequency(projectName, frequency); }
+  if (view && !endpoint && !category && !frequency) { viewConfig(projectName); }
 }
 
 

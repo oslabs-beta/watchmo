@@ -30,6 +30,7 @@ yargs
     category: 'c',
     query: 'q',
     mo: 'm',
+    view: 'v',
   })
   .command('$0', 'welcome to watchmo!', cliDefault)
   .command(
@@ -67,6 +68,7 @@ yargs
       argv.category,
       argv.query,
       argv.remove,
+      argv.view,
     )
   )
   .help().argv;
