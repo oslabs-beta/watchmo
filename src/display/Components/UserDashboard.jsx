@@ -1,14 +1,6 @@
-import React,{
-  useContext, 
-  useEffect, 
-  useState 
-} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
-import { 
-  ButtonDropdown, 
-  DropdownToggle, 
-  DropdownMenu, 
-  DropdownItem } from 'reactstrap';
+import { Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -22,8 +14,7 @@ function UserDashboard(props) {
   const [dataFromServer, setDataFromServer] = useState([]);
   const [dataGained, setDataGained] = useState(false);
 
-
-  const { project, updateProject } = useContext(ProjectContext)
+  const { project, updateProject } = useContext(ProjectContext);
 
   if (!project.projects) {
     props.history.push('/');
@@ -59,29 +50,33 @@ function UserDashboard(props) {
   }
 
   return (
-    <div id='UserDashboard'>
-      <div id='configBtn'>
-      <Link to='/'>
-          <button type='button' className='btnSecondary'>
-            Project Select
-          </button>
-        </Link>
-        <Link to='/configDash'>
-          <button type='button' className='btnSecondary'>
-            CONFIG
-          </button>
-        </Link>
+    <div id="UserDashboard">
+      <div id="navBtnGroup">
+        <div id="navProjSelect">
+          <Link to="/">
+            <Button color="secondary" className="btnSecondary">
+              Project Select
+            </Button>
+          </Link>
+        </div>
+        <div id="navConfigDash">
+          <Link to="/configDash">
+            <Button color="secondary" className="btnSecondary">
+              Config Dashboard
+            </Button>
+          </Link>
+        </div>
       </div>
       <h1> User Dashboard </h1>
-      <div className='categoriesDrop'>
+      <div className="categoriesDrop">
         <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>
-          <DropdownToggle caret color='primary'>
+          <DropdownToggle caret color="primary">
             Categories:
           </DropdownToggle>
           <DropdownMenu>{categoriesInDropDown}</DropdownMenu>
         </ButtonDropdown>
       </div>
-      <div id='chartArea'>
+      <div id="chartArea">
         <VertColViz dataCat={dataFromServer[currentCat]} />
       </div>
     </div>

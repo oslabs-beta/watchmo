@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import React, { useEffect, useState, useContext } from 'react';
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import { ProjectContext } from './Context/ProjectContext';
@@ -53,18 +53,19 @@ function ProjectSelect(props) {
       </div>
       {project.projects && (
         <div>
-          <div id="configBtn">
-            <Link to="/configDash">
-              <button type="button" className="btnSecondary">
-                CONFIG
-              </button>
+          <div id="userDashBtn">
+            <Link to="/userDashBoard">
+              <Button size="md" type="button" className="btnSecondary">
+                DASHBOARD
+              </Button>
             </Link>
           </div>
-          <div>
-            <Link to="/userDashBoard">
-              <button type="button" className="btnSecondary">
-                DASHBOARD
-              </button>
+
+          <div id="configBtn">
+            <Link to="/configDash">
+              <Button type="button" className="btnSecondary">
+                CONFIG
+              </Button>
             </Link>
           </div>
         </div>

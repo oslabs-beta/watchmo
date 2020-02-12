@@ -21,12 +21,13 @@ const CategoriesContainer = props => {
 
   return (
     <div className="category">
-      <hr />
       <div>
         <Category
           categories={localCats}
           configData={props.configData}
           queryChange={props.queryChange}
+          addQuery={props.addQuery}
+          deleteQuery={props.deleteQuery}
           freqChange={props.freqChange}
         />
       </div>

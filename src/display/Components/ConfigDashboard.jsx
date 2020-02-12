@@ -23,7 +23,7 @@ const ConfigDashboard = props => {
         setDataFromConfig(res);
         setEndpointConfig(res.endpoint);
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(JSON.stringify(err)));
   }
 
   useEffect(() => {
@@ -67,7 +67,25 @@ const ConfigDashboard = props => {
     const queryIdx = e.target.id.split('-')[1];
     const JSONified = JSON.stringify(dataFromConfig);
     const newDataFromConfig = JSON.parse(JSONified);
+    console.log(e.target.key);
     newDataFromConfig.categories[catName].queries[queryIdx] = e.target.value;
+    setDataFromConfig(newDataFromConfig);
+  };
+
+  const addQuery = e => {
+    const catName = e.target.id.split('-')[0];
+    const JSONified = JSON.stringify(dataFromConfig);
+    const newDataFromConfig = JSON.parse(JSONified);
+    newDataFromConfig.categories[catName].queries.push('');
+    setDataFromConfig(newDataFromConfig);
+  };
+
+  const deleteQuery = e => {
+    const catName = e.target.id.split('-')[0];
+    const queryIdx = e.target.id.split('-')[1];
+    const JSONified = JSON.stringify(dataFromConfig);
+    const newDataFromConfig = JSON.parse(JSONified);
+    newDataFromConfig.categories[catName].queries.splice(queryIdx, 1);
     setDataFromConfig(newDataFromConfig);
   };
 
@@ -82,16 +100,22 @@ const ConfigDashboard = props => {
   // func to update data within config file
   async function handleSubmit(event) {
     event.preventDefault();
+    const confMsg =
+      'This will overwrite your current config details. Are you sure you want to save this configuration?';
+    const result = window.confirm(confMsg);
     const data = { project: project.projects, data: dataFromConfig };
-
-    await fetch('/api/configDash', {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
+    // control flow to ensure user confirms the choice to save config details
+    if (result) {
+      await fetch('/api/configDash', {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      window.alert('Config details saved!');
+    }
   }
 
   return (
@@ -103,18 +127,20 @@ const ConfigDashboard = props => {
           </button>
         </Link>
         <Link to="/">
-          <button type="button" className="btnSecondary">
+          <Button id="navProjSelect" type="button" color="secondary" className="btnSecondary">
             Back to Project Select
-          </button>
+          </Button>
         </Link>
       </div>
       <div id="configHeader">
+        <br />
         <h1>Config Dashboard</h1>
+        <hr />
         <Form id="configForm">
           <div id="categories">
             <FormGroup>
               <Label for="endpointLabel">
-                <h4>Endpoint</h4>
+                <h4 id="endpointHeader">Endpoint</h4>
               </Label>
               <Input
                 type="text"
@@ -126,7 +152,7 @@ const ConfigDashboard = props => {
               />
               <hr />
               <Label for="categories">
-                <h4>Categories</h4>
+                <h4 id="categoriesHeader">Categories</h4>
               </Label>
               <CategoriesContainer
                 configData={dataFromConfig}
@@ -135,6 +161,8 @@ const ConfigDashboard = props => {
                 addTypedCat={addTypedCat}
                 typedCat={typedCat}
                 queryChange={queryChange}
+                addQuery={addQuery}
+                deleteQuery={deleteQuery}
                 freqChange={frequencyChange}
               />
             </FormGroup>
