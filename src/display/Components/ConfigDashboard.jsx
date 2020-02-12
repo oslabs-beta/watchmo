@@ -98,12 +98,14 @@ const ConfigDashboard = props => {
         </Link>
       </div>
       <div id="configHeader">
+        <br />
         <h1>Config Dashboard</h1>
+        <hr />
         <Form id="configForm">
           <div id="categories">
             <FormGroup>
               <Label for="endpointLabel">
-                <h4>Endpoint</h4>
+                <h4 id="endpointHeader">Endpoint</h4>
               </Label>
               <Input
                 type="text"
@@ -115,7 +117,7 @@ const ConfigDashboard = props => {
               />
               <hr />
               <Label for="categories">
-                <h4>Categories</h4>
+                <h4 id="categoriesHeader">Categories</h4>
               </Label>
               <CategoriesContainer
                 configData={dataFromConfig}

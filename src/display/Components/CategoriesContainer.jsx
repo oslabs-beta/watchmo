@@ -21,7 +21,6 @@ const CategoriesContainer = props => {
 
   return (
     <div className="category">
-      <hr />
       <div>
         <Category
           categories={localCats}
