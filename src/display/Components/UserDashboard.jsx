@@ -51,22 +51,19 @@ function UserDashboard(props) {
 
   return (
     <div id="UserDashboard">
-      <div id="navBtnGroup">
-        <div id="navProjSelect">
-          <Link to="/">
-            <Button color="secondary" className="btnSecondary">
-              Project Select
-            </Button>
-          </Link>
-        </div>
-        <div id="navConfigDash">
-          <Link to="/configDash">
-            <Button color="secondary" className="btnSecondary">
-              Config Dashboard
-            </Button>
-          </Link>
-        </div>
-      </div>
+      <span id="navBtnSpan">
+        <Link id="navProjLink" to="/">
+          <Button color="secondary" id="navProjSelect" block>
+            Project Select
+          </Button>
+        </Link>
+        <Link id="navConfigLink" to="/configDash">
+          <Button id="navConfigDash" color="secondary" block>
+            Config Dashboard
+          </Button>
+        </Link>
+      </span>
+
       <h1> User Dashboard </h1>
       <div className="categoriesDrop">
         <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>

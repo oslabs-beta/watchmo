@@ -51,7 +51,7 @@ const ConfigDashboard = props => {
     newDataFromConfig.categories[typedCat].frequency = '';
     setTypedCat('');
     setDataFromConfig(newDataFromConfig);
-  }
+  };
 
   const delCategory = e => {
     const JSONified = JSON.stringify(dataFromConfig);
@@ -59,8 +59,7 @@ const ConfigDashboard = props => {
     delete newDataFromConfig.categories[typedCat];
     setTypedCat('');
     setDataFromConfig(newDataFromConfig);
-  }
-
+  };
 
   const queryChange = e => {
     const catName = e.target.id.split('-')[0];
@@ -121,10 +120,10 @@ const ConfigDashboard = props => {
   return (
     <div id="configDashboard">
       <div id="navBtn">
-      <Link to="/userDashBoard">
-          <button type="button" className="btnSecondary">
-            Back to Uses Dashboard
-          </button>
+        <Link to="/userDashBoard">
+          <Button id="navUserDash" type="button" color="secondary" className="btnSecondary">
+            Back to User Dashboard
+          </Button>
         </Link>
         <Link to="/">
           <Button id="navProjSelect" type="button" color="secondary" className="btnSecondary">

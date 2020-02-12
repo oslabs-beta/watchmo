@@ -21,7 +21,7 @@ div a {
 }
 
 #catInput {
-  width:100%
+  width: 100%;
 }
 
 #UserDashboard {
@@ -168,6 +168,13 @@ button.btnSecondary.btn.btn-outline-secondary {
   border-radius: 5px;
 }
 
-#navProjSelect {
+span#navBtnSpan {
   width: 100%;
+  align-content: space-between;
+  align-items: center;
+}
+
+#navBtnGroup {
+  width: 100%;
+  align-items: center;
 }
