@@ -39,7 +39,6 @@ const ConfigDashboard = props => {
     setEndpointConfig(url);
   };
 
-
   const addTypedCat = e => {
     setTypedCat(e.target.value);
   };
