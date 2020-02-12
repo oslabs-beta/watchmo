@@ -1,5 +1,10 @@
 //Helpers
-const { DEMARCATION, dataPaths, readParseWriteJSON, checkAndParseFile } = require('./utility/fileHelpers');
+const {
+   DEMARCATION,
+   dataPaths,
+   readParseWriteJSON,
+  checkAndParseFile,
+} = require('./utility/fileHelpers');
 const { openServer } = require('./utility/serverHelpers');
 const chalk = require('chalk');
 
@@ -35,7 +40,7 @@ function mo(projectName, shouldOpen, noBundle=false) {
     }
     if (shouldOpen) { openServer(); }
   } else {
-    console.log(chalk.yellow.underline.bold('Project does not exist. '));
+    console.log(chalk.cyan.bold(`\nProject ${projectName} is not configured\nRun "watchmo configure ${projectName}" to create this project\n`));;
   }
 
 }

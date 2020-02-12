@@ -21,12 +21,11 @@ function less(projectName, remove = false) {
 
   const removeProjectName = () => {
     projectNamesArray = projectNamesArray.filter((el) => (el !== projectName));
-    // fs.writeFileSync(projectNamesPath, JSON.stringify(projectNamesArray), (err) => console.log(err));
     writeJSON(projectNamesPath, projectNamesArray);
   }
 
   if (!fs.existsSync(projectPath)) {
-    console.log(chalk.yellow.underline.bold('Project does not exist. '));
+    console.log(chalk.cyan.bold(`\nProject ${projectName} is not configured\nRun "watchmo configure ${projectName}" to create this project\n`));;
   }
   else if (!remove) {
     cleanAllFiles([parsedDataPath, rawDataPath]);

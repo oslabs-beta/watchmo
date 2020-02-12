@@ -1,4 +1,8 @@
-const { dataPaths, checkAndParseFile, appendRawData } = require('./utility/fileHelpers');
+const {
+  dataPaths,
+  checkAndParseFile,
+  appendRawData,
+} = require('./utility/fileHelpers');
 const { request } = require('graphql-request');
 const chalk = require('chalk');
 
