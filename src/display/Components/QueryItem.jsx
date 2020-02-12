@@ -32,6 +32,7 @@ const QueryItem = props => {
           X
         </Button>
       </span>
+
     </div>
   );
 };
