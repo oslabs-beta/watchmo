@@ -1,22 +1,12 @@
-import {
-  select,
-  axisBottom,
-  axisRight,
-  scaleLinear,
-  scaleBand
-} from 'd3';
-import React, {
-  useRef,
-  useEffect,
-  useState
-} from 'react';
+import { select, axisBottom, axisRight, scaleLinear, scaleBand } from 'd3';
+import React, { useRef, useEffect, useState } from 'react';
 import '../stylesheets/style.scss';
 import TimeViz from './TimeViztsx';
 
 interface VertColVisProps {
-  dataCat: any[]
+  dataCat: any[];
 }
-const VertColViz: React.FC<VertColVisProps> = (props) => {
+const VertColViz: React.FC<VertColVisProps> = props => {
   let queries: string[] = [];
   let responses: any[] = [];
   let localQuerySelected: string[] = [];
@@ -28,7 +18,7 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
     if (localQuerySelected.includes(queryIn)) {
       localQuerySelected = [];
       setSelectedQuery([]);
-      setRenderLine(false)
+      setRenderLine(false);
     } else {
       localQuerySelected = [];
       localQuerySelected.push(queryIn);
@@ -60,19 +50,18 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
       responses.push(timeTot / props.dataCat[query].length);
     }
 
-
     const svg: any = select(svgRef.current);
 
     //used for dynamic y-axis
     let max: number = Math.max(...responses);
     let upper: number = 1.5 * max;
 
-    const chartDiv: HTMLElement = document.getElementById('chartArea') //grab the chart area that the graph lives in
-    const margin = { yheight: chartDiv.clientHeight, xwidth: chartDiv.clientWidth } //margins required for resizing
+    const chartDiv: HTMLElement = document.getElementById('chartArea'); //grab the chart area that the graph lives in
+    const margin = { yheight: chartDiv.clientHeight, xwidth: chartDiv.clientWidth }; //margins required for resizing
 
     function redrawBar() {
-      margin.yheight = chartDiv.clientHeight
-      margin.xwidth = chartDiv.clientWidth
+      margin.yheight = chartDiv.clientHeight;
+      margin.xwidth = chartDiv.clientWidth;
 
       xScale.range([0, margin.xwidth]);
 
@@ -83,15 +72,16 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
 
       xAxis = axisBottom(xScale).ticks(responses.length + 1);
 
-      svg
-        .select('.x-axis').call(xAxis)
+      svg.select('.x-axis').call(xAxis);
 
       svg
-        .selectAll('.bar').attr('x', (_value, index) => xScale(index)).attr('width', xScale.bandwidth())
+        .selectAll('.bar')
+        .attr('x', (_value, index) => xScale(index))
+        .attr('width', xScale.bandwidth());
     }
 
     window.addEventListener('resize', redrawBar);
-    // scales 
+    // scales
     let xScale = scaleBand<number>()
       .domain(responses.map((_value, index) => index)) //x-axis labeled here
       .range([0, margin.xwidth])
@@ -102,10 +92,7 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
       .range([300, 0]);
 
     const colorScale = scaleLinear<string>()
-      .domain([
-        upper * 0.2,
-        upper
-      ])
+      .domain([upper * 0.2, upper])
       .range(['blue', 'red'])
       .clamp(true);
     let defs = svg.append('defs');
@@ -137,7 +124,9 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
       .call(yAxis);
 
     if (responses.length !== 0) {
-      svg.select('.y-axis').append('text')
+      svg
+        .select('.y-axis')
+        .append('text')
         .attr('class', 'yaxislabel')
         .attr('transform', 'rotate(90)')
         .attr('y', 20)
@@ -161,7 +150,8 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
       .attr('width', xScale.bandwidth())
       .on('mouseenter', (value, index) => {
         svg
-          .selectAll('.tooltip').append('div')
+          .selectAll('.tooltip')
+          .append('div')
           .data([value])
           .join(enter => enter.append('text').attr('y', yScale(value) - 50))
           .attr('class', 'tooltip')
@@ -170,7 +160,7 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
           .attr('text-anchor', 'middle')
           .transition()
           .attr('y', yScale(value) - 80)
-          .style('opacity', 1)
+          .style('opacity', 1);
       })
       .on('mouseleave', () => svg.select('.tooltip').remove())
       .on('click', (_value, index) => {
@@ -192,12 +182,12 @@ const VertColViz: React.FC<VertColVisProps> = (props) => {
   return (
     <React.Fragment>
       <svg ref={svgRef}>
-        <g className='x-axis' />
-        <g className='y-axis' />
+        <g className="x-axis" />
+        <g className="y-axis" />
       </svg>
       <div>{timeGraph}</div>
     </React.Fragment>
   );
-}
+};
 
 export default VertColViz;
