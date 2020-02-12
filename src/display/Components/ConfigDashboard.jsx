@@ -11,6 +11,7 @@ const ConfigDashboard = props => {
   const [origConfig, setOrigConfig] = useState({});
   const [dataFromConfig, setDataFromConfig] = useState({});
   const [endpointConfig, setEndpointConfig] = useState('');
+  const [typedCat, setTypedCat] = useState('');
   const { project } = useContext(ProjectContext);
 
   async function fetchData() {
@@ -37,6 +38,29 @@ const ConfigDashboard = props => {
     setDataFromConfig(newDataFromConfig);
     setEndpointConfig(url);
   };
+
+  const addTypedCat = e => {
+    setTypedCat(e.target.value);
+  };
+
+  const addCategory = e => {
+    const JSONified = JSON.stringify(dataFromConfig);
+    const newDataFromConfig = JSON.parse(JSONified);
+    newDataFromConfig.categories[typedCat] = {};
+    newDataFromConfig.categories[typedCat].queries = [''];
+    newDataFromConfig.categories[typedCat].frequency = '';
+    setTypedCat('');
+    setDataFromConfig(newDataFromConfig);
+  }
+
+  const delCategory = e => {
+    const JSONified = JSON.stringify(dataFromConfig);
+    const newDataFromConfig = JSON.parse(JSONified);
+    delete newDataFromConfig.categories[typedCat];
+    setTypedCat('');
+    setDataFromConfig(newDataFromConfig);
+  }
+
 
   const queryChange = e => {
     const catName = e.target.id.split('-')[0];
@@ -73,6 +97,11 @@ const ConfigDashboard = props => {
   return (
     <div id="configDashboard">
       <div id="navBtn">
+      <Link to="/userDashBoard">
+          <button type="button" className="btnSecondary">
+            Back to Uses Dashboard
+          </button>
+        </Link>
         <Link to="/">
           <button type="button" className="btnSecondary">
             Back to Project Select
@@ -101,6 +130,10 @@ const ConfigDashboard = props => {
               </Label>
               <CategoriesContainer
                 configData={dataFromConfig}
+                addCategory={addCategory}
+                delCategory={delCategory}
+                addTypedCat={addTypedCat}
+                typedCat={typedCat}
                 queryChange={queryChange}
                 freqChange={frequencyChange}
               />

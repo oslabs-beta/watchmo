@@ -10,7 +10,7 @@ const QueryItem = props => {
   // const [queryStrings, setQueryString] = useState(props.queryItem);
 
   return (
-    <div id={`${props.queryItem}-queryItem`}>
+    <div id={`${props.id}-queryItem`}>
       <Input
         type="textarea"
         name="queryString"
