@@ -11,6 +11,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.post('/api/configDash', dataController.updateConfig, (req, res) => {
+  console.log(res.locals.config);
+  res.status(200).json();
+});
+
 app.use(express.static(path.join(__dirname, '../display')));
 app.use(express.static(path.join(__dirname, '../watchmoData')));
 
@@ -18,15 +23,10 @@ app.get('/build/bundle.js', (req, res) => {
   res.sendFile(path.join(__dirname, '../../build/bundle.js'));
 });
 
-app.get('/api/configDash', dataController.getConfig, (req, res) => {
-  console.log('inconfigDash');
-  res.status(200).json({ configData: res.locals.config });
-});
-
-app.post('/configDash', dataController.updateConfig, (req, res) => {
-  console.log(res.locals.config);
-  res.status(200).json();
-});
+// app.get('/api/configDash', dataController.getConfig, (req, res) => {
+//   console.log('inconfigDash');
+//   // res.status(200).json({ configData: res.locals.config });
+// });
 
 app.get('/data', (req, res) => {
   res.sendFile(path.join(__dirname, '../watchmoData/parsedData.json'));

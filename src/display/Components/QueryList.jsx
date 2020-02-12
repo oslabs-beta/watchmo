@@ -23,14 +23,20 @@ import CategoryData from './CategoryData';
 import QueryItem from './QueryItem';
 
 const QueryList = props => {
-  const [queryStrings, setQueryString] = useState(props.queries);
+  // const [queryStrings, setQueryString] = useState(props.queries);
 
   const queryItems = [];
-  queryStrings.forEach(query => {
+  for (let i = 0; i < props.queries.length; i += 1) {
     queryItems.push(
-      <QueryItem key={query} name={`${props.name}-queryItem`} queryItem={`${query}`} />
+      <QueryItem
+        key={i}
+        id={`${props.name}-${i}`}
+        name={`${props.name}-queryItem`}
+        queryItem={`${props.queries[i]}`}
+        queryChange={props.queryChange}
+      />
     );
-  });
+  }
 
   return (
     <div>

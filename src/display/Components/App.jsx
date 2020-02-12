@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import UserDashboard from './UserDashboard.jsx';
 import ConfigDashboard from './ConfigDashboard.jsx';
-import ProjectSelect from './ProjectSelect.jsx'
+import ProjectSelect from './ProjectSelect.jsx';
 import { ProjectProvider } from './Context/ProjectContext';
 import '../stylesheets/style.scss';
 
@@ -22,7 +22,5 @@ export const App = () => {
 // ReactDOM.render(
 //   <ProjectProvider>
 //     <App />
-//   </ProjectProvider>, 
+//   </ProjectProvider>,
 //   document.getElementById('root'));
-
-

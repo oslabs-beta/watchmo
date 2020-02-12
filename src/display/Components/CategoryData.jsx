@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import {
@@ -21,11 +22,7 @@ import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
 import useInput from '../../js/input-hook.js';
 import QueryList from './QueryList';
 
-const CategoryData = ({ catData }) => {
-  const [categoryData, setCategoryData] = useState({ catData });
-  const [queryStrings, setQueryString] = useState(catData.queries);
-  const [frequency, setFrequency] = useState(catData.frequency);
-
+const CategoryData = props => {
   // For handling updates to frequency
   const freqChange = e => {
     const newFreq = e.target.value;
@@ -35,24 +32,26 @@ const CategoryData = ({ catData }) => {
   return (
     <div>
       <CardTitle>
-        <h4>{catData.name}</h4>
+        <h4>{props.catData.name}</h4>
       </CardTitle>
       <CardSubtitle>Frequency:</CardSubtitle>
       <Input
         type="text"
         name="frequency"
-        id={`${catData.name}-freq`}
+        id={`${props.catData.name}-freq`}
         placeholder="Set frequency of query execution"
-        value={frequency}
-        onChange={freqChange}
+        value={props.catData.frequency}
+        onChange={props.freqChange}
       />
       <br />
       <CardSubtitle>Queries:</CardSubtitle>
-      <QueryList key={catData.name} name={catData.name} queries={queryStrings} />
+      <QueryList
+        key={props.catData.name}
+        name={props.catData.name}
+        queries={props.catData.queries}
+        queryChange={props.queryChange}
+      />
     </div>
   );
-  {
-    /* <Button size="sm">Edit Queries</Button> */
-  }
 };
 export default CategoryData;

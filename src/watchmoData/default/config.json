@@ -3,7 +3,7 @@
   "categories": {
     "countries": {
       "queries": [
-        "{ countries { name native code currency }}", 
+        "{ countries { name native code currency }}",
         "{ countries { name }}",
         "{ countries { name languages {name}}}"
       ],
@@ -19,10 +19,7 @@
       "frequency": 30000
     },
     "languages": {
-      "queries": [
-        "{languages {name native code}}", 
-        "{language (code: \"am\") {name native code}}"
-      ],
+      "queries": ["{languages {name native code}}", "{language (code: \"am\") {name native code}}"],
       "frequency": 10000
     }
   },
