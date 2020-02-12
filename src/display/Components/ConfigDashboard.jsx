@@ -43,6 +43,7 @@ const ConfigDashboard = props => {
     const queryIdx = e.target.id.split('-')[1];
     const JSONified = JSON.stringify(dataFromConfig);
     const newDataFromConfig = JSON.parse(JSONified);
+    console.log(e.target.key);
     newDataFromConfig.categories[catName].queries[queryIdx] = e.target.value;
     setDataFromConfig(newDataFromConfig);
   };
@@ -60,20 +61,7 @@ const ConfigDashboard = props => {
     const queryIdx = e.target.id.split('-')[1];
     const JSONified = JSON.stringify(dataFromConfig);
     const newDataFromConfig = JSON.parse(JSONified);
-    // to avoid time complexity of slice method, manually copying to a new array
-    // delete newDataFromConfig.categories[catName].queries[queryIdx];
-    const queryArray = [];
-    for (let i = 0; i < newDataFromConfig.categories[catName].queries.length; i += 1) {
-      // control flow to skip over idx of query to be deleted
-      if (i !== queryIdx) {
-        console.log(queryArray);
-        console.log(queryIdx);
-        queryArray.push(newDataFromConfig.categories[catName].queries[i]);
-      }
-    }
-    // replace queries array with queryArray we just built
-    newDataFromConfig.categories[catName].queries = queryArray;
-    // update state with new data
+    newDataFromConfig.categories[catName].queries.splice(queryIdx, 1);
     setDataFromConfig(newDataFromConfig);
   };
 
@@ -104,9 +92,9 @@ const ConfigDashboard = props => {
     <div id="configDashboard">
       <div id="navBtn">
         <Link to="/">
-          <button type="button" className="btnSecondary">
+          <Button type="button" outline color="secondary" className="btnSecondary">
             Back to Project Select
-          </button>
+          </Button>
         </Link>
       </div>
       <div id="configHeader">

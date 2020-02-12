@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { CardTitle, CardSubtitle, Input } from 'reactstrap';
+import { Button, CardTitle, CardSubtitle, Input } from 'reactstrap';
 import '../stylesheets/style.scss';
 import QueryList from './QueryList';
 // import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
@@ -31,9 +31,19 @@ const CategoryData = props => {
         deleteQuery={props.deleteQuery}
         queryChange={props.queryChange}
       />
-      <button id={`${props.catData.name}-addQuery`} type="button" onClick={props.addQuery}>
-        Add New Query
-      </button>
+      <div id="btnAddQuery">
+        <Button
+          className="addQueryBtn"
+          color="primary"
+          size="md"
+          id={`${props.catData.name}-addQuery`}
+          // type="button"
+          onClick={props.addQuery}
+          block
+        >
+          Add Query
+        </Button>
+      </div>
     </div>
   );
 };
