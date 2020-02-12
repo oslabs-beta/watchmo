@@ -1,5 +1,5 @@
 footer {
-  display:flex;
+  display: flex;
   justify-content: center;
 }
 
@@ -27,9 +27,15 @@ div a {
 
 #configDashboard {
   width: 80%;
-  color: white;
+  color: black;
   font-family: 'Audiowide', cursive;
 }
+
+div#configHeader {
+  background-color: lightgray;
+  border-radius: 5px;
+}
+
 .router {
   width: 100%;
   display: flex;
@@ -37,7 +43,6 @@ div a {
   align-items: center;
   justify-content: center;
 }
-
 
 .categoriesDrop {
   display: flex;
@@ -61,13 +66,12 @@ svg {
 }
 
 text {
-  color: white;
+  color: whitesmoke;
 }
-
 
 #root {
   font-family: 'Audiowide', cursive;
-  flex-basis:100%;
+  flex-basis: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -109,7 +113,7 @@ button:hover {
   box-shadow: 0 5px 15px rgb(114, 120, 171);
 }
 
-div  .tooltip {
+div .tooltip {
   background: lightsteelblue;
 }
 
