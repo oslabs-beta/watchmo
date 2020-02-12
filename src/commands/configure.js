@@ -77,11 +77,17 @@ function changeQuery(projectName, category, query, remove=false) {
     configObject.categories[category].queries.push(query);
     writeJSON(configPath, configObject);
   } else if (remove) {
-    console.log("The CLI remove functionality for queries is not yet supported. Consider using the browser to remove queries.");
+    if (configObject.categories[category].queries[query] === undefined) {
+      console.log("\nThe query specified does not exist. Please give an index corresponding to the appropriate query. \nRun 'watchmo configure [project name] --view' to view the configuration and query indices\n");
+    } else {
+      configObject.categories[category].queries.splice(query, 1);
+      writeJSON(configPath, configObject);
+    }
+
   }
 }
 
-function changeFrequency(projectName, frequency) {
+function changeFrequency(projectName, category, frequency) {
   console.log("The CLI frequency functionality is not yet supported. Consider using the browser to change the frequency");
 }
 
@@ -111,9 +117,9 @@ function configure(projectName, endpoint, frequency, category, query, remove=fal
   // default behavior, create project with the given project Name
   if (!endpoint && !category && !frequency && !view) { createProject(projectName); }
   if (endpoint) { changeEndpoint(projectName, endpoint); }
-  if (category && !query) { changeCategory(projectName, category, remove); }
-  if (category && query) { changeQuery(projectName, category, query, remove); }
-  if (category && query && frequency) { changeFrequency(projectName, frequency); }
+  if (category && query === false) { changeCategory(projectName, category, remove); }
+  if (category && query !== false) { changeQuery(projectName, category, query, remove); }
+  if (category && query && frequency) { changeFrequency(projectName, category, frequency); }
   if (view && !endpoint && !category && !frequency) { viewConfig(projectName); }
 }
 
