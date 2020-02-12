@@ -1,31 +1,15 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
-import {
-  Card,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText
-} from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { runtime } from 'regenerator-runtime';
+import React from 'react';
+import { Card, CardBody } from 'reactstrap';
 import '../stylesheets/style.scss';
-import { render } from 'react-dom';
-import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
-import useInput from '../../js/input-hook.js';
 import CategoryData from './CategoryData';
+// import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
 
 const Category = props => {
   const categoryCards = [];
   function categoryBuilder(catDataParam) {
-    // eslint-disable-next-line no-restricted-syntax
     for (const category of catDataParam) {
       categoryCards.push(
         <div key={category.name}>
@@ -43,9 +27,6 @@ const Category = props => {
     }
   }
   categoryBuilder(props.categories);
-  // useEffect(() => {
-  //   categoryBuilder(catArrOfObjs);
-  // }, []);
   return categoryCards;
 };
 

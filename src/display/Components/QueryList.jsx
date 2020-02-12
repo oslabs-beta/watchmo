@@ -1,30 +1,11 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
-import {
-  Card,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText
-} from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { runtime } from 'regenerator-runtime';
-import '../stylesheets/style.scss';
-import { render } from 'react-dom';
-import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
-import useInput from '../../js/input-hook.js';
-import CategoryData from './CategoryData';
+import React from 'react';
+import { FormGroup } from 'reactstrap';
 import QueryItem from './QueryItem';
+import '../stylesheets/style.scss';
+// import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
 
 const QueryList = props => {
-  // const [queryStrings, setQueryString] = useState(props.queries);
-
   const queryItems = [];
   for (let i = 0; i < props.queries.length; i += 1) {
     queryItems.push(

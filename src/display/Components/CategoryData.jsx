@@ -1,34 +1,13 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
-import {
-  Card,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText
-} from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { runtime } from 'regenerator-runtime';
+import React from 'react';
+import { CardTitle, CardSubtitle, Input } from 'reactstrap';
 import '../stylesheets/style.scss';
-import { render } from 'react-dom';
-import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
-import useInput from '../../js/input-hook.js';
 import QueryList from './QueryList';
+// import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
 
 const CategoryData = props => {
-  // For handling updates to frequency
-  const freqChange = e => {
-    const newFreq = e.target.value;
-    setFrequency(Number(newFreq));
-  };
-
   return (
     <div>
       <CardTitle>

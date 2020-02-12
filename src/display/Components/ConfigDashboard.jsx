@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ProjectContext } from './Context/ProjectContext';
-// import { runtime } from 'regenerator-runtime';
 import '../stylesheets/style.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import CategoriesContainer from './CategoriesContainer';
