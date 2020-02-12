@@ -1,8 +1,8 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+/* eslint-disable no-restricted-syntax */
+import React, { useEffect, useState, useContext } from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import ConfigDashboard from './ConfigDashboard';
 import { ProjectContext } from './Context/ProjectContext';
 
 function ProjectSelect(props) {
@@ -11,7 +11,7 @@ function ProjectSelect(props) {
 
   const { project, updateProject } = useContext(ProjectContext);
 
-  //these are used to grab data from watchmo and loaded it into the state
+  // these are used to grab data from watchmo and loaded it into the state
   const [projsFromServer, setProjsFromServer] = useState([1, 2]);
   const [projGained, setDataGained] = useState(false);
 
@@ -22,7 +22,6 @@ function ProjectSelect(props) {
 
   useEffect(() => {
     if (!projGained) {
-      console.log('whot');
       fetch('/projectNames.json')
         .then(data => data.json())
         .then(parsed => {
@@ -30,13 +29,11 @@ function ProjectSelect(props) {
         })
         .catch(err => console.log(err));
       setDataGained(true);
-    } else {
-      console.log('i got it');
     }
   }, [projsFromServer]);
 
   const projcategoriesInDropDown = [];
-  for (let projects of projsFromServer) {
+  for (const projects of projsFromServer) {
     projcategoriesInDropDown.push(
       <DropdownItem key={projects} onClick={() => updateProject({ projects })}>
         {projects}

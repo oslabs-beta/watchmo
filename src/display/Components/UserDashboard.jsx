@@ -1,33 +1,39 @@
-import * as React from 'react';
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Link, Route, withRouter } from 'react-router-dom';
+import React,{
+  useContext, 
+  useEffect, 
+  useState 
+} from 'react';
+
+import { 
+  ButtonDropdown, 
+  DropdownToggle, 
+  DropdownMenu, 
+  DropdownItem } from 'reactstrap';
+
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import VertColViz from './VertColViz';
-//typescript: testing heading and caption
+import VertColViz from './VertColViztsx';
 import { ProjectContext } from './Context/ProjectContext';
 
 function UserDashboard(props) {
-  //setting the state for the drop down button with typescript
-  const [dropdownCatOpen, setCatOpen] = React.useState(false);
+  const [dropdownCatOpen, setCatOpen] = useState(false);
 
   //these are used to grab data from watchmo and loaded it into the state
-  const [dataFromServer, setDataFromServer] = React.useState([]);
-  const [dataGained, setDataGained] = React.useState(false);
+  const [dataFromServer, setDataFromServer] = useState([]);
+  const [dataGained, setDataGained] = useState(false);
 
 
-  const { project, updateProject } = React.useContext(ProjectContext)
+  const { project, updateProject } = useContext(ProjectContext)
 
-    if (!project.projects) {
-      props.history.push("/");
-    }
+  if (!project.projects) {
+    props.history.push('/');
+  }
 
   //this is to hold the current category to be displayed int he bar graph
-  const [currentCat, setCurrentCat] = React.useState('');
+  const [currentCat, setCurrentCat] = useState('');
 
-  React.useEffect(() => {
-    console.log(project.projects)
+  useEffect(() => {
     if (!dataGained) {
-      console.log('whot');
       fetch(`${project.projects}/parsedData.json`)
         .then(data => data.json())
         .then(parsed => {
@@ -36,10 +42,6 @@ function UserDashboard(props) {
         .catch(err => console.log(err));
       setDataGained(true);
     }
-    else {
-      console.log("i got it")
-    }
-
   }, [project]);
 
   //function that is in charge of changing the state
@@ -57,27 +59,32 @@ function UserDashboard(props) {
   }
 
   return (
-      <div id="UserDashboard">
-        <div id="configBtn">
-          <Link to="/configDash">
-            <button type="button" className="btnSecondary">
-              CONFIG
+    <div id='UserDashboard'>
+      <div id='configBtn'>
+      <Link to='/'>
+          <button type='button' className='btnSecondary'>
+            Project Select
           </button>
-          </Link>
-        </div>
-        <h1> User Dashboard </h1>
-        <div className="categoriesDrop">
-          <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>
-            <DropdownToggle caret color="primary">
-              Categories:
-          </DropdownToggle>
-            <DropdownMenu>{categoriesInDropDown}</DropdownMenu>
-          </ButtonDropdown>
-        </div>
-        <div id="chartArea">
-          <VertColViz dataCat={dataFromServer[currentCat]} />
-        </div>
+        </Link>
+        <Link to='/configDash'>
+          <button type='button' className='btnSecondary'>
+            CONFIG
+          </button>
+        </Link>
       </div>
+      <h1> User Dashboard </h1>
+      <div className='categoriesDrop'>
+        <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>
+          <DropdownToggle caret color='primary'>
+            Categories:
+          </DropdownToggle>
+          <DropdownMenu>{categoriesInDropDown}</DropdownMenu>
+        </ButtonDropdown>
+      </div>
+      <div id='chartArea'>
+        <VertColViz dataCat={dataFromServer[currentCat]} />
+      </div>
+    </div>
   );
 }
 

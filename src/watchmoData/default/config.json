@@ -1,26 +1,21 @@
 {
-  "endpoint": "https://countries.trevorblades.com/",
+  "endpoint": "http://localhost:4545/graphql",
   "categories": {
-    "countries": {
-      "queries": [
-        "{ countries { name native code currency }}",
-        "{ countries { name }}",
-        "{ countries { name languages {name}}}"
-      ],
-      "frequency": 15000
+    "default": {
+      "queries": ["{ books { name }}", "{ authors { name }}"],
+      "frequency": 5000
     },
-    "continents": {
+    "bigq": {
       "queries": [
-        "{continents {code name}}",
-        "{continent (code:\"AF\") {code name}}",
-        "{continent (code:\"AF\") {code name countries {name}} }",
-        "{continent (code:\"AF\") {code name countries {name languages {name}}} }"
+        "{ books { name id genre isbn { id isbn } author { id name } } }",
+        "{ books { name id genre  author { id name } isbn { id isbn }} }",
+        "{ authors { name books {name isbn {isbn} } } }"
       ],
-      "frequency": 30000
+      "frequency": 5000
     },
-    "languages": {
-      "queries": ["{languages {name native code}}", "{language (code: \"am\") {name native code}}"],
-      "frequency": 10000
+    "isbn": {
+      "queries": ["{ isbns { isbn id } }", "{ book(id: \"5e2f46e69f2cae22f6f6095f\") { name }}"],
+      "frequency": 5000
     }
   },
   "ISONLYFORDEVELOPMENTPLEASEDONTUPLOADTHIS": true

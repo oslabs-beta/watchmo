@@ -1,10 +1,12 @@
+/* eslint-disable consistent-return */
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const chalk = require('chalk');
 const dataController = require('./controllers/dataController');
+const { PORT } = require('../commands/utility/serverHelpers');
 
 const router = express.Router();
-const { PORT } = require('../commands/utility/serverHelpers');
 
 const app = express();
 
@@ -18,30 +20,21 @@ app.post('/api/configDash', dataController.updateConfig, (req, res) => {
 
 app.use(express.static(path.join(__dirname, '../display')));
 app.use(express.static(path.join(__dirname, '../watchmoData')));
+app.use(express.static(path.join(__dirname, '../../src/assets')));
 
 app.get('/build/bundle.js', (req, res) => {
   res.sendFile(path.join(__dirname, '../../build/bundle.js'));
 });
 
-// app.get('/api/configDash', dataController.getConfig, (req, res) => {
-//   console.log('inconfigDash');
-//   // res.status(200).json({ configData: res.locals.config });
-// });
-
-app.get('/data', (req, res) => {
-  res.sendFile(path.join(__dirname, '../watchmoData/parsedData.json'));
-});
-
-app.get('/', (req, res) => {
+// if you are in the page and you refresh, this will boot you back to the first page.
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../display/index.html'));
 });
 
-app.get('/configDash', (req, res) => {
-  res.sendFile(path.join(__dirname, '../display/index.html'));
-});
-
-app.get('/userDashBoard', (req, res) => {
-  res.sendFile(path.join(__dirname, '../display/index.html'));
+// this need to be modified to work with the config updater
+app.post('/configDash', dataController.updateConfig, (req, res) => {
+  console.log(res.locals.config);
+  res.status(200).json();
 });
 
 app.use('*', (req, res) => {
@@ -49,6 +42,8 @@ app.use('*', (req, res) => {
 });
 
 // global error handler
+// eslint-disable-next-line consistent-return
+// eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
   if (res.headersSent) {
     return next(err);
@@ -58,7 +53,7 @@ function errorHandler(err, req, res, next) {
 }
 
 app.listen(PORT);
-console.log(`app listening on ${PORT}`);
+console.log(chalk.cyan.bold(`app listening on ${PORT}`));
 
 module.exports = {
   app

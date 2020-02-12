@@ -1,5 +1,10 @@
-const { dataPaths, checkAndParseFile, appendRawData } = require('./utility/fileHelpers');
+const {
+  dataPaths,
+  checkAndParseFile,
+  appendRawData,
+} = require('./utility/fileHelpers');
 const { request } = require('graphql-request');
+const chalk = require('chalk');
 
 // returns a promise that resolves to the response/timing object to be saved
 const buildQueryPromise = (endpoint, query) =>
@@ -32,7 +37,7 @@ async function sendQueriesAndSave(endpoint, categoryName, category, rawDataPath,
   }
   // this structure is necessary for parsing the saved data later, see 'mo.js', parseDataFileAndSave
   // saveData({ category: categoryName, data: timingInfo }, rawDataPath);
-  appendRawData({ category: categoryName, data: timingInfo}, rawDataPath)
+  appendRawData({ category: categoryName, data: timingInfo }, rawDataPath)
 
   // allows for calls to be made at the specified intervals
   setTimeout(
@@ -57,7 +62,7 @@ function watch(projectName) {
     }
   }
   else {
-    console.log(`\nProject ${projectName} is not configured\nRun "watchmo configure ${projectName}" to create this project\n`);
+    console.log(chalk.cyan.bold(`\nProject ${projectName} is not configured\nRun "watchmo configure ${projectName}" to create this project\n`));
   }
 }
 
