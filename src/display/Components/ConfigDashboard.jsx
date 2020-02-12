@@ -22,7 +22,7 @@ const ConfigDashboard = props => {
         setDataFromConfig(res);
         setEndpointConfig(res.endpoint);
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(JSON.stringify(err)));
   }
 
   useEffect(() => {
@@ -44,6 +44,36 @@ const ConfigDashboard = props => {
     const JSONified = JSON.stringify(dataFromConfig);
     const newDataFromConfig = JSON.parse(JSONified);
     newDataFromConfig.categories[catName].queries[queryIdx] = e.target.value;
+    setDataFromConfig(newDataFromConfig);
+  };
+
+  const addQuery = e => {
+    const catName = e.target.id.split('-')[0];
+    const JSONified = JSON.stringify(dataFromConfig);
+    const newDataFromConfig = JSON.parse(JSONified);
+    newDataFromConfig.categories[catName].queries.push('');
+    setDataFromConfig(newDataFromConfig);
+  };
+
+  const deleteQuery = e => {
+    const catName = e.target.id.split('-')[0];
+    const queryIdx = e.target.id.split('-')[1];
+    const JSONified = JSON.stringify(dataFromConfig);
+    const newDataFromConfig = JSON.parse(JSONified);
+    // to avoid time complexity of slice method, manually copying to a new array
+    // delete newDataFromConfig.categories[catName].queries[queryIdx];
+    const queryArray = [];
+    for (let i = 0; i < newDataFromConfig.categories[catName].queries.length; i += 1) {
+      // control flow to skip over idx of query to be deleted
+      if (i !== queryIdx) {
+        console.log(queryArray);
+        console.log(queryIdx);
+        queryArray.push(newDataFromConfig.categories[catName].queries[i]);
+      }
+    }
+    // replace queries array with queryArray we just built
+    newDataFromConfig.categories[catName].queries = queryArray;
+    // update state with new data
     setDataFromConfig(newDataFromConfig);
   };
 
@@ -102,6 +132,8 @@ const ConfigDashboard = props => {
               <CategoriesContainer
                 configData={dataFromConfig}
                 queryChange={queryChange}
+                addQuery={addQuery}
+                deleteQuery={deleteQuery}
                 freqChange={frequencyChange}
               />
             </FormGroup>

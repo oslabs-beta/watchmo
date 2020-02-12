@@ -28,8 +28,12 @@ const CategoryData = props => {
         key={props.catData.name}
         name={props.catData.name}
         queries={props.catData.queries}
+        deleteQuery={props.deleteQuery}
         queryChange={props.queryChange}
       />
+      <button id={`${props.catData.name}-addQuery`} type="button" onClick={props.addQuery}>
+        Add New Query
+      </button>
     </div>
   );
 };

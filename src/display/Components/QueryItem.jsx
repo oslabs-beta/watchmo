@@ -10,7 +10,7 @@ const QueryItem = props => {
   // const [queryStrings, setQueryString] = useState(props.queryItem);
 
   return (
-    <div id={`${props.queryItem}-queryItem`}>
+    <div key={`${props.queryItem}-queryItem`} id={`${props.queryItem}-queryItem`}>
       <Input
         type="textarea"
         name="queryString"
@@ -19,6 +19,14 @@ const QueryItem = props => {
         value={props.queryItem}
         onChange={props.queryChange}
       />
+      <button
+        key={`button-${props.id}`}
+        type="button"
+        id={`${props.id}-delete`}
+        onClick={props.deleteQuery}
+      >
+        X
+      </button>
     </div>
   );
 };

@@ -27,6 +27,8 @@ const CategoriesContainer = props => {
           categories={localCats}
           configData={props.configData}
           queryChange={props.queryChange}
+          addQuery={props.addQuery}
+          deleteQuery={props.deleteQuery}
           freqChange={props.freqChange}
         />
       </div>
