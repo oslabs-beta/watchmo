@@ -226,11 +226,11 @@ describe('watchmo configure', () => {
 
     expect(configObject.categories.newCategory).toBeUndefined();
 
-    configure('testProject', null, null, true, null, null);
+    configure('testProject', undefined, true, false, false, false, false);
     configObject = JSON.parse(fs.readFileSync(configPath));
     expect(configObject.categories.newCategory).toBeUndefined();
 
-    configure('testProject', null, null, 'newCategory', null, null);
+    configure('testProject', undefined, 'newCategory', false, false, false, false);
     configObject = JSON.parse(fs.readFileSync(configPath));
     expect(configObject.categories.newCategory).toBeDefined();
     expect(configObject.categories.newCategory).toEqual(newCategoryObject);
@@ -241,15 +241,14 @@ describe('watchmo configure', () => {
 
     expect(configObject.categories.testing).toBeDefined();
 
-    configure('testProject', null, null, true, null, true);
+    configure('testProject', undefined, true, false, false, false, false);
     configObject = JSON.parse(fs.readFileSync(configPath));
     expect(configObject.categories.testing).toBeDefined();
 
-    configure('testProject', null, null, 'testing', null, true);
+    configure('testProject', undefined, 'testing', false, false, true, false);
     configObject = JSON.parse(fs.readFileSync(configPath));
     expect(configObject.categories.testing).toBeUndefined();
   })
-
 
 })
 
