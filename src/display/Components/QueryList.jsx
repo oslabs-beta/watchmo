@@ -15,10 +15,10 @@ const QueryList = props => {
         name={`${props.name}-queryItem`}
         queryItem={`${props.queries[i]}`}
         queryChange={props.queryChange}
+        deleteQuery={props.deleteQuery}
       />
     );
   }
-
   return (
     <div>
       <FormGroup>

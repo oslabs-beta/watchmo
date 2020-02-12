@@ -18,10 +18,14 @@ const Category = props => {
               <CategoryData
                 catData={category}
                 queryChange={props.queryChange}
+                addQuery={props.addQuery}
+                deleteQuery={props.deleteQuery}
                 freqChange={props.freqChange}
               />
             </CardBody>
           </Card>
+          <br />
+          <br />
         </div>
       );
     }

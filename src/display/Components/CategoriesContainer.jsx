@@ -21,15 +21,19 @@ const CategoriesContainer = props => {
 
   return (
     <div className="category">
-      <hr />
       <div>
         <Category
           categories={localCats}
           configData={props.configData}
           queryChange={props.queryChange}
+          addQuery={props.addQuery}
+          deleteQuery={props.deleteQuery}
           freqChange={props.freqChange}
         />
       </div>
+       <input type="text" id="catInput" placeholder=" Add/Select Category (lower case)" onChange={props.addTypedCat} value={props.typedCat}></input>
+       <button type="button" onClick={props.addCategory}>Add Category</button>
+       <button type="button" onClick={props.delCategory}>Delete Category</button>
     </div>
   );
 };
