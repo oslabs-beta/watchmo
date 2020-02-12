@@ -69,6 +69,10 @@ text {
   color: whitesmoke;
 }
 
+span.querySpan.input {
+  margin-right: 10px;
+}
+
 #root {
   font-family: 'Audiowide', cursive;
   flex-basis: 100%;
@@ -131,4 +135,23 @@ text.tooltip {
   fill: rgb(255, 183, 75);
   fill-opacity: 70%;
   box-shadow: 0 5px 15px rgb(114, 120, 171);
+}
+
+#btnAddQuery button {
+  width: 100%;
+}
+
+button.btnSecondary.btn.btn-outline-secondary {
+  width: 100%;
+  background-color: whitesmoke;
+  color: black;
+}
+
+.deleteBtn {
+  color: white;
+  margin-left: 10px;
+  size: 10%;
+  height: 50px;
+  width: 50px;
+  border-radius: 5px;
 }
