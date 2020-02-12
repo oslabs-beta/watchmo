@@ -30,6 +30,9 @@ const CategoriesContainer = props => {
           freqChange={props.freqChange}
         />
       </div>
+       <input type="text" id="catInput" placeholder=" Add/Select Category (lower case)" onChange={props.addTypedCat} value={props.typedCat}></input>
+       <button type="button" onClick={props.addCategory}>Add Category</button>
+       <button type="button" onClick={props.delCategory}>Delete Category</button>
     </div>
   );
 };

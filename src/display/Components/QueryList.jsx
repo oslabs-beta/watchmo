@@ -18,7 +18,6 @@ const QueryList = props => {
       />
     );
   }
-
   return (
     <div>
       <FormGroup>

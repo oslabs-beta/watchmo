@@ -17,7 +17,7 @@ const Category = props => {
             <CardBody>
               <CategoryData
                 catData={category}
-                queryChange={props.queryChange}
+                queryChange={props.queryChange}                
                 freqChange={props.freqChange}
               />
             </CardBody>
