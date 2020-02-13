@@ -61,10 +61,10 @@ If there are any problems, feel free to write up an issue.
 
 ## Contributors
 
-* **Evan Hilton**[GitHub](https://github.com/spencerWyman)
-* **Jason Jones**[GitHub](https://github.com/spencerWyman)
-* **Sarah Song**[GitHub](https://github.com/spencerWyman)
-* **Spencer Wyman**[GitHub](https://github.com/spencerWyman)
+* **Evan Hilton** - [GitHub](https://github.com/spencerWyman)
+* **Jason Jones** - [GitHub](https://github.com/spencerWyman)
+* **Sarah Song** - [GitHub](https://github.com/spencerWyman)
+* **Spencer Wyman** - [GitHub](https://github.com/spencerWyman)
 
 ## License
 
