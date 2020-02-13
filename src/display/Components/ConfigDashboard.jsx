@@ -71,7 +71,6 @@ const ConfigDashboard = props => {
     const queryIdx = e.target.id.split('-')[1];
     const JSONified = JSON.stringify(dataFromConfig);
     const newDataFromConfig = JSON.parse(JSONified);
-    console.log(e.target.key);
     newDataFromConfig.categories[catName].queries[queryIdx] = e.target.value;
     setDataFromConfig(newDataFromConfig);
   };
