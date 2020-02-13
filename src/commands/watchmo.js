@@ -111,11 +111,6 @@ yargs
     (argv) => less(argv.project, argv.remove)
   )
   .command(
-    'test',
-    'testing watchmo',
-    (argv) => tester()
-  )
-  .command(
     'configure [project]',
     'creates given project',
     (yargs) => projectPositional(yargs, options.configure),
