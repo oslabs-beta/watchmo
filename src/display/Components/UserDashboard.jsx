@@ -1,16 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react';
-
-import { Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap';
 
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import VertColViz from './VertColViztsx';
+import VertColViz from './VertColViztsx.tsx';
 import { ProjectContext } from './Context/ProjectContext';
 
 function UserDashboard(props) {
   const [dropdownCatOpen, setCatOpen] = useState(false);
 
-  //these are used to grab data from watchmo and loaded it into the state
+  // these are used to grab data from watchmo and loaded it into the state
   const [dataFromServer, setDataFromServer] = useState([]);
   const [dataGained, setDataGained] = useState(false);
 
@@ -20,7 +28,7 @@ function UserDashboard(props) {
     props.history.push('/');
   }
 
-  //this is to hold the current category to be displayed int he bar graph
+  // this is to hold the current category to be displayed int he bar graph
   const [currentCat, setCurrentCat] = useState('');
 
   useEffect(() => {
@@ -35,11 +43,11 @@ function UserDashboard(props) {
     }
   }, [project]);
 
-  //function that is in charge of changing the state
+  // function that is in charge of changing the state
   const toggleCat = () => {
     setCatOpen(!dropdownCatOpen);
   };
-  //dropdown menu items construction with categories from the data (the first layer of keys in the object)
+  // dropdown menu items construction with categories from the data (the first layer of keys in the object)
   const categoriesInDropDown = [];
   for (const category in dataFromServer) {
     categoriesInDropDown.push(
@@ -51,22 +59,27 @@ function UserDashboard(props) {
 
   return (
     <div id="UserDashboard">
-      <div id="navBtnGroup">
-        <div id="navProjSelect">
-          <Link to="/">
-            <Button color="secondary" className="btnSecondary">
-              Project Select
+      <Container>
+        <Row xs="1">
+          {/* <div id="btnContainer"> */}
+          <Col xs="6">
+            <Button color="secondary" id="navProjSelect" block>
+              <Link id="navProjLink" to="/">
+                Project&nbsp;Select
+              </Link>
             </Button>
-          </Link>
-        </div>
-        <div id="navConfigDash">
-          <Link to="/configDash">
-            <Button color="secondary" className="btnSecondary">
-              Config Dashboard
+          </Col>
+          <Col xs="6">
+            <Button id="navConfigDash" color="secondary" block>
+              <Link id="navConfigLink" to="/configDash">
+                Config&nbsp;Dashboard
+              </Link>
             </Button>
-          </Link>
-        </div>
-      </div>
+          </Col>
+          {/* </div> */}
+        </Row>
+      </Container>
+
       <h1> User Dashboard </h1>
       <div className="categoriesDrop">
         <ButtonDropdown isOpen={dropdownCatOpen} toggle={toggleCat}>

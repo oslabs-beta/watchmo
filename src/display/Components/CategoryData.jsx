@@ -13,7 +13,12 @@ const CategoryData = props => {
       <CardTitle>
         <h4>{props.catData.name}</h4>
       </CardTitle>
-      <CardSubtitle>Frequency:</CardSubtitle>
+      <CardSubtitle>
+        Frequency(ms): <br />{' '}
+        <div id="freqExamples">
+          (ex: 1 sec = 1000; 1 min = 60000; 30 min = 1800000; 1 hour = 3600000; 1 day = 86400000)
+        </div>
+      </CardSubtitle>
       <Input
         type="text"
         name="frequency"
@@ -37,7 +42,6 @@ const CategoryData = props => {
           color="primary"
           size="md"
           id={`${props.catData.name}-addQuery`}
-          // type="button"
           onClick={props.addQuery}
           block
         >
