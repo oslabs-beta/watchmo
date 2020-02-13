@@ -45,11 +45,8 @@ app.use('*', (req, res) => {
 // eslint-disable-next-line consistent-return
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
-  if (res.headersSent) {
-    return next(err);
-  }
+  console.log(err)
   res.sendStatus(500);
-  res.render('error', { error: err });
 }
 
 app.listen(PORT);

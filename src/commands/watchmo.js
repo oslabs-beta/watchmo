@@ -9,6 +9,7 @@ const { cliDefault } = require('./default');
 const { mo } = require('./mo');
 const { less } = require('./less');
 const { configure } = require('./configure');
+const { tester } = require('./tester');
 
 //helper functions
 const projectPositional = (yargs) => {
@@ -56,6 +57,11 @@ yargs
     'cleans up data files',
     projectPositional,
     (argv) => less(argv.project, argv.remove)
+  )
+  .command(
+    'test',
+    'testing watchmo',
+    (argv) => tester()
   )
   .command(
     'configure [project]',
