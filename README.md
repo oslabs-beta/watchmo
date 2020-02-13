@@ -1,14 +1,12 @@
 # _watchMo_
 
-##_The more you watch the more you know, watchMo watch, watchMo mo!_
-
 Gather data over time from a Graph-Ql endpoint with a single command.
 
 Analyze response times of queries with simple but effective visualizations.
 
 Configure different categories of queries with either CLI or GUI.
 
-Don't watch less, _watchMo_.
+**_The more you watch the more you know, watchMo watch, watchMo mo!_**
 
 ## Getting Started
 To get access to the watchmo CLI, install watchmo globally:
@@ -43,15 +41,9 @@ Once you want to start your own project, run:
 
 `watchmo configure [project name]`
 
-If you get stuck, run
+If you get stuck, run `watchmo --help` or `watchmo command --help` To see what you can do.
 
-`watchmo --help`
-
-Or
-
-`watchmo command --help`
-
-To see what you can do. Happy watching!
+Happy watching!
 
 ## Testing
 
