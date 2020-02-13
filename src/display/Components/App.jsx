@@ -18,9 +18,3 @@ export const App = () => {
     </div>
   );
 };
-// // starting point
-// ReactDOM.render(
-//   <ProjectProvider>
-//     <App />
-//   </ProjectProvider>,
-//   document.getElementById('root'));
