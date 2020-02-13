@@ -61,22 +61,20 @@ function UserDashboard(props) {
     <div id="UserDashboard">
       <Container>
         <Row xs="1">
-          {/* <div id="btnContainer"> */}
           <Col xs="6">
-            <Button color="secondary" id="navProjSelect" block>
-              <Link id="navProjLink" to="/">
+            <Link id="navProjLink" to="/">
+              <Button color="secondary" id="navProjSelect" block>
                 Project&nbsp;Select
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </Col>
           <Col xs="6">
-            <Button id="navConfigDash" color="secondary" block>
-              <Link id="navConfigLink" to="/configDash">
+            <Link id="navConfigLink" to="/configDash">
+              <Button id="navConfigDash" color="secondary" block>
                 Config&nbsp;Dashboard
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </Col>
-          {/* </div> */}
         </Row>
       </Container>
 

@@ -204,23 +204,26 @@ button#navProjectSelect {
 
 button#navConfigDash {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
   align-items: center;
 }
 
 a#navConfigLink {
   color: whitesmoke;
   text-decoration-line: none;
+  width: 100%;
 }
 
 a#navUserDashLink {
   color: whitesmoke;
   text-decoration-line: none;
+  width: 100%;
 }
 
 a#navProjLink {
   color: whitesmoke;
   text-decoration-line: none;
+  width: 100%;
 }
 
 #projectSelect {
