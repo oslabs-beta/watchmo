@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useContext, useEffect } from 'react';
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -115,7 +116,6 @@ const ConfigDashboard = props => {
     setDataFromConfig(origConfig);
     setEndpointConfig(origConfig.endpoint);
     props.history.push('/configDash');
-    return () => setModal(!modal);
   };
 
   return (
