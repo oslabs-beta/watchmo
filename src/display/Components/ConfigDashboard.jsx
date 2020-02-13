@@ -112,6 +112,15 @@ const ConfigDashboard = props => {
   // func to update data within config file
   async function handleSubmit() {
     const data = { project: project.projects, data: dataFromConfig };
+
+    //ensure that frequencies are whole positive integers
+    for (let catName in dataFromConfig.categories) {
+      if (/^\d+$/.test(dataFromConfig.categories[catName].frequency)===false){
+        alert("Please ensure Frequencies are whole positive integers")
+        return;
+      }
+    }
+
     await fetch('/api/configDash', {
       method: 'post',
       headers: {
