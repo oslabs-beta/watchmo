@@ -16,8 +16,7 @@ const CategoryData = props => {
       <CardSubtitle>
         Frequency(ms): <br />{' '}
         <div id="freqExamples">
-          (ex: 1 sec = 1000; 1 min = 60000; 5 min = 300000; 30 min = 1800000; 1 hour = 3600000; 1
-          day = 86400000)
+          (ex: 1 sec = 1000; 1 min = 60000; 30 min = 1800000; 1 hour = 3600000; 1 day = 86400000)
         </div>
       </CardSubtitle>
       <Input
