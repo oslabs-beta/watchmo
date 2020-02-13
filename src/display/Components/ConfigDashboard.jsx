@@ -129,23 +129,23 @@ const ConfigDashboard = props => {
         <Container>
           <Row xs="1">
             <Col xs="6">
-              <Button id="navUserDash" type="button" color="secondary" className="btnSecondary">
-                <Link id="navUserDashLink" to="/userDashBoard">
+              <Link id="navUserDashLink" to="/userDashBoard">
+                <Button id="navUserDash" type="button" color="secondary" className="btnSecondary">
                   Back&nbsp;to User&nbsp;Dashboard
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </Col>
             <Col xs="6">
-              <Button
-                id="navProjectSelect"
-                type="button"
-                color="secondary"
-                className="btnSecondary"
-              >
-                <Link id="navProjLink" to="/">
+              <Link id="navProjLink" to="/">
+                <Button
+                  id="navProjectSelect"
+                  type="button"
+                  color="secondary"
+                  className="btnSecondary"
+                >
                   Back&nbsp;to Project&nbsp;Select
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </Col>
           </Row>
         </Container>
