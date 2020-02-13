@@ -42,7 +42,6 @@ function changeEndpoint(projectName, endpoint) {
 }
 
 function changeCategory(projectName, category, remove = false) {
-  console.log(chalk.blue("IN CHANGE CATEGORY"));
   const { configPath } = dataPaths(projectName);
   const configObject = checkAndParseFile(configPath);
   if (typeof category === 'boolean') {
@@ -70,7 +69,6 @@ function changeCategory(projectName, category, remove = false) {
 
 // If remove is true, the query must be an integer. If false, it is a string
 function changeQuery(projectName, category, query, remove = false) {
-  console.log(chalk.blue("IN CHANGE QUERY"));
   const { configPath } = dataPaths(projectName);
   const configObject = checkAndParseFile(configPath);
   if (typeof category === 'boolean' || typeof query === 'boolean') {
