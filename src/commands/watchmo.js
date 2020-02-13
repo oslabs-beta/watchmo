@@ -9,7 +9,7 @@ const { cliDefault } = require('./default');
 const { mo } = require('./mo');
 const { less } = require('./less');
 const { configure } = require('./configure');
-const { test } = require('./test');
+const { testing } = require('./testing');
 
 //helper functions
 const projectPositional = (yargs, optionObject) => {
@@ -128,6 +128,6 @@ yargs
     'test',
     'runs tests (powered by Jest)',
     {},
-    (argv) => test()
+    (argv) => testing()
   )
   .help().argv;
