@@ -1,10 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ProjectContext } from './Context/ProjectContext';
 import '../stylesheets/style.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import CategoriesContainer from './CategoriesContainer';
+import ConfigSaveModal from './ConfigSaveModal';
+import ConfigResetModal from './ConfigResetModal';
 // import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
 
 const ConfigDashboard = props => {
@@ -43,7 +45,7 @@ const ConfigDashboard = props => {
     setTypedCat(e.target.value);
   };
 
-  const addCategory = e => {
+  const addCategory = () => {
     const JSONified = JSON.stringify(dataFromConfig);
     const newDataFromConfig = JSON.parse(JSONified);
     newDataFromConfig.categories[typedCat] = {};
@@ -53,7 +55,7 @@ const ConfigDashboard = props => {
     setDataFromConfig(newDataFromConfig);
   };
 
-  const delCategory = e => {
+  const delCategory = () => {
     const JSONified = JSON.stringify(dataFromConfig);
     const newDataFromConfig = JSON.parse(JSONified);
     delete newDataFromConfig.categories[typedCat];
@@ -97,39 +99,51 @@ const ConfigDashboard = props => {
   };
 
   // func to update data within config file
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const confMsg =
-      'This will overwrite your current config details. Are you sure you want to save this configuration?';
-    const result = window.confirm(confMsg);
+  async function handleSubmit() {
     const data = { project: project.projects, data: dataFromConfig };
-    // control flow to ensure user confirms the choice to save config details
-    if (result) {
-      await fetch('/api/configDash', {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-      window.alert('Config details saved!');
-    }
+    await fetch('/api/configDash', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
   }
+
+  const handleReset = () => {
+    setDataFromConfig(origConfig);
+    setEndpointConfig(origConfig.endpoint);
+    props.history.push('/configDash');
+    return () => setModal(!modal);
+  };
 
   return (
     <div id="configDashboard">
       <div id="navBtn">
-        <Link to="/userDashBoard">
-          <Button id="navUserDash" type="button" color="secondary" className="btnSecondary">
-            Back to User Dashboard
-          </Button>
-        </Link>
-        <Link to="/">
-          <Button id="navProjSelect" type="button" color="secondary" className="btnSecondary">
-            Back to Project Select
-          </Button>
-        </Link>
+        <Container>
+          <Row xs="1">
+            <Col xs="6">
+              <Button id="navUserDash" type="button" color="secondary" className="btnSecondary">
+                <Link id="navUserDashLink" to="/userDashBoard">
+                  Back&nbsp;to User&nbsp;Dashboard
+                </Link>
+              </Button>
+            </Col>
+            <Col xs="6">
+              <Button
+                id="navProjectSelect"
+                type="button"
+                color="secondary"
+                className="btnSecondary"
+              >
+                <Link id="navProjLink" to="/">
+                  Back&nbsp;to Project&nbsp;Select
+                </Link>
+              </Button>
+            </Col>
+          </Row>
+        </Container>
       </div>
       <div id="configHeader">
         <br />
@@ -166,21 +180,17 @@ const ConfigDashboard = props => {
               />
             </FormGroup>
           </div>
-          <span>
-            <Button color="primary" type="button" onClick={handleSubmit}>
-              Save
-            </Button>
-            <Button
-              color="secondary"
-              onClick={() => {
-                setDataFromConfig(origConfig);
-                setEndpointConfig(origConfig.endpoint);
-                props.history.push('/configDash');
-              }}
-            >
-              Cancel
-            </Button>
-          </span>
+
+          <ConfigSaveModal
+            handleSubmit={handleSubmit}
+            buttonLabel="Save Configuration"
+            className="saveConfig"
+          />
+          <ConfigResetModal
+            handleReset={handleReset}
+            buttonLabel="Reset Configuration"
+            className="resetConfig"
+          />
         </Form>
       </div>
     </div>
