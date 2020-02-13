@@ -1,3 +1,5 @@
+const chalk = require('chalk')
+
 const {
   dataPaths,
   checkAndParseFile,
@@ -25,7 +27,7 @@ const buildQueryPromise = (endpoint, query) =>
 // Finally, it saves the data built up from each query and saves it in the the given path as a JSON file.
 async function sendQueriesAndSave(endpoint, categoryName, category, rawDataPath, frequency) {
   if (frequency <= 0 || category.queries.length === 0) {
-    console.log("This category has not been configured. Consider using watchmo mo -o to look at the web Browser");
+    console.log(chalk.magenta.bold("This category has not been configured. Consider using watchmo mo -o to look at the web Browser"));
     return;
   }
   const timingInfo = [];
