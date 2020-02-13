@@ -6,39 +6,65 @@ Analyze response times of queries with simple but effective visualizations.
 
 Configure different categories of queries with either CLI or GUI.
 
-Don't watch less, _watchMo_. 
+**_The more you watch the more you know, watchMo watch, watchMo mo!_**
 
 ## Getting Started
-To get started, install watchmo globally
+To get access to the watchmo CLI, install watchmo globally:
+
 `npm install -g watchmo`
-The easiest way to proceed is to open open up the web visualizer by running 
 
-`watchmo mo -o`
+To start, run:
 
-From here, navigate to the config page and add your GraphQL queries and endpoints.
-If you want to skip this step, we provided a demo project built in to the package to test that everything works.
-Next, run 
+`watchmo --view`
 
-`watchmo watch [project name]`
+This should print to the terminal a logo and the project names 'default, demo'. If you want to run further tests, see the testing section below.
 
-(use demo for the project name if you skipped the configuration step. This configuration is pointed at an [open source GQL Database](https://countries.trevorblades.com/))
-Let watchmo gather some data for a minute, then once again run 
+The easiest way to get familiar with this tool is to use our built in demo project, which gathers data from an [open source GQL Database](https://countries.trevorblades.com/).
 
-`watchmo mo -o` 
+To visualize the configuration for this project, run
 
-and navigate to the dashboard. You should see some data visualizations. Congratulations!
+`watchmo configure demo --view`
+
+This configuration will work as is, but feel free to reconfigure this however you would like. The `watchmo configure --help` command provides information on how to do this.
+
+To begin gathering data, run:
+
+`watchmo watch demo`
+
+Let watchmo gather some data for a minute or two, then run
+
+`watchmo mo --open`
+
+and navigate to the demo project dashboard. Congratulations, you've successfully gathered and visualized GQL timing data!
+
+Once you want to start your own project, run:
+
+`watchmo configure [project name]`
+
+If you get stuck, run `watchmo --help` or `watchmo command --help` To see what you can do.
+
+Happy watching!
+
+## Testing
+
+Watchmo comes pre-built with a testing suite to ensure everything is up and running correctly. Once you have installed watchmo, go ahead and run this testing suite with
+
+`watchmo test`
+
+If there are any problems, feel free to write up an issue.
 
 ## Built With
 
 * [React](https://reactjs.org/) - The web framework used
 * [Yargs](https://github.com/yargs/yargs) - To build the CLI tools
+* [Jest](https://jestjs.io/) - To build a testing suite
 
 ## Contributors
 
-* **Evan Hilton** 
-* **Jason Jones**
-* **Sarah Song**
-* **Spencer Wyman**
+* **Evan Hilton** - [GitHub](https://github.com/spencerWyman)
+* **Jason Jones** - [GitHub](https://github.com/spencerWyman)
+* **Sarah Song** - [GitHub](https://github.com/spencerWyman)
+* **Spencer Wyman** - [GitHub](https://github.com/spencerWyman)
 
 ## License
 
