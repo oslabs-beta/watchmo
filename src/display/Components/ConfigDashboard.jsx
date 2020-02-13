@@ -1,29 +1,34 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ProjectContext } from './Context/ProjectContext';
 import '../stylesheets/style.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import CategoriesContainer from './CategoriesContainer';
-// import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
+import ConfigSaveModal from './ConfigSaveModal';
+import ConfigResetModal from './ConfigResetModal';
+// import FileSavedAlert from './FileSavedAlert';
 
 const ConfigDashboard = props => {
   const [origConfig, setOrigConfig] = useState({});
   const [dataFromConfig, setDataFromConfig] = useState({});
   const [endpointConfig, setEndpointConfig] = useState('');
   const [typedCat, setTypedCat] = useState('');
+  // const [fileSavedAlert, setFileSavedAlert] = useState(false);
   const { project } = useContext(ProjectContext);
+
+  if (!project.projects) {
+    props.history.push('/');
+  }
 
   async function fetchData() {
     const response = await fetch(`${project.projects}/config.json`);
-    const result = await response
-      .json()
-      .then(res => {
-        setOrigConfig(res);
-        setDataFromConfig(res);
-        setEndpointConfig(res.endpoint);
-      })
-      .catch(err => console.log(JSON.stringify(err)));
+    const result = await response.json().then(res => {
+      setOrigConfig(res);
+      setDataFromConfig(res);
+      setEndpointConfig(res.endpoint);
+    });
   }
 
   useEffect(() => {
@@ -43,7 +48,7 @@ const ConfigDashboard = props => {
     setTypedCat(e.target.value);
   };
 
-  const addCategory = e => {
+  const addCategory = () => {
     const JSONified = JSON.stringify(dataFromConfig);
     const newDataFromConfig = JSON.parse(JSONified);
     newDataFromConfig.categories[typedCat] = {};
@@ -51,23 +56,21 @@ const ConfigDashboard = props => {
     newDataFromConfig.categories[typedCat].frequency = '';
     setTypedCat('');
     setDataFromConfig(newDataFromConfig);
-  }
+  };
 
-  const delCategory = e => {
+  const delCategory = () => {
     const JSONified = JSON.stringify(dataFromConfig);
     const newDataFromConfig = JSON.parse(JSONified);
     delete newDataFromConfig.categories[typedCat];
     setTypedCat('');
     setDataFromConfig(newDataFromConfig);
-  }
-
+  };
 
   const queryChange = e => {
     const catName = e.target.id.split('-')[0];
     const queryIdx = e.target.id.split('-')[1];
     const JSONified = JSON.stringify(dataFromConfig);
     const newDataFromConfig = JSON.parse(JSONified);
-    console.log(e.target.key);
     newDataFromConfig.categories[catName].queries[queryIdx] = e.target.value;
     setDataFromConfig(newDataFromConfig);
   };
@@ -98,39 +101,54 @@ const ConfigDashboard = props => {
   };
 
   // func to update data within config file
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const confMsg =
-      'This will overwrite your current config details. Are you sure you want to save this configuration?';
-    const result = window.confirm(confMsg);
+  async function handleSubmit() {
     const data = { project: project.projects, data: dataFromConfig };
-    // control flow to ensure user confirms the choice to save config details
-    if (result) {
-      await fetch('/api/configDash', {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-      window.alert('Config details saved!');
-    }
+    await fetch('/api/configDash', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
   }
+
+  const handleReset = () => {
+    setDataFromConfig(origConfig);
+    setEndpointConfig(origConfig.endpoint);
+    props.history.push('/configDash');
+  };
+
+  // const fileSaved = () => {
+  //   setFileSavedAlert(true);
+  // };
 
   return (
     <div id="configDashboard">
       <div id="navBtn">
-      <Link to="/userDashBoard">
-          <button type="button" className="btnSecondary">
-            Back to Uses Dashboard
-          </button>
-        </Link>
-        <Link to="/">
-          <Button id="navProjSelect" type="button" color="secondary" className="btnSecondary">
-            Back to Project Select
-          </Button>
-        </Link>
+        <Container>
+          <Row xs="1">
+            <Col xs="6">
+              <Button id="navUserDash" type="button" color="secondary" className="btnSecondary">
+                <Link id="navUserDashLink" to="/userDashBoard">
+                  Back&nbsp;to User&nbsp;Dashboard
+                </Link>
+              </Button>
+            </Col>
+            <Col xs="6">
+              <Button
+                id="navProjectSelect"
+                type="button"
+                color="secondary"
+                className="btnSecondary"
+              >
+                <Link id="navProjLink" to="/">
+                  Back&nbsp;to Project&nbsp;Select
+                </Link>
+              </Button>
+            </Col>
+          </Row>
+        </Container>
       </div>
       <div id="configHeader">
         <br />
@@ -167,21 +185,18 @@ const ConfigDashboard = props => {
               />
             </FormGroup>
           </div>
-          <span>
-            <Button color="primary" type="button" onClick={handleSubmit}>
-              Save
-            </Button>
-            <Button
-              color="secondary"
-              onClick={() => {
-                setDataFromConfig(origConfig);
-                setEndpointConfig(origConfig.endpoint);
-                props.history.push('/configDash');
-              }}
-            >
-              Cancel
-            </Button>
-          </span>
+          {/* <FileSavedAlert visible={false} /> */}
+          <ConfigSaveModal
+            handleSubmit={handleSubmit}
+            buttonLabel="Save Configuration"
+            className="saveConfig"
+            // fileSaved={fileSavedAlert}
+          />
+          <ConfigResetModal
+            handleReset={handleReset}
+            buttonLabel="Reset Configuration"
+            className="resetConfig"
+          />
         </Form>
       </div>
     </div>
