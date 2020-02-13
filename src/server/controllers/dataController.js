@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
+
 const WMD = path.join(__dirname, '../../watchmoData');
 
 const dataController = {};
@@ -18,12 +19,9 @@ dataController.getConfig = (req, res, next) => {
 };
 
 dataController.updateConfig = (req, res, next) => {
-  // console.log(req);
   res.locals.config = req.body.data;
-  const project = req.body.project;
+  const { project } = req.body;
   const configPost = WMD + '/' + project + '/config.json';
-  console.log(res.locals.config);
-  console.log(configPost);
   fs.writeFile(configPost, JSON.stringify(res.locals.config), err => {
     if (err) {
       return next(err);
@@ -31,7 +29,6 @@ dataController.updateConfig = (req, res, next) => {
     console.log(chalk.green.bold('file saved!'));
     return next();
   });
-  // return next();
 };
 
 module.exports = dataController;

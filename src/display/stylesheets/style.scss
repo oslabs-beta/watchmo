@@ -248,6 +248,10 @@ link {
   margin: auto;
 }
 
+div#freqExamples {
+  color: gray;
+}
+
 @media only screen and (max-width: 700px) {
   #navProjectSelect {
     width: max-content;

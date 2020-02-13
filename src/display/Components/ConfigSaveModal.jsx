@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+// import FileSavedAlert from './FileSavedAlert';
 
 const ConfigSaveModal = props => {
   const { buttonLabel, className, handleSubmit } = props;
@@ -13,6 +14,7 @@ const ConfigSaveModal = props => {
   const submitToggle = () => {
     handleSubmit();
     toggle();
+    // fileSaved();
   };
 
   const center = true;

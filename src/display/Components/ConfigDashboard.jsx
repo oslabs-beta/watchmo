@@ -8,25 +8,27 @@ import 'bootstrap/dist/css/bootstrap.css';
 import CategoriesContainer from './CategoriesContainer';
 import ConfigSaveModal from './ConfigSaveModal';
 import ConfigResetModal from './ConfigResetModal';
-// import { GraphqlCodeBlock } from 'graphql-syntax-highlighter-react';
+// import FileSavedAlert from './FileSavedAlert';
 
 const ConfigDashboard = props => {
   const [origConfig, setOrigConfig] = useState({});
   const [dataFromConfig, setDataFromConfig] = useState({});
   const [endpointConfig, setEndpointConfig] = useState('');
   const [typedCat, setTypedCat] = useState('');
+  // const [fileSavedAlert, setFileSavedAlert] = useState(false);
   const { project } = useContext(ProjectContext);
+
+  if (!project.projects) {
+    props.history.push('/');
+  }
 
   async function fetchData() {
     const response = await fetch(`${project.projects}/config.json`);
-    const result = await response
-      .json()
-      .then(res => {
-        setOrigConfig(res);
-        setDataFromConfig(res);
-        setEndpointConfig(res.endpoint);
-      })
-      .catch(err => console.log(JSON.stringify(err)));
+    const result = await response.json().then(res => {
+      setOrigConfig(res);
+      setDataFromConfig(res);
+      setEndpointConfig(res.endpoint);
+    });
   }
 
   useEffect(() => {
@@ -118,6 +120,10 @@ const ConfigDashboard = props => {
     props.history.push('/configDash');
   };
 
+  // const fileSaved = () => {
+  //   setFileSavedAlert(true);
+  // };
+
   return (
     <div id="configDashboard">
       <div id="navBtn">
@@ -180,11 +186,12 @@ const ConfigDashboard = props => {
               />
             </FormGroup>
           </div>
-
+          {/* <FileSavedAlert visible={false} /> */}
           <ConfigSaveModal
             handleSubmit={handleSubmit}
             buttonLabel="Save Configuration"
             className="saveConfig"
+            // fileSaved={fileSavedAlert}
           />
           <ConfigResetModal
             handleReset={handleReset}

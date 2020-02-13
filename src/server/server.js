@@ -14,7 +14,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/api/configDash', dataController.updateConfig, (req, res) => {
-  console.log(res.locals.config);
   res.status(200).json();
 });
 
@@ -33,7 +32,6 @@ app.get('/*', (req, res) => {
 
 // this need to be modified to work with the config updater
 app.post('/configDash', dataController.updateConfig, (req, res) => {
-  console.log(res.locals.config);
   res.status(200).json();
 });
 
