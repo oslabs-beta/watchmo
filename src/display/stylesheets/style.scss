@@ -21,7 +21,7 @@ div a {
 }
 
 #catInput {
-  width:100%
+  width: 100%;
 }
 
 #UserDashboard {
@@ -55,7 +55,7 @@ div#configHeader {
 }
 
 .btn {
-  width: 150px;
+  width: 100%;
 }
 #chartArea {
   width: 80%;
@@ -99,6 +99,7 @@ span.querySpan.input {
   display: flex;
   flex-direction: row;
   align-self: flex-end;
+  align-items: center;
 }
 
 div#navBtn {
@@ -168,6 +169,108 @@ button.btnSecondary.btn.btn-outline-secondary {
   border-radius: 5px;
 }
 
-#navProjSelect {
+span#navBtnSpan {
   width: 100%;
+  align-content: space-between;
+  align-items: center;
+}
+
+#navBtnGroup {
+  width: 100%;
+  align-items: center;
+}
+
+#btnContainer {
+  width: 100%;
+}
+
+div.col-6 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button#navUserDash {
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+button#navProjectSelect {
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+button#navConfigDash {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+a#navConfigLink {
+  color: whitesmoke;
+  text-decoration-line: none;
+}
+
+a#navUserDashLink {
+  color: whitesmoke;
+  text-decoration-line: none;
+}
+
+a#navProjLink {
+  color: whitesmoke;
+  text-decoration-line: none;
+}
+
+#projectSelect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+link {
+  color: white;
+  // font-size: 100%;
+  text-size-adjust: 100%;
+}
+
+.btn-primary {
+  background-color: #073b66;
+  border-color: #194779;
+}
+
+.close {
+  width: 25%;
+}
+
+.btn-danger {
+  margin: auto;
+}
+
+div#freqExamples {
+  color: gray;
+}
+
+@media only screen and (max-width: 700px) {
+  #navProjectSelect {
+    width: max-content;
+    max-width: 230px;
+    flex-wrap: wrap;
+  }
+
+  .router {
+    min-width: 500;
+  }
+
+  #navUserDash {
+    width: max-content;
+  }
+
+  link {
+    color: white;
+    min-width: 230px;
+    height: max-content;
+    text-size-adjust: 100%;
+  }
 }
