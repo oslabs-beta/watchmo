@@ -1,7 +1,7 @@
 /* eslint-disable prefer-template */
 const fs = require('fs');
 const path = require('path');
-
+const chalk = require('chalk');
 const WMD = path.join(__dirname, '../../watchmoData');
 
 const dataController = {};
@@ -28,7 +28,7 @@ dataController.updateConfig = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    console.log('file saved!');
+    console.log(chalk.green.bold('file saved!'));
     return next();
   });
   // return next();
