@@ -33,7 +33,7 @@ To begin gathering data, run:
 
 Let watchmo gather some data for a minute or two, then run
 
-`watchmo mo --open`
+`watchmo mo demo --open`
 
 and navigate to the demo project dashboard. Congratulations, you've successfully gathered and visualized GQL timing data!
 
