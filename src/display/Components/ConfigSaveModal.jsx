@@ -24,10 +24,16 @@ const ConfigSaveModal = props => {
       <Button color="primary" onClick={toggle}>
         {buttonLabel}
       </Button>
-      <Modal centered={center} isOpen={modal} toggle={toggle} className={className}>
+      <Modal
+        centered={center}
+        isOpen={modal}
+        toggle={toggle}
+        className={className}
+      >
         <ModalHeader toggle={toggle}>Confirm Current Configuration</ModalHeader>
         <ModalBody>
-          Saving will overwrite your existing configuration. Are you sure you want to do this?
+          Saving will overwrite your existing configuration. Are you sure you
+          want to do this?
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={submitToggle}>

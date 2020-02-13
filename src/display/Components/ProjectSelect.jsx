@@ -1,11 +1,17 @@
 /* eslint-disable no-restricted-syntax */
 import React, { useEffect, useState, useContext } from 'react';
-import { Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import {
+  Button,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import { ProjectContext } from './Context/ProjectContext';
 
-function ProjectSelect(props) {
+function ProjectSelect() {
   // setting the state for the drop down button with typescript
   const [dropdownProjOpen, setProjOpen] = useState(false);
 
@@ -26,8 +32,7 @@ function ProjectSelect(props) {
         .then(data => data.json())
         .then(parsed => {
           setProjsFromServer(parsed);
-        })
-        .catch(err => console.log(err));
+        });
       setDataGained(true);
     }
   }, [projsFromServer]);

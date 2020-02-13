@@ -1,3 +1,6 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 import React, { useContext, useEffect, useState } from 'react';
 import {
   Container,
@@ -22,6 +25,7 @@ function UserDashboard(props) {
   const [dataFromServer, setDataFromServer] = useState([]);
   const [dataGained, setDataGained] = useState(false);
 
+  // eslint-disable-next-line no-unused-vars
   const { project, updateProject } = useContext(ProjectContext);
 
   if (!project.projects) {

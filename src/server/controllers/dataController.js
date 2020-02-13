@@ -1,4 +1,3 @@
-/* eslint-disable prefer-template */
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
@@ -21,7 +20,7 @@ dataController.getConfig = (req, res, next) => {
 dataController.updateConfig = (req, res, next) => {
   res.locals.config = req.body.data;
   const { project } = req.body;
-  const configPost = WMD + '/' + project + '/config.json';
+  const configPost = `${WMD}/${project}/config.json`;
   fs.writeFile(configPost, JSON.stringify(res.locals.config), err => {
     if (err) {
       return next(err);

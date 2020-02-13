@@ -22,10 +22,16 @@ const ConfigResetModal = props => {
       <Button color="danger" onClick={toggle}>
         {buttonLabel}
       </Button>
-      <Modal centered={center} isOpen={modal} toggle={toggle} className={className}>
+      <Modal
+        centered={center}
+        isOpen={modal}
+        toggle={toggle}
+        className={className}
+      >
         <ModalHeader toggle={toggle}>Confirm Reset</ModalHeader>
         <ModalBody>
-          Form data will revert to your last saved configuration. Are you sure you want to do this?
+          Form data will revert to your last saved configuration. Are you sure
+          you want to do this?
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={resetReload}>
