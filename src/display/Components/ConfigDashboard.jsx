@@ -1,6 +1,15 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Row
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ProjectContext } from './Context/ProjectContext';
 import '../stylesheets/style.scss';
@@ -130,7 +139,12 @@ const ConfigDashboard = props => {
           <Row xs="1">
             <Col xs="6">
               <Link id="navUserDashLink" to="/userDashBoard">
-                <Button id="navUserDash" type="button" color="secondary" className="btnSecondary">
+                <Button
+                  id="navUserDash"
+                  type="button"
+                  color="secondary"
+                  className="btnSecondary"
+                >
                   Back&nbsp;to User&nbsp;Dashboard
                 </Button>
               </Link>
