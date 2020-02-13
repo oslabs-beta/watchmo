@@ -1,5 +1,7 @@
 # _watchMo_
 
+##_The more you watch the more you know, watchMo watch, watchMo mo!_
+
 Gather data over time from a Graph-Ql endpoint with a single command.
 
 Analyze response times of queries with simple but effective visualizations.
@@ -13,13 +15,13 @@ To get access to the watchmo CLI, install watchmo globally:
 
 `npm install -g watchmo`
 
-To start run:
+To start, run:
 
 `watchmo --view`
 
 This should print to the terminal a logo and the project names 'default, demo'. If you want to run further tests, see the testing section below.
 
-The easiest way to get familiar with this tool is to use our built in demo project, which gathers data from an [open source GQL Database](https://countries.trevorblades.com/)).
+The easiest way to get familiar with this tool is to use our built in demo project, which gathers data from an [open source GQL Database](https://countries.trevorblades.com/).
 
 To visualize the configuration for this project, run
 
@@ -63,14 +65,14 @@ If there are any problems, feel free to write up an issue.
 
 * [React](https://reactjs.org/) - The web framework used
 * [Yargs](https://github.com/yargs/yargs) - To build the CLI tools
-* [Jest]() - To build a testing suite
+* [Jest](https://jestjs.io/) - To build a testing suite
 
 ## Contributors
 
-* **[Evan Hilton](https://github.com/spencerWyman)**
-* **[Jason Jones](https://github.com/spencerWyman)**
-* **[Sarah Song]**(https://github.com/spencerWyman)
-* **[Spencer Wyman](https://github.com/spencerWyman)**
+* **Evan Hilton**[GitHub](https://github.com/spencerWyman)
+* **Jason Jones**[GitHub](https://github.com/spencerWyman)
+* **Sarah Song**[GitHub](https://github.com/spencerWyman)
+* **Spencer Wyman**[GitHub](https://github.com/spencerWyman)
 
 ## License
 
