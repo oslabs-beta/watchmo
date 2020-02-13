@@ -202,6 +202,54 @@ describe('watchmo configure', () => {
 
     expect(defaultConfig).toBe(afterConfigureConfig);
   })
+
+  it('changes the endpoint with the --endpoint flag', () => {
+    let configObject = JSON.parse(fs.readFileSync(configPath));
+
+    expect(configObject.endpoint).toEqual("testEndpoint");
+
+    configure('testProject', true);
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.endpoint).toEqual("testEndpoint");
+
+    configure('testProject', 'changedEndpoint');
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.endpoint).toEqual("changedEndpoint");
+  })
+
+  it('adds a category with the --category flag', () => {
+    let configObject = JSON.parse(fs.readFileSync(configPath));
+    const newCategoryObject = {
+      queries: [],
+      frequency: -1,
+    }
+
+    expect(configObject.categories.newCategory).toBeUndefined();
+
+    configure('testProject', undefined, true, false, false, false, false);
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.categories.newCategory).toBeUndefined();
+
+    configure('testProject', undefined, 'newCategory', false, false, false, false);
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.categories.newCategory).toBeDefined();
+    expect(configObject.categories.newCategory).toEqual(newCategoryObject);
+  })
+
+  it('removes a category with --category --remove flag', () => {
+    let configObject = JSON.parse(fs.readFileSync(configPath));
+
+    expect(configObject.categories.testing).toBeDefined();
+
+    configure('testProject', undefined, true, false, false, false, false);
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.categories.testing).toBeDefined();
+
+    configure('testProject', undefined, 'testing', false, false, true, false);
+    configObject = JSON.parse(fs.readFileSync(configPath));
+    expect(configObject.categories.testing).toBeUndefined();
+  })
+
 })
 
 describe("watchmo mo", () => {
