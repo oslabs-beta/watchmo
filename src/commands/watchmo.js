@@ -24,9 +24,15 @@ yargs
   .alias({
     open: 'o',
     bundle: 'b',
-    remove: 'r'
+    remove: 'r',
+    endpoint: 'e',
+    frequency: 'f',
+    category: 'c',
+    query: 'q',
+    mo: 'm',
+    view: 'v',
   })
-  .command('$0', 'welcome to watchmo!', cliDefault)
+  .command('$0', 'welcome to watchmo!', projectPositional, (argv) => cliDefault(argv.view))
   .command(
     'watch [project]',
     'begins sending queries to the endpoint at the configured frequency',
@@ -55,6 +61,14 @@ yargs
     'configure [project]',
     'configures specified project',
     projectPositional,
-    (argv) => configure(argv.project)
+    (argv) => configure(
+      argv.project,
+      argv.endpoint,
+      argv.category,
+      argv.query,
+      argv.frequency,
+      argv.remove,
+      argv.view,
+    )
   )
   .help().argv;
