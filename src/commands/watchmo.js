@@ -32,7 +32,7 @@ yargs
     mo: 'm',
     view: 'v',
   })
-  .command('$0', 'welcome to watchmo!', cliDefault)
+  .command('$0', 'welcome to watchmo!', (yargs) => cliDefault(yargs.argv.view))
   .command(
     'watch [project]',
     'begins sending queries to the endpoint at the configured frequency',
