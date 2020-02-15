@@ -1,0 +1,9 @@
+{
+  "endpoint": "",
+  "categories": {
+    "default": {
+      "queries": [],
+      "frequency": -1
+      }
+  }
+}
