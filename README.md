@@ -61,9 +61,9 @@ If there are any problems, feel free to write up an issue.
 
 ## Contributors
 
-* **Evan Hilton** - [GitHub](https://github.com/spencerWyman)
-* **Jason Jones** - [GitHub](https://github.com/spencerWyman)
-* **Sarah Song** - [GitHub](https://github.com/spencerWyman)
+* **Evan Hilton** - [GitHub](https://github.com/EH1537)
+* **Jason Jones** - [GitHub](https://github.com/JsonRoyJones)
+* **Sarah Song** - [GitHub](https://github.com/zavagezong)
 * **Spencer Wyman** - [GitHub](https://github.com/spencerWyman)
 
 ## License
